@@ -9,7 +9,6 @@ import static com.example.frozentheultimatebattlesimulation.Main.main;
 public class Character extends Element {
     protected int Hp;
     protected int MoveRange;
-    public int Strength;
     protected int IceResistance;
 
     public Character(int Hp, int MoveRange, int IceResistance)

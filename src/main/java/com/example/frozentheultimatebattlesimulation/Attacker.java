@@ -1,8 +1,12 @@
 package com.example.frozentheultimatebattlesimulation;
 
 public class Attacker extends Character{
-    public Attacker(int Hp, int MoveRange, int IceResistance) {
-        super(Hp, MoveRange, IceResistance);
+
+    protected int Strength;
+    public Attacker(int Hp, int IceResistance, int MoveRange, int Strength) {
+        super(Hp,IceResistance, MoveRange);
+        this.Strength=Strength;
+
     }
 
     static protected void Attack(Attacker napastnik1, Attacker napastnik2)

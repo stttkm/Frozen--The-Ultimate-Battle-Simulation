@@ -4,10 +4,11 @@ public class Person extends Attacker{
 
     boolean hasHorse;
 
-    public Person(int Hp, int MoveRange, int IceResistance) {
-        super(Hp, MoveRange, IceResistance);
-        hasHorse=false;
-        if(hasHorse) MoveRange+=1;
+    public Person(int Hp, int MoveRange, int IceResistance, int Strength,  boolean hasHorse) {
+        super(Hp,MoveRange, IceResistance, Strength);
+        this.hasHorse=hasHorse;
+        if(hasHorse) this.MoveRange=MoveRange+1;
+        else this.MoveRange=MoveRange;
     }
 
 }
