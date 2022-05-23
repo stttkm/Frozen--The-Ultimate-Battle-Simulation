@@ -1,13 +1,14 @@
-public class Element()
-{
+package com.example.frozentheultimatebattlesimulation;
+
+public class Element {
     protected int X;
     protected int Y;
 
-    protected void Element()
+    protected Element()
     {
-        X=0;
-        Y=0;
+        X=0; Y=0;
     }
+
     protected void SetCoordinates(int x, int y)
     {
         this.X=x;
@@ -15,4 +16,3 @@ public class Element()
     }
 
 }
-

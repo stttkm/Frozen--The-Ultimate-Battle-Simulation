@@ -13,12 +13,26 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+import static com.example.frozentheultimatebattlesimulation.Pole.*;
 
 public class Main extends Application {
     static int mapSize = 8;
     static int hansArmySize = -1;
     static int elsasArmySize=-1;
-    public static void main(String[] args)  {launch(args);}
+    public static void main(String[] args)  {
+
+        launch(args);
+        Pole[][] Mapa=new Pole [mapSize][mapSize];
+        for(int i=0; i<mapSize; i++)
+        {
+            for(int j=0; j<mapSize; j++)
+            {
+                Mapa[i][j].X=i;
+                Mapa[i][j].Y=j;
+            }
+
+        }
+    }
 
 
 
