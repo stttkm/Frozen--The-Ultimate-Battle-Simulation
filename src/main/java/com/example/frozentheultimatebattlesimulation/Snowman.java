@@ -3,7 +3,6 @@ package com.example.frozentheultimatebattlesimulation;
 import static com.example.frozentheultimatebattlesimulation.Main.Mapa;
 
 public class Snowman extends Attacker {
-    public static int Quantity;
     public static int counter;
     public Snowman()
     {
