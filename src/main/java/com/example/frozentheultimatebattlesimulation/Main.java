@@ -34,6 +34,7 @@ public class Main extends Application {
             }
         }
         ArrayList ListofIceBreakers= new ArrayList<IceBreaker>();
+        ArrayList ListofWolves= new ArrayList<Wolf>();
     }
 
 

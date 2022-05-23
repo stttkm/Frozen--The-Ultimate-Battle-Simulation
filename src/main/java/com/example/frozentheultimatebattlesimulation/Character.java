@@ -11,6 +11,22 @@ public class Character extends Element {
     protected int MoveRange;
     protected int IceResistance;
 
+    public Character()
+    {
+        Hp=10;
+        MoveRange=1;
+        IceResistance=0;
+        int x;
+        int y;
+        do
+        {
+            x = (int)Math.floor(Math.random()*mapSize);
+            y = (int)Math.floor(Math.random()*mapSize);
+        }while(!Mapa[x][y].isEmpty);
+        SetCoordinates(x,y);
+        Mapa[x][y].isEmpty=false;
+
+    }
     public Character(int Hp, int MoveRange, int IceResistance)
     {
         this.Hp=Hp;
