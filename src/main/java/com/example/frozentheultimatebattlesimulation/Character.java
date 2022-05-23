@@ -2,6 +2,9 @@ package com.example.frozentheultimatebattlesimulation;
 
 
 import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
+import static com.example.frozentheultimatebattlesimulation.Pole.*;
+import static com.example.frozentheultimatebattlesimulation.Main.*;
+import static com.example.frozentheultimatebattlesimulation.Main.main;
 
 public class Character extends Element {
     protected int Hp;
@@ -14,10 +17,15 @@ public class Character extends Element {
         this.Hp=Hp;
         this.MoveRange=MoveRange;
         this.IceResistance=IceResistance;
-        int x = (int)Math.floor(Math.random()*mapSize);
-        int y = (int)Math.floor(Math.random()*mapSize);
-      //  if(!Mapa[x][y].isEmpty)
+        int x;
+        int y;
+        do
+        {
+            x = (int)Math.floor(Math.random()*mapSize);
+            y = (int)Math.floor(Math.random()*mapSize);
+        }while(!Mapa[x][y].isEmpty);
         SetCoordinates(x,y);
+        Mapa[x][y].isEmpty=false;
 
     }
 
@@ -26,19 +34,28 @@ public class Character extends Element {
         if(MoveRange!=0){
             String[] kierunki ={"Lewy", "Prawy", "Gora", "Dol"};
             int random_int= (int)Math.floor(Math.random()*4);
-            String kierunek=kierunki[random_int];
-            X= switch(kierunek)
-                    {
-                        case "Lewy": yield X=(X-MoveRange)%mapSize;
-                        case "Prawy": yield X=(X+MoveRange)%mapSize;
-                        default: yield X;
-                    };
-            Y= switch(kierunek)
-                    {
-                        case "Gora": yield Y=(Y+MoveRange)%mapSize;
-                        case "Dol": yield Y=(Y-MoveRange)%mapSize;
-                        default: yield Y;
-                    };
+            String kierunek;
+            int x=X;
+            int y=Y;
+            do
+            {
+                kierunek=kierunki[random_int];
+                x= switch(kierunek)
+                        {
+                            case "Lewy": yield x=(x-MoveRange)%mapSize;
+                            case "Prawy": yield x=(x+MoveRange)%mapSize;
+                            default: yield x;
+                        };
+                y= switch(kierunek)
+                        {
+                            case "Gora": yield y=(y+MoveRange)%mapSize;
+                            case "Dol": yield y=(y-MoveRange)%mapSize;
+                            default: yield y;
+                        };
+            }while(!Mapa[x][y].isEmpty);
+            X=x;
+            Y=y;
+
         }
 
     }

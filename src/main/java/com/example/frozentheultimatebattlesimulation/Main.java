@@ -19,10 +19,11 @@ public class Main extends Application {
     static int mapSize = 8;
     static int hansArmySize = -1;
     static int elsasArmySize=-1;
+    static Pole [][] Mapa;
     public static void main(String[] args)  {
 
         launch(args);
-        Pole[][] Mapa=new Pole [mapSize][mapSize];
+        Mapa=new Pole [mapSize][mapSize];
         for(int i=0; i<mapSize; i++)
         {
             for(int j=0; j<mapSize; j++)
