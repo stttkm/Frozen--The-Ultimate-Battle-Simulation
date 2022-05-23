@@ -21,7 +21,7 @@ public class Attacker extends Character{
 
     }
 
-    static protected void Attack(Attacker napastnik1, Attacker napastnik2)
+     protected void Attack(Attacker napastnik1, Attacker napastnik2)
     {
         if(napastnik1.Strength> napastnik2.Strength) napastnik2=null;
         else napastnik1=null;
