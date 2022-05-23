@@ -62,7 +62,11 @@ public class Character extends Element {
 
     protected void IceReaction()
     {
-        Hp-=IceResistance;
+        if(Mapa[X][Y].type=="Ice") Hp-=IceResistance;
     }
 
+    protected void Heal()
+    {
+        if(Mapa[X][Y].type=="Geyser") Hp+=IceResistance;
+    }
 }

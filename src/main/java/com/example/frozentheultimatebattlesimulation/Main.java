@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import static com.example.frozentheultimatebattlesimulation.Pole.*;
 
@@ -31,8 +32,8 @@ public class Main extends Application {
                 Mapa[i][j].X=i;
                 Mapa[i][j].Y=j;
             }
-
         }
+        ArrayList ListofIceBreakers= new ArrayList<IceBreaker>();
     }
 
 
