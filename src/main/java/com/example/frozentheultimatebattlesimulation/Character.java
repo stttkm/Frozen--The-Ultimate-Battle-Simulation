@@ -76,6 +76,11 @@ public class Character extends Element {
         }
 
     }
+    protected boolean Drowned()
+    {
+        if(Mapa[X][Y].type=="Water") return true;
+        return false;
+    }
 
     protected void IceReaction()
     {
