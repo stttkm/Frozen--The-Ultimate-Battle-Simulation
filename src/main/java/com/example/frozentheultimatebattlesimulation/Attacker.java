@@ -26,4 +26,10 @@ public class Attacker extends Character{
         if(napastnik1.Strength> napastnik2.Strength) napastnik2=null;
         else napastnik1=null;
     }
+    protected void LevelUp()
+    {
+        Hp= (int) Math.floor(Hp*1.5);
+        Strength= (int) Math.floor(Strength*1.5);
+        MoveRange*=2;
+    }
 }

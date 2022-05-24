@@ -18,5 +18,10 @@ public class Soldier extends Person{
         else napastnik1=null;
         weapon.Exhaustion--;
     }
+    @Override
+    protected void LevelUp()
+    {
+        hasHorse=true;
+    }
 
 }
