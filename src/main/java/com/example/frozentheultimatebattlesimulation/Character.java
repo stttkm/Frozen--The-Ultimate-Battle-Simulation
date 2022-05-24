@@ -52,6 +52,7 @@ public class Character extends Element {
             String kierunek;
             int x=X;
             int y=Y;
+            int licznik=0;
             do
             {
                 kierunek=kierunki[random_int];
@@ -67,7 +68,8 @@ public class Character extends Element {
                             case "Dol": yield y=(y-MoveRange)%mapSize;
                             default: yield y;
                         };
-            }while(!Mapa[x][y].isEmpty);
+                licznik++;
+            }while(!Mapa[x][y].isEmpty && licznik<4);
             X=x;
             Y=y;
 
