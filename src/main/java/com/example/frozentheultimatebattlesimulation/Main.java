@@ -21,6 +21,8 @@ public class Main extends Application {
     static int hansArmySize = -1;
     static int elsasArmySize=-1;
     static Pole [][] Mapa;
+    static ArrayList ListofCharacters;
+    static ArrayList ListofAttackers;
     public static void main(String[] args)  {
 
         launch(args);
@@ -34,7 +36,8 @@ public class Main extends Application {
             }
         }
 
-        ArrayList ListofCharacters= new ArrayList<Character>();
+        ListofCharacters= new ArrayList<Character>();
+        ListofAttackers=new ArrayList<Attacker>();
 
         IceQueen Elsa= new IceQueen();
         ListofCharacters.add(Elsa);
@@ -46,23 +49,26 @@ public class Main extends Application {
         for(int i=0; i<hansArmySize; i++)
         {
             ListofCharacters.add(new Soldier());
+            ListofAttackers.add(new Soldier());
         }
 
         for(int i=0; i<elsasArmySize; i++)
         {
             ListofCharacters.add(new Snowman());
+            ListofAttackers.add(new Snowman());
         }
 
         IceBreaker.Quantity=(mapSize^2-elsasArmySize-hansArmySize-3)/4;
         for(int i=0; i<IceBreaker.Quantity; i++)
         {
-            ListofCharacters.add(new Wolf());
+            ListofCharacters.add(new IceBreaker());
         }
 
         Wolf.Quantity=(mapSize^2-elsasArmySize-hansArmySize-3-IceBreaker.Quantity)/4;
         for(int i=0; i<Wolf.Quantity; i++)
         {
             ListofCharacters.add(new Wolf());
+            ListofAttackers.add(new Wolf());
         }
 
     }

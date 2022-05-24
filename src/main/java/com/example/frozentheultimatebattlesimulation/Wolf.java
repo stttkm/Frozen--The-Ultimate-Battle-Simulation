@@ -8,6 +8,7 @@ public class Wolf extends Attacker{
         super();
         counter++;
         IceResistance=0;
+        attackertype=AttackerType[2];
     }
 
 

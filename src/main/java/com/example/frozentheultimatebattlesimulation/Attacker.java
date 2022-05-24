@@ -1,8 +1,14 @@
 package com.example.frozentheultimatebattlesimulation;
 
+import static com.example.frozentheultimatebattlesimulation.Main.*;
+import static com.example.frozentheultimatebattlesimulation.Main.main;
+
 public class Attacker extends Character{
 
     protected int Strength;
+
+    static String AttackerType[]={"Person", "Snowman", "Wolf"};
+    public String attackertype;
 
     public Attacker()
     {
@@ -20,6 +26,7 @@ public class Attacker extends Character{
         this.Strength=Strength;
 
     }
+
 
      protected void Attack(Attacker napastnik1, Attacker napastnik2)
     {

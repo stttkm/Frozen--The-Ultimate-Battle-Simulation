@@ -8,6 +8,7 @@ public class Snowman extends Attacker {
     {
         super();
         counter++;
+        attackertype=AttackerType[1];
     }
     @Override
     protected void IceReaction()

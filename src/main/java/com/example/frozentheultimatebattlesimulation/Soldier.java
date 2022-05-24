@@ -9,6 +9,7 @@ public class Soldier extends Person{
         weapon=new Weapon();
         counter++;
         Strength+=weapon.Power;
+        attackertype=AttackerType[0];
     }
     @Override
     protected void Attack(Attacker napastnik1, Attacker napastnik2)
