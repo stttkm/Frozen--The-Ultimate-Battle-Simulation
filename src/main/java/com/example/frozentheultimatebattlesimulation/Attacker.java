@@ -29,7 +29,7 @@ public class Attacker extends Character{
     {
         for(int i=0; i<charactercounter; i++)
         {
-           if(X==Postacie[i].X && Y==Postacie[i].Y && attackertype!=Postacie[i].attackertype)
+           if((X-MoveRange)%mapSize<=Postacie[i].X && Postacie[i].X <=(X+MoveRange)%mapSize && (Y-MoveRange)%mapSize<=Postacie[i].Y && Postacie[i].Y<=(Y+MoveRange)%mapSize && attackertype!=Postacie[i].attackertype)
                return (Attacker)Postacie[i];
        }
        return null;
