@@ -1,6 +1,6 @@
 package com.example.frozentheultimatebattlesimulation;
 
-import static com.example.frozentheultimatebattlesimulation.Main.ListofCharacters;
+
 
 public class Pole extends Element
 {
