@@ -11,6 +11,7 @@ public class Soldier extends Person{
         Strength+=weapon.Power;
         attackertype=AttackerType[0];
     }
+    /*
     @Override
     protected void Attack(Attacker napastnik1, Attacker napastnik2)
     {
@@ -19,6 +20,7 @@ public class Soldier extends Person{
         else napastnik1=null;
         weapon.Exhaustion--;
     }
+     */
     @Override
     protected void LevelUp()
     {

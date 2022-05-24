@@ -21,8 +21,8 @@ public class Main extends Application {
     static int hansArmySize = -1;
     static int elsasArmySize=-1;
     static Pole [][] Mapa;
-    static ArrayList ListofCharacters;
-    static ArrayList ListofAttackers;
+    static Character [] Postacie;
+    static int charactercounter=0;
     public static void main(String[] args)  {
 
         launch(args);
@@ -35,41 +35,40 @@ public class Main extends Application {
                 Mapa[i][j].Y=j;
             }
         }
-
-        ListofCharacters= new ArrayList<Character>();
-        ListofAttackers=new ArrayList<Attacker>();
-
+        Postacie= new Character[mapSize^2];
         IceQueen Elsa= new IceQueen();
-        ListofCharacters.add(Elsa);
+        Postacie[0]=Elsa; charactercounter++;
         Person Anna= new Person();
-        ListofCharacters.add(Anna);
+        Postacie[1]=Anna; charactercounter++;
         Person Kristoff= new Person(true);
-        ListofCharacters.add(Kristoff);
+        Postacie[2]=Kristoff; charactercounter++;
 
         for(int i=0; i<hansArmySize; i++)
         {
-            ListofCharacters.add(new Soldier());
-            ListofAttackers.add(new Soldier());
+            Postacie[i+3]=new Soldier();
+            charactercounter++;
         }
 
         for(int i=0; i<elsasArmySize; i++)
         {
-            ListofCharacters.add(new Snowman());
-            ListofAttackers.add(new Snowman());
+            Postacie[i+3+hansArmySize]=new Snowman();
+            charactercounter++;
         }
 
         IceBreaker.Quantity=(mapSize^2-elsasArmySize-hansArmySize-3)/4;
         for(int i=0; i<IceBreaker.Quantity; i++)
         {
-            ListofCharacters.add(new IceBreaker());
+            Postacie[i+3+hansArmySize+elsasArmySize]=new IceBreaker();
+            charactercounter++;
         }
 
         Wolf.Quantity=(mapSize^2-elsasArmySize-hansArmySize-3-IceBreaker.Quantity)/4;
         for(int i=0; i<Wolf.Quantity; i++)
         {
-            ListofCharacters.add(new Wolf());
-            ListofAttackers.add(new Wolf());
+            Postacie[i+3+hansArmySize+elsasArmySize+IceBreaker.Quantity]=new Wolf();
+            charactercounter++;
         }
+
 
     }
 

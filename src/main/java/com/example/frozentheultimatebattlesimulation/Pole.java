@@ -1,5 +1,7 @@
 package com.example.frozentheultimatebattlesimulation;
 
+import static com.example.frozentheultimatebattlesimulation.Main.ListofCharacters;
+
 public class Pole extends Element
 {
     static String types[]= {"Ice", "Water", "Earth", "Geyser"};
@@ -19,4 +21,5 @@ public class Pole extends Element
     {
         if(type==types[0]) type=types[1];
     }
+
 }

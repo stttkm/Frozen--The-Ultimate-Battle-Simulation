@@ -10,12 +10,15 @@ public class Character extends Element {
     protected int Hp;
     protected int MoveRange;
     protected int IceResistance;
+    String AttackerType[]={"Person", "Snowman", "Wolf", "Civilian"};
+    public String attackertype;
 
     public Character()
     {
         Hp=10;
         MoveRange=1;
         IceResistance=0;
+        attackertype=AttackerType[3];
         int x;
         int y;
         do
