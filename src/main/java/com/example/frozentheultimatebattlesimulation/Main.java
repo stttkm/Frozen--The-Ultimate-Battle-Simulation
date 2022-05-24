@@ -33,10 +33,7 @@ public class Main extends Application {
                 Mapa[i][j].Y=j;
             }
         }
-        ArrayList ListofIceBreakers= new ArrayList<IceBreaker>();
-        ArrayList ListofWolves= new ArrayList<Wolf>();
-        ArrayList ListofSoldiers= new ArrayList<Soldier>();
-        ArrayList ListofSnowmans= new ArrayList<Snowman>();
+
         ArrayList ListofCharacters= new ArrayList<Character>();
 
         IceQueen Elsa= new IceQueen();
@@ -48,28 +45,25 @@ public class Main extends Application {
 
         for(int i=0; i<hansArmySize; i++)
         {
-            ListofSoldiers.add(new Soldier());
+            ListofCharacters.add(new Soldier());
         }
-        ListofCharacters.addAll(ListofSoldiers);
+
         for(int i=0; i<elsasArmySize; i++)
         {
-            ListofSnowmans.add(new Snowman());
+            ListofCharacters.add(new Snowman());
         }
-        ListofCharacters.addAll(ListofSnowmans);
 
         IceBreaker.Quantity=(mapSize^2-elsasArmySize-hansArmySize-3)/4;
         for(int i=0; i<IceBreaker.Quantity; i++)
         {
-            ListofIceBreakers.add(new Wolf());
+            ListofCharacters.add(new Wolf());
         }
-        ListofCharacters.addAll(ListofIceBreakers);
 
         Wolf.Quantity=(mapSize^2-elsasArmySize-hansArmySize-3-IceBreaker.Quantity)/4;
         for(int i=0; i<Wolf.Quantity; i++)
         {
-            ListofWolves.add(new Wolf());
+            ListofCharacters.add(new Wolf());
         }
-        ListofCharacters.addAll(ListofWolves);
 
     }
 
