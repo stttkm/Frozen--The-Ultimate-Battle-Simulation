@@ -6,6 +6,9 @@ import javafx.stage.Screen;
 
 import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
 import static com.example.frozentheultimatebattlesimulation.Main.*;
+import java.awt.Point;
+
+import java.util.ArrayList;
 import java.util.Random;
 
 import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
@@ -53,34 +56,24 @@ public class Character extends Element implements Cloneable {
 
     protected void move()
     {
-        if(MoveRange!=0){
-            String[] directions ={"Left", "Right", "Top", "Bottom"};
-            String direction;
-            do
-            {
-                Random random = new Random();
-                direction=directions[random.nextInt(4)];
 
-                this.x= switch(direction)
-                        {
-                            case "Left":
-                                yield (((this.x-MoveRange)+mapSize)%mapSize);
-                            case "Right":
-                                yield (((this.x+MoveRange)+mapSize)%mapSize);
-                            default: yield this.x;
-                        };
-                this.y= switch(direction)
-                        {
-                            case "Top": yield (((this.y+MoveRange)+mapSize)%mapSize);
-                            case "Bottom": yield (((this.y-MoveRange)+mapSize)%mapSize);
-                            default: yield this.y;
-                        };
-            }while(!(((Turn) turns.get(turns.size()-1)).map[y][x].isEmpty)); //trzeba dodać, że pole zostało zwolnione, a nowe pole zajęte
-            //ta funkcja umożliwia teleporty xDDDD
+            ArrayList<Point> availableTiles = new ArrayList<Point>();
+            for(int i = -1*MoveRange; i<=MoveRange;i++) for(int j=-1*MoveRange;j<=MoveRange; j++){
+                if(((Turn)turns.get(turns.size()-1)).map[(this.y+i+mapSize)%mapSize][(this.x+j+mapSize)%mapSize].isEmpty &&((Turn)turns.get(turns.size()-1)).map[(this.y+i+mapSize)%mapSize][(this.x+j+mapSize)%mapSize].type!="Water"){
+                    availableTiles.add(new Point((this.x+j+mapSize)%mapSize,(this.y+i+mapSize)%mapSize));
+                }}
+            Random random = new Random();
+            Point target=availableTiles.get(random.nextInt(availableTiles.size()));
+
+        ((Turn)turns.get(turns.size()-1)).map[y][x].isEmpty = true;
+        ((Turn)turns.get(turns.size()-1)).map[target.y][target.x].isEmpty = false;
+            this.x= target.x;
+            this.y = target.y;
+
 
         }
 
-    }
+
     protected boolean Drown()
     {
         if(((Turn)Main.turns.get(Main.turns.size()-1)).map[y][x].type.equals("Water")) return true;
