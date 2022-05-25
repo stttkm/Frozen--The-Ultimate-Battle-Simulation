@@ -1,7 +1,6 @@
 package com.example.frozentheultimatebattlesimulation;
-
-import static com.example.frozentheultimatebattlesimulation.Main.Mapa;
 import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
+import static com.example.frozentheultimatebattlesimulation.Main.turns;
 
 public class IceQueen extends Character{
     public IceQueen(int Hp, int MoveRange, int IceResistance) {
@@ -11,6 +10,6 @@ public class IceQueen extends Character{
     {
        int x = (int)Math.floor(Math.random()*mapSize);
        int y = (int)Math.floor(Math.random()*mapSize);
-       Mapa[x][y].ChangeIntoIce();
+       ((Turn) turns.get(turns.size()-1)).map[x][y].ChangeIntoIce();
     }
 }

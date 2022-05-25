@@ -1,6 +1,6 @@
 package com.example.frozentheultimatebattlesimulation;
 
-import static com.example.frozentheultimatebattlesimulation.Main.Mapa;
+import static com.example.frozentheultimatebattlesimulation.Main.turns;
 
 public class Snowman extends Attacker {
     public static int Quantity;
@@ -13,12 +13,12 @@ public class Snowman extends Attacker {
     @Override
     protected void IceReaction()
     {
-        if(Mapa[X][Y].type=="Ice") Hp+=IceResistance;
+        if(((Turn) turns.get(turns.size()-1)).map[x][y].type=="Ice") Hp+=IceResistance;
     }
 
     @Override
     protected void Heal()
     {
-        if(Mapa[X][Y].type=="Geyser") Hp-=IceResistance;
+        if(((Turn) turns.get(turns.size()-1)).map[x][y].type=="Geyser") Hp-=IceResistance;
     }
 }

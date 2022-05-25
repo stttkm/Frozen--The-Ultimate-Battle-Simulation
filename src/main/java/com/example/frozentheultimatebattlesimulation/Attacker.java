@@ -2,28 +2,28 @@ package com.example.frozentheultimatebattlesimulation;
 
 public class Attacker extends Character{
 
-    protected int Strength;
+    protected int strength;
 
     public Attacker()
     {
         super();
-        Strength=1;
+        strength=1;
     }
-    public Attacker(int Strength)
+    public Attacker(int strength)
     {
         super();
-        this.Strength=Strength;
+        this.strength=strength;
     }
 
-    public Attacker(int Hp, int IceResistance, int MoveRange, int Strength) {
+    public Attacker(int Hp, int IceResistance, int MoveRange, int strength) {
         super(Hp,IceResistance, MoveRange);
-        this.Strength=Strength;
+        this.strength=strength;
 
     }
 
-    static protected void Attack(Attacker napastnik1, Attacker napastnik2)
+    static protected void Attack(Attacker aggressor, Attacker victim)
     {
-        if(napastnik1.Strength> napastnik2.Strength) napastnik2=null;
-        else napastnik1=null;
+        if(aggressor.strength> victim.strength) victim=null;
+        else aggressor=null;
     }
 }

@@ -1,15 +1,17 @@
 package com.example.frozentheultimatebattlesimulation;
 
 
-import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
-import static com.example.frozentheultimatebattlesimulation.Pole.*;
-import static com.example.frozentheultimatebattlesimulation.Main.*;
-import static com.example.frozentheultimatebattlesimulation.Main.main;
+import javafx.scene.image.Image;
+import javafx.stage.Screen;
 
-public class Character extends Element {
+import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
+import static com.example.frozentheultimatebattlesimulation.Main.*;
+
+public class Character extends Element implements Cloneable {
     protected int Hp;
     protected int MoveRange;
     protected int IceResistance;
+    Image characterImage = new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/" + getClass().getSimpleName()+".png", Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, true, true);;;
 
     public Character()
     {
@@ -22,11 +24,12 @@ public class Character extends Element {
         {
             x = (int)Math.floor(Math.random()*mapSize);
             y = (int)Math.floor(Math.random()*mapSize);
-        }while(!Mapa[x][y].isEmpty);
+        }while(!(((Turn) turns.get(0)).map[y][x].isEmpty) || ((Turn) turns.get(0)).map[y][x].type=="Water"); //nie chcemy falstartu i wrzucania ludzi do wody
         SetCoordinates(x,y);
-        Mapa[x][y].isEmpty=false;
+        ((Turn) turns.get(0)).map[y][x].isEmpty=false;
 
     }
+
     public Character(int Hp, int MoveRange, int IceResistance)
     {
         this.Hp=Hp;
@@ -38,38 +41,37 @@ public class Character extends Element {
         {
             x = (int)Math.floor(Math.random()*mapSize);
             y = (int)Math.floor(Math.random()*mapSize);
-        }while(!Mapa[x][y].isEmpty);
+        }while(!(((Turn) turns.get(0)).map[y][x].isEmpty) || ((Turn) turns.get(0)).map[y][x].type=="Water"); //nie chcemy falstartu i wrzucania ludzi do wody
         SetCoordinates(x,y);
-        Mapa[x][y].isEmpty=false;
+        ((Turn) turns.get(0)).map[y][x].isEmpty=false;
 
     }
 
-    protected void Move()
+    protected void move()
     {
         if(MoveRange!=0){
-            String[] kierunki ={"Lewy", "Prawy", "Gora", "Dol"};
-            int random_int= (int)Math.floor(Math.random()*4);
+            String[] kierunki ={"Left", "Right", "Top", "Bottom"};
             String kierunek;
-            int x=X;
-            int y=Y;
             do
             {
-                kierunek=kierunki[random_int];
-                x= switch(kierunek)
+                kierunek=kierunki[(int)Math.floor(Math.random()*4-0.01)];
+
+                this.x= switch(kierunek)
                         {
-                            case "Lewy": yield x=(x-MoveRange)%mapSize;
-                            case "Prawy": yield x=(x+MoveRange)%mapSize;
-                            default: yield x;
+                            case "Left":
+                                yield (((this.x-MoveRange)+mapSize)%mapSize);
+                            case "Right":
+                                yield (((this.x+MoveRange)+mapSize)%mapSize);
+                            default: yield this.x;
                         };
-                y= switch(kierunek)
+                this.y= switch(kierunek)
                         {
-                            case "Gora": yield y=(y+MoveRange)%mapSize;
-                            case "Dol": yield y=(y-MoveRange)%mapSize;
-                            default: yield y;
+                            case "Top": yield (((y+MoveRange)+mapSize)%mapSize);
+                            case "Bottom": yield (((y-MoveRange)+mapSize)%mapSize);
+                            default: yield this.y;
                         };
-            }while(!Mapa[x][y].isEmpty);
-            X=x;
-            Y=y;
+            }while(!(((Turn) turns.get(turns.size()-1)).map[y][x].isEmpty)); //trzeba dodać, że pole zostało zwolnione, a nowe pole zajęte
+            //ta funkcja umożliwia teleporty xDDDD
 
         }
 
@@ -77,11 +79,16 @@ public class Character extends Element {
 
     protected void IceReaction()
     {
-        if(Mapa[X][Y].type=="Ice") Hp-=IceResistance;
+        if(((Turn) turns.get(turns.size()-1)).map[x][y].type=="Ice") Hp-=IceResistance;
     }
 
     protected void Heal()
     {
-        if(Mapa[X][Y].type=="Geyser") Hp+=IceResistance;
+        if(((Turn) turns.get(turns.size()-1)).map[x][y].type=="Geyser") Hp+=IceResistance;
+    }
+
+    public Object clone() throws CloneNotSupportedException
+    {
+        return super.clone();
     }
 }
