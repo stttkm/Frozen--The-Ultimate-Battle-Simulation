@@ -21,18 +21,18 @@ public class Attacker extends Character{
         this.strength=strength;
     }
 
-<<<<<<< HEAD
+
     public Attacker(int Hp, int IceResistance, int MoveRange, int strength) {
         super(Hp,IceResistance, MoveRange);
         this.strength=strength;
 
     }
 
-    static protected void Attack(Attacker aggressor, Attacker victim)
-=======
 
-     protected void Attack(Attacker napastnik1, Attacker napastnik2)
->>>>>>> Interior
+
+
+    protected void Attack(Attacker aggressor, Attacker victim)
+
     {
         if(aggressor.strength> victim.strength) victim=null;
         else aggressor=null;
@@ -40,7 +40,7 @@ public class Attacker extends Character{
     protected void LevelUp()
     {
         Hp= (int) Math.floor(Hp*1.5);
-        Strength= (int) Math.floor(Strength*1.5);
+        strength= (int) Math.floor(strength*1.5);
         MoveRange*=2;
     }
 }

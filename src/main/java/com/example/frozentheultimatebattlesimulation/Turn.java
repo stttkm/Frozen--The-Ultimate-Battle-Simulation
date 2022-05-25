@@ -67,7 +67,7 @@ public class Turn {
     }
 
     void generateCharacters(){
-        this.elsa = new IceQueen(10,0,10);
+        this.elsa = new IceQueen();
         this.anna = new Person(10, 1,  1,  1,  false, "Anna");
         this.kristoff = new Person(10, 1,  1,  1,  false, "Kristoff");
         this.hans = new Person(10, 1,  1,  1,  false, "Hans");

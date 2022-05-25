@@ -18,16 +18,16 @@ public class Person extends Attacker{
         this.hasHorse=hasHorse;
     }
     /*
-    public Person(int Hp, int MoveRange, int IceResistance, int Strength,  boolean hasHorse) {
-        super(Hp,MoveRange, IceResistance, Strength);
+    public Person(int Hp, int MoveRange, int IceResistance, int strength,  boolean hasHorse) {
+        super(Hp,MoveRange, IceResistance, strength);
         this.hasHorse=hasHorse;
         if(hasHorse) this.MoveRange=MoveRange+1;
         else this.MoveRange=MoveRange;
     }
      */
 
-    public Person(int Hp, int MoveRange, int IceResistance, int Strength,  boolean hasHorse, String whothis) { //dodałem ten konstruktor, by Anna wyglądała na Annę, itd.
-        super(Hp,MoveRange, IceResistance, Strength);
+    public Person(int Hp, int MoveRange, int IceResistance, int strength,  boolean hasHorse, String whothis) { //dodałem ten konstruktor, by Anna wyglądała na Annę, itd.
+        super(Hp,MoveRange, IceResistance, strength);
         this.hasHorse=hasHorse;
         if(hasHorse) this.MoveRange=MoveRange+1;
         else this.MoveRange=MoveRange;

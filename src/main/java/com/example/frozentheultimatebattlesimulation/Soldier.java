@@ -8,15 +8,15 @@ public class Soldier extends Person{
         super();
         weapon=new Weapon();
         counter++;
-        Strength+=weapon.Power;
+        strength+=weapon.Power;
         attackertype=AttackerType[0];
     }
     @Override
-    protected void Attack(Attacker napastnik1, Attacker napastnik2)
+    protected void Attack(Attacker aggressor, Attacker victim)
     {
-        if(!weapon.CanWeaponBeUsed()) Strength-= weapon.Power;
-        if(napastnik1.Strength> napastnik2.Strength) napastnik2=null;
-        else napastnik1=null;
+        if(!weapon.CanWeaponBeUsed()) strength-= weapon.Power;
+        if(aggressor.strength> victim.strength) victim=null;
+        else aggressor=null;
         weapon.Exhaustion--;
     }
     @Override

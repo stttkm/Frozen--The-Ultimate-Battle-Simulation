@@ -54,14 +54,14 @@ public class Character extends Element implements Cloneable {
     protected void move()
     {
         if(MoveRange!=0){
-            String[] kierunki ={"Left", "Right", "Top", "Bottom"};
-            String kierunek;
+            String[] directions ={"Left", "Right", "Top", "Bottom"};
+            String direction;
             do
             {
                 Random random = new Random();
-                kierunek=kierunki[random.nextInt(4)];
+                direction=directions[random.nextInt(4)];
 
-                this.x= switch(kierunek)
+                this.x= switch(direction)
                         {
                             case "Left":
                                 yield (((this.x-MoveRange)+mapSize)%mapSize);
@@ -69,10 +69,10 @@ public class Character extends Element implements Cloneable {
                                 yield (((this.x+MoveRange)+mapSize)%mapSize);
                             default: yield this.x;
                         };
-                this.y= switch(kierunek)
+                this.y= switch(direction)
                         {
-                            case "Top": yield (((y+MoveRange)+mapSize)%mapSize);
-                            case "Bottom": yield (((y-MoveRange)+mapSize)%mapSize);
+                            case "Top": yield (((this.y+MoveRange)+mapSize)%mapSize);
+                            case "Bottom": yield (((this.y-MoveRange)+mapSize)%mapSize);
                             default: yield this.y;
                         };
             }while(!(((Turn) turns.get(turns.size()-1)).map[y][x].isEmpty)); //trzeba dodać, że pole zostało zwolnione, a nowe pole zajęte
@@ -81,9 +81,9 @@ public class Character extends Element implements Cloneable {
         }
 
     }
-    protected boolean Drowned()
+    protected boolean Drown()
     {
-        if(Mapa[X][Y].type.equals("Water")) return true;
+        if(((Turn)Main.turns.get(Main.turns.size()-1)).map[y][x].type.equals("Water")) return true;
         return false;
     }
 
@@ -91,7 +91,7 @@ public class Character extends Element implements Cloneable {
     {
         if(((Turn) turns.get(turns.size()-1)).map[x][y].type=="Ice") Hp-=IceResistance;
 
-        if(Mapa[X][Y].type.equals("Ice")) Hp-=IceResistance;
+        if(((Turn)Main.turns.get(Main.turns.size()-1)).map[y][x].type.equals("Ice")) Hp-=IceResistance;
 
     }
 
@@ -99,13 +99,13 @@ public class Character extends Element implements Cloneable {
     {
 
         if(((Turn) turns.get(turns.size()-1)).map[x][y].type=="Geyser") Hp+=IceResistance;
+        if(((Turn)Main.turns.get(Main.turns.size()-1)).map[y][x].type.equals("Geyser")) {
+            Hp += IceResistance;
+        };
     }
 
     public Object clone() throws CloneNotSupportedException
     {
         return super.clone();
-
-        if(Mapa[X][Y].type.equals("Geyser")) Hp+=IceResistance;
-
     }
 }
