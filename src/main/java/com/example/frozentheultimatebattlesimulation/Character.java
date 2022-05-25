@@ -63,12 +63,14 @@ public class Character extends Element implements Cloneable {
                     availableTiles.add(new Point((this.x+j+mapSize)%mapSize,(this.y+i+mapSize)%mapSize));
                 }}
             Random random = new Random();
-            Point target=availableTiles.get(random.nextInt(availableTiles.size()));
+            if(availableTiles.size()!=0) {
+                Point target = availableTiles.get(random.nextInt(availableTiles.size()));
 
-        ((Turn)turns.get(turns.size()-1)).map[y][x].isEmpty = true;
-        ((Turn)turns.get(turns.size()-1)).map[target.y][target.x].isEmpty = false;
-            this.x= target.x;
-            this.y = target.y;
+                ((Turn) turns.get(turns.size() - 1)).map[this.y][this.x].isEmpty = true;
+                ((Turn) turns.get(turns.size() - 1)).map[target.y][target.x].isEmpty = false;
+                this.x = target.x;
+                this.y = target.y;
+            }
 
 
         }
