@@ -30,14 +30,13 @@ public class Character extends Element {
     {
         if(MoveRange!=0){
             String[] kierunki ={"Lewy", "Prawy", "Gora", "Dol"};
-            int random_int= (int)Math.floor(Math.random()*4);
             String kierunek;
             int x=X;
             int y=Y;
             int licznik=0;
             do
             {
-                kierunek=kierunki[random_int];
+                kierunek=kierunki[(int)Math.floor(Math.random()*4)];
                 x= switch(kierunek)
                         {
                             case "Lewy": yield x=(x-MoveRange)%mapSize;
