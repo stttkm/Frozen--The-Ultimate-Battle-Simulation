@@ -5,7 +5,7 @@ public class Wolf extends Attacker{
     public static int counter;
     public Wolf()
     {
-        super();
+        super(3);
         counter++;
         IceResistance=0;
         attackertype=AttackerType[2];

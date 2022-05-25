@@ -1,11 +1,11 @@
 package com.example.frozentheultimatebattlesimulation;
 
-public class Pole extends Element
+public class Field extends Element
 {
     static String types[]= {"Ice", "Water", "Earth", "Geyser"};
     String type;
     boolean isEmpty;
-    protected Pole(int x, int y)
+    protected Field(int x, int y)
     {
         SetCoordinates(x,y);
         type=types[0];

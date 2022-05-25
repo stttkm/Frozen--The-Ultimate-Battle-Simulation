@@ -2,9 +2,7 @@ package com.example.frozentheultimatebattlesimulation;
 
 
 import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
-import static com.example.frozentheultimatebattlesimulation.Pole.*;
 import static com.example.frozentheultimatebattlesimulation.Main.*;
-import static com.example.frozentheultimatebattlesimulation.Main.main;
 
 public class Character extends Element {
     protected int Hp;
@@ -15,23 +13,7 @@ public class Character extends Element {
     {
         Hp=10;
         MoveRange=1;
-        IceResistance=0;
-        int x;
-        int y;
-        do
-        {
-            x = (int)Math.floor(Math.random()*mapSize);
-            y = (int)Math.floor(Math.random()*mapSize);
-        }while(!Mapa[x][y].isEmpty);
-        SetCoordinates(x,y);
-        Mapa[x][y].isEmpty=false;
-
-    }
-    public Character(int Hp, int MoveRange, int IceResistance)
-    {
-        this.Hp=Hp;
-        this.MoveRange=MoveRange;
-        this.IceResistance=IceResistance;
+        IceResistance=1;
         int x;
         int y;
         do
@@ -78,17 +60,17 @@ public class Character extends Element {
     }
     protected boolean Drowned()
     {
-        if(Mapa[X][Y].type=="Water") return true;
+        if(Mapa[X][Y].type.equals("Water")) return true;
         return false;
     }
 
     protected void IceReaction()
     {
-        if(Mapa[X][Y].type=="Ice") Hp-=IceResistance;
+        if(Mapa[X][Y].type.equals("Ice")) Hp-=IceResistance;
     }
 
     protected void Heal()
     {
-        if(Mapa[X][Y].type=="Geyser") Hp+=IceResistance;
+        if(Mapa[X][Y].type.equals("Geyser")) Hp+=IceResistance;
     }
 }

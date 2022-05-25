@@ -5,7 +5,9 @@ import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
 
 public class IceQueen extends Character{
     public IceQueen() {
-        super(100, 0, 0);
+        super();
+        MoveRange = 0;
+        IceResistance=0;
     }
     private void Freeze()
     {

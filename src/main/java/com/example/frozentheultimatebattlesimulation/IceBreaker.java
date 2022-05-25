@@ -4,10 +4,10 @@ import static com.example.frozentheultimatebattlesimulation.Main.Mapa;
 import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
 
 public class IceBreaker extends Character{
-    public static int Quantity; //ilosc lamaczy lodu liczona na podstawie podanej przez uzytkownika mapSize
+    public static int Quantity; //ilość łamaczy lodu liczona na podstawie podanej przez użytkownika wielkości mapSize
     private static int counter=0; //aktulana ilosc lamaczy lodu
     public IceBreaker() {
-        super(100, 1, 1);
+        super();
         counter++;
     }
 
@@ -33,7 +33,7 @@ public class IceBreaker extends Character{
                             case "Dol": yield y=(y-MoveRange)%mapSize;
                             default: yield y;
                         };
-            }while(Mapa[x][y].type!="Ice");
+            }while(!Mapa[x][y].type.equals("Ice"));
             Mapa[x][y].type="Water";
 
         }

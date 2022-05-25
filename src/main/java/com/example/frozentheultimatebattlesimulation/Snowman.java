@@ -9,16 +9,17 @@ public class Snowman extends Attacker {
         super();
         counter++;
         attackertype=AttackerType[1];
+        IceResistance=0;
     }
     @Override
     protected void IceReaction()
     {
-        if(Mapa[X][Y].type=="Ice") Hp+=IceResistance;
+        if(Mapa[X][Y].type.equals("Ice")) Hp+=IceResistance;
     }
 
     @Override
     protected void Heal()
     {
-        if(Mapa[X][Y].type=="Geyser") Hp-=IceResistance;
+        if(Mapa[X][Y].type.equals("Geyser")) Hp-=IceResistance;
     }
 }
