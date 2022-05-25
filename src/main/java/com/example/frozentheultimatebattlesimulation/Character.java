@@ -4,6 +4,8 @@ package com.example.frozentheultimatebattlesimulation;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 
+import java.util.Random;
+
 import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
 import static com.example.frozentheultimatebattlesimulation.Main.*;
 
@@ -54,7 +56,8 @@ public class Character extends Element implements Cloneable {
             String kierunek;
             do
             {
-                kierunek=kierunki[(int)Math.floor(Math.random()*4-0.01)];
+                Random random = new Random();
+                kierunek=kierunki[random.nextInt(4)];
 
                 this.x= switch(kierunek)
                         {

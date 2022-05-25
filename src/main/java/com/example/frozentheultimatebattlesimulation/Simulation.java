@@ -25,11 +25,11 @@ public class Simulation {
     static public void pseudoMain(ActionEvent event){
         Main.turns.add(new Turn()); //dodajemy pierwszą turę
         ((Turn)Main.turns.get(0)).generateCharacters(); //generujemy postacie
-        for(int i =0; i< 4; i++){ //potem zamienimy na while'a, by akcja toczyła się do końca gry
+        for(int i =0; i< 400; i++){ //potem zamienimy na while'a, by akcja toczyła się do końca gry
             Main.turns.add(new Turn((Turn)Main.turns.get(i))); // tworzymy nową turę
 
             ((Turn)Main.turns.get(i+1)).anna.move();
-            //((IceBreaker)((Turn)Main.turns.get(i+1)).iceBreakers.get(0)).move();
+            ((IceBreaker)((Turn)Main.turns.get(i+1)).iceBreakers.get(0)).move();
         }
         // jak chcesz kazać postaciom coś robić, to właśnie tutaj jest odpowiednie miejsce.
 
@@ -62,9 +62,9 @@ public class Simulation {
     setTurnText.setStyle("-fx-font-size: 30; ");
     Spinner<Integer> turnSpinner = new Spinner<>(0, Main.turns.size(), 0);
     turnSpinner.getStyleClass().add(Spinner.STYLE_CLASS_SPLIT_ARROWS_HORIZONTAL);
-    Text turnDurationText = new Text("       Turn Duration   ");
+    Text turnDurationText = new Text("       Turn Duration[ms]   ");
     turnDurationText.setStyle("-fx-font-size: 30; ");
-    Spinner<Integer> durationSpinner = new Spinner<>(1, 10, 2);
+    Spinner<Integer> durationSpinner = new Spinner<>(100, 10000, 500, 100);
     Button autoplay = new Button("Autoplay ▶");
 
     autoplay.setOnAction((e) -> {
@@ -72,7 +72,7 @@ public class Simulation {
                 final IntegerProperty i = new SimpleIntegerProperty(0);
                 Timeline timeline = new Timeline(
                         new KeyFrame(
-                                Duration.seconds(durationSpinner.getValue()),
+                                Duration.millis(durationSpinner.getValue()),
                                 inventini -> {
                                     i.set(i.get() + 1);
                                     turnSpinner.increment();
