@@ -10,10 +10,7 @@ public class Turn {
 
     IceQueen elsa;
     Person anna, kristoff, hans;
-    ArrayList iceBreakers;
-    ArrayList snowmen;
-    ArrayList wolves;
-    //ArrayList soldiers;
+    ArrayList iceBreakers, snowmen, wolves, soldiers;
 
 
 
@@ -53,6 +50,16 @@ public class Turn {
                 throw new RuntimeException(e);
             }
         });
+
+        this.soldiers = new ArrayList<Soldier>();
+        original.soldiers.forEach((og) -> {
+            try {
+                this.soldiers.add(((Soldier)og).clone());
+            } catch (CloneNotSupportedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         this.wolves = new ArrayList<Wolf>();
         original.wolves.forEach((og) -> {
             try {
@@ -77,6 +84,9 @@ public class Turn {
 
         this.snowmen = new ArrayList<Snowman>();
         for(int i =0; i<Main.elsasArmySize; i++) this.snowmen.add(new Snowman());
+
+        this.soldiers = new ArrayList<Soldier>();
+        for(int i =0; i<Main.hansArmySize; i++) this.soldiers.add(new Soldier());
 
         this.wolves = new ArrayList<Wolf>();
         for(int i =0; i<Math.floor(0.04*Math.pow(Main.mapSize, 2)); i++) this.wolves.add(new Wolf());

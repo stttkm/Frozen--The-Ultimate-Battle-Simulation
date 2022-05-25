@@ -132,6 +132,13 @@ public class Simulation {
                     .getChildren().get(((Snowman)turn.snowmen.get(i)).y*Main.mapSize+((Snowman)turn.snowmen.get(i)).x))
                     .getChildren().add(new ImageView(((Snowman) turn.snowmen.get(i)).characterImage));
         }
+
+        for(int i = 0; i < turn.soldiers.size(); i++){ // ładujemy armię Hansa
+            ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
+                    .getChildren().get(((Soldier)turn.soldiers.get(i)).y*Main.mapSize+((Soldier)turn.soldiers.get(i)).x))
+                    .getChildren().add(new ImageView(((Soldier) turn.soldiers.get(i)).characterImage));
+        }
+
         ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
                 .getChildren().get(turn.elsa.y*Main.mapSize+turn.elsa.x))
                 .getChildren().add(new ImageView(turn.elsa.characterImage));
