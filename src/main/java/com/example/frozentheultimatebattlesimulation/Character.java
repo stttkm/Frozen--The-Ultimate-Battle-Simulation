@@ -11,7 +11,7 @@ public class Character extends Element {
 
     public Character()
     {
-        Hp=10;
+        Hp=2*mapSize;
         MoveRange=1;
         IceResistance=1;
         int x;

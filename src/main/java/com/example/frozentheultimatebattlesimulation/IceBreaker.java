@@ -34,7 +34,7 @@ public class IceBreaker extends Character{
                             default: yield y;
                         };
             }while(!Mapa[x][y].type.equals("Ice"));
-            Mapa[x][y].type="Water";
+            Mapa[x][y].ChangeIntoWater();
 
         }
 

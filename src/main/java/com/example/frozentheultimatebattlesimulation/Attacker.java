@@ -7,7 +7,7 @@ public class Attacker extends Character{
 
     protected int Strength;
 
-    static String AttackerType[]={"Person", "Snowman", "Wolf"};
+    static String [] AttackerType={"Person", "Snowman", "Wolf"};
     public String attackertype;
 
     public Attacker()
