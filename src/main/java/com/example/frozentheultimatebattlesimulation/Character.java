@@ -4,6 +4,8 @@ package com.example.frozentheultimatebattlesimulation;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 
+import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
+import static com.example.frozentheultimatebattlesimulation.Main.*;
 import java.util.Random;
 
 import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
@@ -17,7 +19,7 @@ public class Character extends Element implements Cloneable {
 
     public Character()
     {
-        Hp=10;
+        Hp=2*mapSize;
         MoveRange=1;
         IceResistance=0;
         int x;
@@ -79,19 +81,31 @@ public class Character extends Element implements Cloneable {
         }
 
     }
+    protected boolean Drowned()
+    {
+        if(Mapa[X][Y].type.equals("Water")) return true;
+        return false;
+    }
 
     protected void IceReaction()
     {
         if(((Turn) turns.get(turns.size()-1)).map[x][y].type=="Ice") Hp-=IceResistance;
+
+        if(Mapa[X][Y].type.equals("Ice")) Hp-=IceResistance;
+
     }
 
     protected void Heal()
     {
+
         if(((Turn) turns.get(turns.size()-1)).map[x][y].type=="Geyser") Hp+=IceResistance;
     }
 
     public Object clone() throws CloneNotSupportedException
     {
         return super.clone();
+
+        if(Mapa[X][Y].type.equals("Geyser")) Hp+=IceResistance;
+
     }
 }
