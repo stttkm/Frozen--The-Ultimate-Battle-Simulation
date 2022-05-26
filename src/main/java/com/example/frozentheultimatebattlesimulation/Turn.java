@@ -9,7 +9,8 @@ public class Turn {
     boolean isGameOver = false;
 
     IceQueen elsa;
-    Person anna, kristoff, hans;
+    Anna anna;
+    Person kristoff, hans;
     ArrayList iceBreakers, snowmen, wolves, soldiers;
 
 
@@ -21,14 +22,22 @@ public class Turn {
         for(int i =0; i< Main.mapSize; i++) for(int j = 0; j < Main.mapSize;j++) this.map[i][j] = new Field(j,i);
     }
 
-    Turn(Turn original){
+    Turn(Turn original) throws CloneNotSupportedException {
         this.map = new Field[Main.mapSize][Main.mapSize];
-        for (int i = 0; i < Main.mapSize; i++) this.map[i] = original.map[i].clone(); // kopiowanie mapy
+        for (int i = 0; i < Main.mapSize; i++) {
+            for(int j=0; j < Main.mapSize; j++)
+            {
+                this.map[j][i] = (Field) original.map[j][i].clone();
+            }
+        }; // kopiowanie mapy
 
         try {
             this.elsa = (IceQueen) original.elsa.clone();
-            this.anna = (Person) original.anna.clone();
-            this.kristoff = (Person)original.kristoff.clone();
+            this.anna = (Anna) original.anna.clone();
+            if(original.kristoff!=null) {
+                this.kristoff = (Person) original.kristoff.clone();
+            } else {this.kristoff=null;}
+
             this.hans = (Person)original.hans.clone();
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
@@ -75,7 +84,7 @@ public class Turn {
 
     void generateCharacters(){
         this.elsa = new IceQueen();
-        this.anna = new Person(10, 1,  1,  1,  false, "Anna");
+        this.anna = new Anna();
         this.kristoff = new Person(10, 1,  1,  1,  false, "Kristoff");
         this.hans = new Person(10, 1,  1,  1,  false, "Hans");
 

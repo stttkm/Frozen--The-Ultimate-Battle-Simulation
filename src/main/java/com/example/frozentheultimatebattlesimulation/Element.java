@@ -6,13 +6,19 @@ public class Element {
 
     protected Element()
     {
-        x =0; y =0;
+        x =0;
+        y =0;
     }
 
-    protected void SetCoordinates(int x, int y)
+    protected void setCoordinates(int x, int y)
     {
         this.x =x;
         this.y =y;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+            return super.clone();
     }
 
 }

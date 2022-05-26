@@ -1,49 +1,105 @@
 package com.example.frozentheultimatebattlesimulation;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Screen;
 
-import java.io.File;
+import java.util.Objects;
+import java.util.Random;
 
-public class Field extends Element
+public class Field extends Element implements Cloneable
 {  static int[] fieldTypesCount = {0,0,0,0};
     static String[] fieldTypes = {"Ice", "Water", "Earth", "Geyser"};
-    Image fieldImage;
+    static Image[] fieldImages = {new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/Ice.jpg", Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, true, true),
+            new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/Water.jpg", Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, true, true),
+            new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/Earth.jpg", Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, true, true),
+            new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/Geyser.jpg", Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, true, true)};
     String type;
     boolean isEmpty;
+    public String occupiedBy;
+    int indexOfOccupiedBy;
 
     protected Field(int x, int y)
     {
-        SetCoordinates(x,y);
+        setCoordinates(x,y);
         isEmpty=true;
 
+
         //przypisywanie rodzaju pola
-        int random = (int) (Math.random() * 99);
-        if (random<70) {this.type= fieldTypes[0]; fieldTypesCount[0]++;}
-        if (random>69 && random < 85) {
+        Random random = new Random();
+        int randomNum = random.nextInt(100);
+        if (randomNum<70) {this.type= fieldTypes[0];  fieldTypesCount[0]++;}
+        if (randomNum>69 && randomNum < 85) {
             if (fieldTypesCount[1]<=0.15*Main.mapSize*Main.mapSize){ // zmieniam to, by nie było sytuacji, że cała mapa to woda,
-                this.type= fieldTypes[1];                                                                      // a symulacja nie odpali, bo nie umie usadzić postaci
+                this.type= fieldTypes[1];                                                                   // a symulacja nie odpali, bo nie umie usadzić postaci
                 fieldTypesCount[1]++;
             } else {
                 this.type= fieldTypes[0];
                 fieldTypesCount[0]++;
             }
         }
-        if (random>84 && random < 95) {this.type= fieldTypes[2]; fieldTypesCount[2]++;}
-        if (random>94 && random < 100) {this.type= fieldTypes[3]; fieldTypesCount[3]++;}
-
-
-        this.fieldImage = new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/" +this.type +".jpg", Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, true, true);
+        if (randomNum>84 && randomNum < 95) {this.type= fieldTypes[2]; fieldTypesCount[2]++;}
+        if (randomNum>94) {this.type= fieldTypes[3]; fieldTypesCount[3]++;}
 
     }
+
+
+
+
+
+
+
+
+
 
     public void ChangeIntoIce()
     {
-        if(type== fieldTypes[1]) type= fieldTypes[0];
+        if(Objects.equals(type, fieldTypes[1])) type= fieldTypes[0];
     }
-    public void ChangeIntoWater()
+    public void changeIntoWater()
     {
-        if(type== fieldTypes[0]) type= fieldTypes[1];
+                this.type = fieldTypes[1];
+
+        if(Objects.equals(this.occupiedBy, "Anna") || Objects.equals(this.occupiedBy, "Elsa")){
+            ((Turn)Main.turns.get(Main.turns.size()-1)).isGameOver = true;
+            // ustawiamy napisy końcowe na happy ending
+        }
+
+        if(Objects.equals(this.occupiedBy, "Hans")){
+            ((Turn)Main.turns.get(Main.turns.size()-1)).isGameOver = true;
+            // ustawiamy napisy końcowe na abismal ending
+        }
+        if(Objects.equals(this.occupiedBy, "Kristoff")){
+        ((Turn)Main.turns.get(Main.turns.size()-1)).kristoff=null;
+    }
+        if(Objects.equals(this.occupiedBy, "Snowman")){
+            for(int i = this.indexOfOccupiedBy+1; i<((Turn)Main.turns.get(Main.turns.size()-1)).snowmen.size();i++){
+                ((Turn)Main.turns.get(Main.turns.size()-1)).map[((Snowman)((Turn)Main.turns.get(Main.turns.size()-1)).snowmen.get(i)).y][((Snowman)((Turn)Main.turns.get(Main.turns.size()-1)).snowmen.get(i)).x].indexOfOccupiedBy--; //update'ujemy indexy
+            }
+            ((Turn)Main.turns.get(Main.turns.size()-1)).snowmen.remove(this.indexOfOccupiedBy);
+        }
+        if(Objects.equals(this.occupiedBy, "IceBreaker")){
+            for(int i = this.indexOfOccupiedBy+1; i<((Turn)Main.turns.get(Main.turns.size()-1)).iceBreakers.size();i++){
+                ((Turn)Main.turns.get(Main.turns.size()-1)).map[((IceBreaker)((Turn)Main.turns.get(Main.turns.size()-1)).iceBreakers.get(i)).y][((IceBreaker)((Turn)Main.turns.get(Main.turns.size()-1)).iceBreakers.get(i)).x].indexOfOccupiedBy--; //update'ujemy indexy
+            }
+            ((Turn)Main.turns.get(Main.turns.size()-1)).iceBreakers.remove(this.indexOfOccupiedBy);
+        }
+        if(Objects.equals(this.occupiedBy, "Soldier")){
+            for(int i = this.indexOfOccupiedBy+1; i<((Turn)Main.turns.get(Main.turns.size()-1)).soldiers.size();i++){
+                ((Turn)Main.turns.get(Main.turns.size()-1)).map[((Soldier)((Turn)Main.turns.get(Main.turns.size()-1)).soldiers.get(i)).y][((Soldier)((Turn)Main.turns.get(Main.turns.size()-1)).soldiers.get(i)).x].indexOfOccupiedBy--; //update'ujemy indexy
+            }
+
+            ((Turn)Main.turns.get(Main.turns.size()-1)).soldiers.remove(this.indexOfOccupiedBy);
+        }
+        if(Objects.equals(this.occupiedBy, "Wolf")){
+            for(int i = this.indexOfOccupiedBy+1; i<((Turn)Main.turns.get(Main.turns.size()-1)).wolves.size();i++){
+                ((Turn)Main.turns.get(Main.turns.size()-1)).map[((Wolf)((Turn)Main.turns.get(Main.turns.size()-1)).wolves.get(i)).y][((Wolf)((Turn)Main.turns.get(Main.turns.size()-1)).wolves.get(i)).x].indexOfOccupiedBy--; //update'ujemy indexy
+            }
+            ((Turn)Main.turns.get(Main.turns.size()-1)).wolves.remove(this.indexOfOccupiedBy);
+        }
+
+
+                this.isEmpty = true;
+                this.indexOfOccupiedBy = 0;
+                this.occupiedBy = null;
     }
 }

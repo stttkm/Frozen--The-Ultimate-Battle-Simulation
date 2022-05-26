@@ -17,19 +17,34 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 import static javafx.scene.layout.HBox.setMargin;
 
 // klasa służy głównie przechowywaniu elementów wizualnych
 public class Simulation {
     static HBox simulationBody;
-    static public void pseudoMain(ActionEvent event){
+    static public void pseudoMain(ActionEvent event) {
         Main.turns.add(new Turn()); //dodajemy pierwszą turę
         ((Turn)Main.turns.get(0)).generateCharacters(); //generujemy postacie
         for(int i =0; i< 400; i++){ //potem zamienimy na while'a, by akcja toczyła się do końca gry
-            Main.turns.add(new Turn((Turn)Main.turns.get(i))); // tworzymy nową turę
+            try {
+                Main.turns.add(new Turn((Turn)Main.turns.get(i))); // tworzymy nową turę
+            } catch (CloneNotSupportedException e) {
+                throw new RuntimeException(e);
+            }
 
-            ((Turn)Main.turns.get(i+1)).anna.move();
-            ((IceBreaker)((Turn)Main.turns.get(i+1)).iceBreakers.get(0)).move();
+            ((Turn)Main.turns.get(Main.turns.size()-1)).anna.act();
+            if(((Turn)Main.turns.get(Main.turns.size()-1)).kristoff != null) {((Turn) Main.turns.get(Main.turns.size() - 1)).kristoff.act();}
+            ((Turn)Main.turns.get(Main.turns.size()-1)).hans.act();
+
+            ((Turn)Main.turns.get(Main.turns.size()-1)).iceBreakers.forEach((og) -> {
+                ((IceBreaker)og).act();
+            });
+
+
+
         }
         // jak chcesz kazać postaciom coś robić, to właśnie tutaj jest odpowiednie miejsce.
 
@@ -112,7 +127,7 @@ public class Simulation {
         for(int i =0; i< Main.mapSize; i++) for(int j = 0; j < Main.mapSize;j++){
             ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
                     .getChildren().get(i*Main.mapSize+j))
-                    .getChildren().add(new ImageView(turn.map[i][j].fieldImage));
+                    .getChildren().add(new ImageView(Field.fieldImages[Arrays.asList(Field.fieldTypes).indexOf(turn.map[i][j].type)]));
 
         };
         for(int i = 0; i < turn.iceBreakers.size(); i++){ // ładujemy łamaczy lodu
@@ -121,7 +136,7 @@ public class Simulation {
                     .getChildren().add(new ImageView(((IceBreaker) turn.iceBreakers.get(i)).characterImage));
         }
 
-        for(int i = 0; i < turn.iceBreakers.size(); i++){ // ładujemy wilki
+        for(int i = 0; i < turn.wolves.size(); i++){ // ładujemy wilki
             ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
                     .getChildren().get(((Wolf)turn.wolves.get(i)).y*Main.mapSize+((Wolf)turn.wolves.get(i)).x))
                     .getChildren().add(new ImageView(((Wolf) turn.wolves.get(i)).characterImage));

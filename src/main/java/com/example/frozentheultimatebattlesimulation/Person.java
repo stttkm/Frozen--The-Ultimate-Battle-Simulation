@@ -3,6 +3,12 @@ package com.example.frozentheultimatebattlesimulation;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 
+import java.awt.*;
+import java.util.ArrayList;
+
+import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
+import static com.example.frozentheultimatebattlesimulation.Main.turns;
+
 public class Person extends Attacker{
 
     boolean hasHorse;
@@ -32,7 +38,9 @@ public class Person extends Attacker{
         if(hasHorse) this.MoveRange=MoveRange+1;
         else this.MoveRange=MoveRange;
          characterImage = new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/" + whothis +".png", Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, true, true);
-
+        ((Turn) turns.get(0)).map[y][x].occupiedBy=whothis;
     }
+
+
 
 }

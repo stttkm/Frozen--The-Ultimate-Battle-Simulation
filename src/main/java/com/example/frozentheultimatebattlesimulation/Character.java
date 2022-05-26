@@ -11,9 +11,6 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
-import static com.example.frozentheultimatebattlesimulation.Main.*;
-
 public class Character extends Element implements Cloneable {
     protected int Hp;
     protected int MoveRange;
@@ -32,8 +29,11 @@ public class Character extends Element implements Cloneable {
             x = (int)Math.floor(Math.random()*mapSize);
             y = (int)Math.floor(Math.random()*mapSize);
         }while(!(((Turn) turns.get(0)).map[y][x].isEmpty) || ((Turn) turns.get(0)).map[y][x].type=="Water"); //nie chcemy falstartu i wrzucania ludzi do wody
-        SetCoordinates(x,y);
+        setCoordinates(x,y);
+
+        //ustawiamy pole
         ((Turn) turns.get(0)).map[y][x].isEmpty=false;
+        ((Turn) turns.get(0)).map[y][x].occupiedBy=this.getClass().getSimpleName();
 
     }
 
@@ -49,38 +49,38 @@ public class Character extends Element implements Cloneable {
             x = (int)Math.floor(Math.random()*mapSize);
             y = (int)Math.floor(Math.random()*mapSize);
         }while(!(((Turn) turns.get(0)).map[y][x].isEmpty) || ((Turn) turns.get(0)).map[y][x].type=="Water"); //nie chcemy falstartu i wrzucania ludzi do wody
-        SetCoordinates(x,y);
+        setCoordinates(x,y);
         ((Turn) turns.get(0)).map[y][x].isEmpty=false;
+        ((Turn) turns.get(0)).map[y][x].occupiedBy=this.getClass().getSimpleName();
 
     }
 
-    protected void move()
+    protected boolean move(ArrayList<Point> availableTilesForMovement)
     {
 
-            ArrayList<Point> availableTiles = new ArrayList<Point>();
-            for(int i = -1*MoveRange; i<=MoveRange;i++) for(int j=-1*MoveRange;j<=MoveRange; j++){
-                if(((Turn)turns.get(turns.size()-1)).map[(this.y+i+mapSize)%mapSize][(this.x+j+mapSize)%mapSize].isEmpty &&((Turn)turns.get(turns.size()-1)).map[(this.y+i+mapSize)%mapSize][(this.x+j+mapSize)%mapSize].type!="Water"){
-                    availableTiles.add(new Point((this.x+j+mapSize)%mapSize,(this.y+i+mapSize)%mapSize));
-                }}
+
             Random random = new Random();
-            if(availableTiles.size()!=0) {
-                Point target = availableTiles.get(random.nextInt(availableTiles.size()));
+            if(availableTilesForMovement.size()!=0) {
+                Point target = availableTilesForMovement.get(random.nextInt(availableTilesForMovement.size()));
 
                 ((Turn) turns.get(turns.size() - 1)).map[this.y][this.x].isEmpty = true;
                 ((Turn) turns.get(turns.size() - 1)).map[target.y][target.x].isEmpty = false;
-                this.x = target.x;
-                this.y = target.y;
+
+                ((Turn) turns.get(turns.size() - 1)).map[target.y][target.x].occupiedBy = ((Turn) turns.get(turns.size() - 1)).map[y][x].occupiedBy;
+                ((Turn) turns.get(turns.size() - 1)).map[target.y][target.x].indexOfOccupiedBy = ((Turn) turns.get(turns.size() - 1)).map[y][x].indexOfOccupiedBy;
+                ((Turn) turns.get(turns.size() - 1)).map[y][x].occupiedBy = null;
+                ((Turn) turns.get(turns.size() - 1)).map[y][x].indexOfOccupiedBy = 0;
+
+                this.setCoordinates(target.x, target.y);
+                return true; //zrobione
             }
+        return false; //niezrobione
 
 
         }
 
 
-    protected boolean Drown()
-    {
-        if(((Turn)Main.turns.get(Main.turns.size()-1)).map[y][x].type.equals("Water")) return true;
-        return false;
-    }
+
 
     protected void IceReaction()
     {
@@ -99,8 +99,24 @@ public class Character extends Element implements Cloneable {
         };
     }
 
-    public Object clone() throws CloneNotSupportedException
-    {
-        return super.clone();
+    void act(){
+        // tutaj wywołamy reakcję na podłoże
+
+        // szukamy gdzie się ruszyć
+        ArrayList<Point> availableTilesForMovement = new ArrayList<Point>();
+        for(int i = -1*MoveRange; i<=MoveRange;i++) for(int j=-1*MoveRange;j<=MoveRange; j++){
+            if(((Turn)turns.get(turns.size()-1)).map[(this.y+i+mapSize)%mapSize][(this.x+j+mapSize)%mapSize].isEmpty &&((Turn)turns.get(turns.size()-1)).map[(this.y+i+mapSize)%mapSize][(this.x+j+mapSize)%mapSize].type!="Water"){
+                availableTilesForMovement.add(new Point((this.x+j+mapSize)%mapSize,(this.y+i+mapSize)%mapSize));
+            }}
+
+        // nawet nie musimy losować, bo mamy do wyboru jedną metodę
+        this.move(availableTilesForMovement);
+
+
+
     }
+
+
+
+
 }

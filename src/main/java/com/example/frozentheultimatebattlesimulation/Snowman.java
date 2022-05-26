@@ -10,6 +10,7 @@ public class Snowman extends Attacker {
         counter++;
         attackertype=AttackerType[1];
         IceResistance=0;
+        ((Turn) turns.get(0)).map[y][x].indexOfOccupiedBy=((Turn) turns.get(0)).snowmen.size();
     }
     @Override
     protected void IceReaction()

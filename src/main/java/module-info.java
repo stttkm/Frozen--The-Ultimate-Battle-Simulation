@@ -1,7 +1,6 @@
 module com.example.frozentheultimatebattlesimulation {
     requires javafx.controls;
     requires javafx.fxml;
-    requires java.xml;
     requires java.desktop;
 
 
