@@ -21,7 +21,7 @@ public class Field extends Element
         //przypisywanie rodzaju pola
         int random = (int) (Math.random() * 99);
         if (random<70) {this.type= fieldTypes[0]; fieldTypesCount[0]++;}
-        if (random>69 && random < 85) {
+        else if (random>69 && random < 85) {
             if (fieldTypesCount[1]<=0.15*Main.mapSize*Main.mapSize){ // zmieniam to, by nie było sytuacji, że cała mapa to woda,
                 this.type= fieldTypes[1];                                                                      // a symulacja nie odpali, bo nie umie usadzić postaci
                 fieldTypesCount[1]++;
@@ -30,8 +30,8 @@ public class Field extends Element
                 fieldTypesCount[0]++;
             }
         }
-        if (random>84 && random < 95) {this.type= fieldTypes[2]; fieldTypesCount[2]++;}
-        if (random>94 && random < 100) {this.type= fieldTypes[3]; fieldTypesCount[3]++;}
+        else if (random>84 && random < 95) {this.type= fieldTypes[2]; fieldTypesCount[2]++;}
+        else  {this.type= fieldTypes[3]; fieldTypesCount[3]++;}
 
 
         this.fieldImage = new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/" +this.type +".jpg", Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, true, true);
