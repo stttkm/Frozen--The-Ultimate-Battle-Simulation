@@ -9,7 +9,7 @@ public class Person extends Attacker{
 
     public Person()
     {
-        super();
+        super(1);
         hasHorse=false;
     }
     public Person(boolean hasHorse)
@@ -26,11 +26,10 @@ public class Person extends Attacker{
     }
      */
 
-    public Person(int Hp, int MoveRange, int IceResistance, int strength,  boolean hasHorse, String whothis) { //dodałem ten konstruktor, by Anna wyglądała na Annę, itd.
-        super(Hp,MoveRange, IceResistance, strength);
+    public Person(   int strength,  boolean hasHorse, String whothis) { //dodałem ten konstruktor, by Anna wyglądała na Annę, itd.
+        super(strength);
         this.hasHorse=hasHorse;
-        if(hasHorse) this.MoveRange=MoveRange+1;
-        else this.MoveRange=MoveRange;
+        if(hasHorse) MoveRange++;
          characterImage = new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/" + whothis +".png", Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, true, true);
 
     }

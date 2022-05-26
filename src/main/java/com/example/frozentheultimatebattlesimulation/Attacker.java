@@ -21,12 +21,14 @@ public class Attacker extends Character{
         this.strength=strength;
     }
 
-
+/*
     public Attacker(int Hp, int IceResistance, int MoveRange, int strength) {
         super(Hp,IceResistance, MoveRange);
         this.strength=strength;
 
     }
+
+ */
 
 
 

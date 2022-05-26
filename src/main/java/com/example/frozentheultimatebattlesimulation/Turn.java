@@ -75,9 +75,9 @@ public class Turn {
 
     void generateCharacters(){
         this.elsa = new IceQueen();
-        this.anna = new Person(10, 1,  1,  1,  false, "Anna");
-        this.kristoff = new Person(10, 1,  1,  1,  false, "Kristoff");
-        this.hans = new Person(10, 1,  1,  1,  false, "Hans");
+        this.anna = new Person(  1,  false, "Anna");
+        this.kristoff = new Person(  1,  true, "Kristoff");
+        this.hans = new Person( 1,  false, "Hans");
 
         this.iceBreakers = new ArrayList<IceBreaker>();
         for(int i =0; i<Math.floor(0.04*Math.pow(Main.mapSize, 2)); i++) this.iceBreakers.add(new IceBreaker(1,1,1));

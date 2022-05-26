@@ -36,7 +36,7 @@ public class Character extends Element implements Cloneable {
         ((Turn) turns.get(0)).map[y][x].isEmpty=false;
 
     }
-
+/*
     public Character(int Hp, int MoveRange, int IceResistance)
     {
         this.Hp=Hp;
@@ -54,6 +54,8 @@ public class Character extends Element implements Cloneable {
 
     }
 
+
+ */
     protected void move()
     {
 
