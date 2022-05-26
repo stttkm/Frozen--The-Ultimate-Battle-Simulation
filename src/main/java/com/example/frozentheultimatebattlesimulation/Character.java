@@ -31,11 +31,13 @@ public class Character extends Element {
         if(MoveRange!=0){
             String[] kierunki ={"Lewy", "Prawy", "Gora", "Dol"};
             String kierunek;
-            int x=X;
-            int y=Y;
+            int x;
+            int y;
             int licznik=0;
             do
             {
+                x=X;
+                y=Y;
                 kierunek=kierunki[(int)Math.floor(Math.random()*4)];
                 x= switch(kierunek)
                         {
@@ -51,8 +53,12 @@ public class Character extends Element {
                         };
                 licznik++;
             }while(!Mapa[x][y].isEmpty && licznik<4);
-            X=x;
-            Y=y;
+            if(licznik!=4)
+            {
+                X=x;
+                Y=y;
+            }
+
 
         }
 
