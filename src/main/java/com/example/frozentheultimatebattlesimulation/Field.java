@@ -51,25 +51,28 @@ public class Field extends Element implements Cloneable
 
 
 
-    public void ChangeIntoIce()
+    public void changeIntoIce()
     {
-        if(Objects.equals(type, fieldTypes[1])) type= fieldTypes[0];
+        type= fieldTypes[0];
     }
     public void changeIntoWater()
     {
                 this.type = fieldTypes[1];
 
-        if(Objects.equals(this.occupiedBy, "Anna") || Objects.equals(this.occupiedBy, "Elsa")){
+        if(Objects.equals(this.occupiedBy, "Anna")){
             ((Turn)Main.turns.get(Main.turns.size()-1)).isGameOver = true;
-            // ustawiamy napisy końcowe na happy ending
+            System.out.println("Anna utonęła");
+            // ustawiamy napisy końcowe na abismal ending
         }
 
         if(Objects.equals(this.occupiedBy, "Hans")){
             ((Turn)Main.turns.get(Main.turns.size()-1)).isGameOver = true;
-            // ustawiamy napisy końcowe na abismal ending
+            // ustawiamy napisy końcowe na happy ending
+            System.out.println("Hans utonął");
         }
         if(Objects.equals(this.occupiedBy, "Kristoff")){
         ((Turn)Main.turns.get(Main.turns.size()-1)).kristoff=null;
+            System.out.println("Kristoff się utopił, ale życie toczy się dalej");
     }
         if(Objects.equals(this.occupiedBy, "Snowman")){
             for(int i = this.indexOfOccupiedBy+1; i<((Turn)Main.turns.get(Main.turns.size()-1)).snowmen.size();i++){

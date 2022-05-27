@@ -9,17 +9,18 @@ import static com.example.frozentheultimatebattlesimulation.Main.*;
 import java.awt.Point;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
 
 public class Character extends Element implements Cloneable {
-    protected int Hp;
+    protected int hp;
     protected int MoveRange;
     protected int IceResistance;
     Image characterImage = new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/" + getClass().getSimpleName()+".png", Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, true, true);;;
 
     public Character()
     {
-        Hp=2*mapSize;
+        hp =2*mapSize;
         MoveRange=1;
         IceResistance=0;
         int x;
@@ -39,7 +40,7 @@ public class Character extends Element implements Cloneable {
 
     public Character(int Hp, int MoveRange, int IceResistance)
     {
-        this.Hp=Hp;
+        this.hp =Hp;
         this.MoveRange=MoveRange;
         this.IceResistance=IceResistance;
         int x;
@@ -84,18 +85,18 @@ public class Character extends Element implements Cloneable {
 
     protected void IceReaction()
     {
-        if(((Turn) turns.get(turns.size()-1)).map[x][y].type=="Ice") Hp-=IceResistance;
+        if(((Turn) turns.get(turns.size()-1)).map[x][y].type=="Ice") hp -=IceResistance;
 
-        if(((Turn)Main.turns.get(Main.turns.size()-1)).map[y][x].type.equals("Ice")) Hp-=IceResistance;
+        if(Objects.equals(((Turn) turns.get(turns.size() - 1)).map[y][x].type, "Ice")) hp -=IceResistance;
 
     }
 
     protected void Heal()
     {
 
-        if(((Turn) turns.get(turns.size()-1)).map[x][y].type=="Geyser") Hp+=IceResistance;
-        if(((Turn)Main.turns.get(Main.turns.size()-1)).map[y][x].type.equals("Geyser")) {
-            Hp += IceResistance;
+        if(((Turn) turns.get(turns.size()-1)).map[x][y].type=="Geyser") hp +=IceResistance;
+        if(Objects.equals(((Turn) turns.get(turns.size() - 1)).map[y][x].type, "Geyser")) {
+            hp += IceResistance;
         };
     }
 
@@ -109,8 +110,18 @@ public class Character extends Element implements Cloneable {
                 availableTilesForMovement.add(new Point((this.x+j+mapSize)%mapSize,(this.y+i+mapSize)%mapSize));
             }}
 
-        // nawet nie musimy losować, bo mamy do wyboru jedną metodę
-        this.move(availableTilesForMovement);
+        // losujemy
+        Random random = new Random();
+        boolean done = false;
+        int attempts=0;
+        while(!done && attempts<5){
+            attempts++;
+            switch (random.nextInt(1)) {
+                case 0 -> done = this.move(availableTilesForMovement);
+            }
+        }
+
+
 
 
 

@@ -20,6 +20,7 @@ import javafx.util.Duration;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
+import static com.example.frozentheultimatebattlesimulation.Main.turns;
 import static javafx.scene.layout.HBox.setMargin;
 
 // klasa służy głównie przechowywaniu elementów wizualnych
@@ -28,9 +29,11 @@ public class Simulation {
     static public void pseudoMain(ActionEvent event) {
         Main.turns.add(new Turn()); //dodajemy pierwszą turę
         ((Turn)Main.turns.get(0)).generateCharacters(); //generujemy postacie
-        for(int i =0; i< 400; i++){ //potem zamienimy na while'a, by akcja toczyła się do końca gry
+        int lastTurnIndex=0;
+        while(!(((Turn) turns.get(turns.size() - 1)).isGameOver)){ //potem zamienimy na while'a, by akcja toczyła się do końca gry
             try {
-                Main.turns.add(new Turn((Turn)Main.turns.get(i))); // tworzymy nową turę
+                Main.turns.add(new Turn((Turn)Main.turns.get(lastTurnIndex))); // tworzymy nową turę
+                lastTurnIndex++;
             } catch (CloneNotSupportedException e) {
                 throw new RuntimeException(e);
             }
@@ -38,10 +41,21 @@ public class Simulation {
             ((Turn)Main.turns.get(Main.turns.size()-1)).anna.act();
             if(((Turn)Main.turns.get(Main.turns.size()-1)).kristoff != null) {((Turn) Main.turns.get(Main.turns.size() - 1)).kristoff.act();}
             ((Turn)Main.turns.get(Main.turns.size()-1)).hans.act();
+            ((Turn)Main.turns.get(Main.turns.size()-1)).elsa.act();
 
+            ((Turn) turns.get(turns.size()-1)).snowmen.forEach((og) -> {
+                ((Snowman)og).act();
+            });
+            ((Turn) turns.get(turns.size()-1)).soldiers.forEach((og) -> {
+                ((Soldier)og).act();
+            });
             ((Turn)Main.turns.get(Main.turns.size()-1)).iceBreakers.forEach((og) -> {
                 ((IceBreaker)og).act();
             });
+            ((Turn)Main.turns.get(Main.turns.size()-1)).wolves.forEach((og) -> {
+                ((Wolf)og).act();
+            });
+
 
 
 
@@ -162,9 +176,11 @@ public class Simulation {
                 .getChildren().get(turn.anna.y*Main.mapSize+turn.anna.x))
                 .getChildren().add(new ImageView(turn.anna.characterImage));
 
-        ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
-                .getChildren().get(turn.kristoff.y*Main.mapSize+turn.kristoff.x))
-                .getChildren().add(new ImageView(turn.kristoff.characterImage));
+        if(turn.kristoff!=null) {
+            ((StackPane) ((GridPane) simulationRoot.getChildren().get(0))
+                    .getChildren().get(turn.kristoff.y * Main.mapSize + turn.kristoff.x))
+                    .getChildren().add(new ImageView(turn.kristoff.characterImage));
+        }
 
         ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
                 .getChildren().get(turn.hans.y*Main.mapSize+turn.hans.x))

@@ -47,8 +47,9 @@ public class IceBreaker extends Character{
         // szukamy lodu
     ArrayList<Point> availableIce = new ArrayList<>();
     for(int i = -1*MoveRange; i<=MoveRange;i++) for(int j=-1*MoveRange;j<=MoveRange; j++){
-        if(((Turn) turns.get(turns.size() - 1)).map[(this.y + i + mapSize) % mapSize][(this.x + j + mapSize) % mapSize].type.equals("Ice")&& !(Objects.equals(((Turn) turns.get(turns.size() - 1)).map[(this.y + i + mapSize) % mapSize][(this.x + j + mapSize) % mapSize].occupiedBy, "IceBreaker"))){
+        if(Objects.equals(((Turn) turns.get(turns.size() - 1)).map[(this.y + i + mapSize) % mapSize][(this.x + j + mapSize) % mapSize].type, "Ice") && !(Objects.equals(((Turn) turns.get(turns.size() - 1)).map[(this.y + i + mapSize) % mapSize][(this.x + j + mapSize) % mapSize].occupiedBy, "IceBreaker")) && !(Objects.equals(((Turn) turns.get(turns.size() - 1)).map[(this.y + i + mapSize) % mapSize][(this.x + j + mapSize) % mapSize].occupiedBy, "IceQueen"))){
             //IceBreaker nie kopie dołku pod innym IceBreakerem, bo wtedy modyfikujemy listę IceBreakerów i nawiedza nas ConcurrentModificationException
+            //nie kupuję wersji, w której IceBreaker może zniszczyć lód pod królową lodu, która umie pola na 2. krańcu mapy zamrażać
             availableIce.add(new Point((this.x+j+mapSize)%mapSize,(this.y+i+mapSize)%mapSize));
         }}
 

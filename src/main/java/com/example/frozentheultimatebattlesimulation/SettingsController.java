@@ -39,39 +39,27 @@ public class SettingsController implements Initializable {
         hansArmySizeSpinner.setValueFactory(hansValueFactory);
 
         // oto listnery
-        mapSizeSlider.valueProperty().addListener(new ChangeListener<Number>(){
-            @Override
-            public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number arg2){
-                    Main.mapSize = (int) mapSizeSlider.getValue();
+        mapSizeSlider.valueProperty().addListener((arg0, arg1, arg2) -> {
+                Main.mapSize = (int) mapSizeSlider.getValue();
 
-                SpinnerValueFactory<Integer> elsaValueFactory =
-                        new SpinnerValueFactory.IntegerSpinnerValueFactory(Main.mapSize, (int) (Main.mapSize*Main.mapSize*0.3));
+            SpinnerValueFactory<Integer> elsaValueFactory1 =
+                    new SpinnerValueFactory.IntegerSpinnerValueFactory(Main.mapSize, (int) (Main.mapSize*Main.mapSize*0.3));
 
-                elsaValueFactory.setValue(Main.mapSize*Main.mapSize/4);
+            elsaValueFactory1.setValue(Main.mapSize*Main.mapSize/4);
 
-                SpinnerValueFactory<Integer> hansValueFactory =
-                        new SpinnerValueFactory.IntegerSpinnerValueFactory(Main.mapSize, (int) (Main.mapSize*Main.mapSize*0.3));
+            SpinnerValueFactory<Integer> hansValueFactory1 =
+                    new SpinnerValueFactory.IntegerSpinnerValueFactory(Main.mapSize, (int) (Main.mapSize*Main.mapSize*0.3));
 
-                hansValueFactory.setValue(Main.mapSize*Main.mapSize/4);
+            hansValueFactory1.setValue(Main.mapSize*Main.mapSize/4);
 
-                elsasArmySizeSpinner.setValueFactory(elsaValueFactory);
-                hansArmySizeSpinner.setValueFactory(hansValueFactory);
+            elsasArmySizeSpinner.setValueFactory(elsaValueFactory1);
+            hansArmySizeSpinner.setValueFactory(hansValueFactory1);
 
-            }});
-
-        elsasArmySizeSpinner.valueProperty().addListener(new ChangeListener<Integer>() {
-            @Override
-            public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
-                Main.elsasArmySize = elsasArmySizeSpinner.getValue();
-            }
         });
 
-        hansArmySizeSpinner.valueProperty().addListener(new ChangeListener<Integer>() {
-            @Override
-            public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
-                Main.hansArmySize = elsasArmySizeSpinner.getValue();
-            }
-        });
+        elsasArmySizeSpinner.valueProperty().addListener((observable, oldValue, newValue) -> Main.elsasArmySize = elsasArmySizeSpinner.getValue());
+
+        hansArmySizeSpinner.valueProperty().addListener((observable, oldValue, newValue) -> Main.hansArmySize = elsasArmySizeSpinner.getValue());
 
 
 
