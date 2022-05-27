@@ -1,7 +1,5 @@
 package com.example.frozentheultimatebattlesimulation;
 
-import static com.example.frozentheultimatebattlesimulation.Main.*;
-import static com.example.frozentheultimatebattlesimulation.Main.main;
 
 public class Attacker extends Character{
 
@@ -20,17 +18,6 @@ public class Attacker extends Character{
         super();
         this.strength=strength;
     }
-
-/*
-    public Attacker(int Hp, int IceResistance, int MoveRange, int strength) {
-        super(Hp,IceResistance, MoveRange);
-        this.strength=strength;
-
-    }
-
- */
-
-
 
 
     protected void Attack(Attacker aggressor, Attacker victim)

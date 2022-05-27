@@ -1,10 +1,8 @@
 package com.example.frozentheultimatebattlesimulation;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Screen;
 
-import java.io.File;
 
 public class Field extends Element
 {  static int[] fieldTypesCount = {0,0,0,0};
@@ -40,10 +38,10 @@ public class Field extends Element
 
     public void ChangeIntoIce()
     {
-        if(type== fieldTypes[1]) type= fieldTypes[0];
+        if(type.equals( fieldTypes[1])) type= fieldTypes[0];
     }
     public void ChangeIntoWater()
     {
-        if(type== fieldTypes[0]) type= fieldTypes[1];
+        if(type.equals( fieldTypes[0])) type= fieldTypes[1];
     }
 }

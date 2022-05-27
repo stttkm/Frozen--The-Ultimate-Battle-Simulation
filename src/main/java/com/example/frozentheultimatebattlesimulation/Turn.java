@@ -80,7 +80,7 @@ public class Turn {
         this.hans = new Person( 1,  false, "Hans");
 
         this.iceBreakers = new ArrayList<IceBreaker>();
-        for(int i =0; i<Math.floor(0.04*Math.pow(Main.mapSize, 2)); i++) this.iceBreakers.add(new IceBreaker(1,1,1));
+        for(int i =0; i<Math.floor(0.04*Math.pow(Main.mapSize, 2)); i++) this.iceBreakers.add(new IceBreaker());
 
         this.snowmen = new ArrayList<Snowman>();
         for(int i =0; i<Main.elsasArmySize; i++) this.snowmen.add(new Snowman());
