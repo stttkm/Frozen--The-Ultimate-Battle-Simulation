@@ -9,8 +9,7 @@ public class Turn {
     boolean isGameOver = false;
 
     IceQueen elsa;
-    Anna anna;
-    Person kristoff, hans;
+    Person kristoff, hans, anna;
     ArrayList iceBreakers, snowmen, wolves, soldiers;
 
 
@@ -33,7 +32,7 @@ public class Turn {
 
         try {
             this.elsa = (IceQueen) original.elsa.clone();
-            this.anna = (Anna) original.anna.clone();
+            this.anna = (Person) original.anna.clone();
             if(original.kristoff!=null) {
                 this.kristoff = (Person) original.kristoff.clone();
             } else {this.kristoff=null;}
@@ -84,8 +83,8 @@ public class Turn {
 
     void generateCharacters(){
         this.elsa = new IceQueen();
-        this.anna = new Anna();
-        this.kristoff = new Person(10, 1,  1,  1,  false, "Kristoff");
+        this.anna = new Person(10, 1,  1,  1,  false, "Anna");
+        this.kristoff = new Person(10, 1,  1,  1,  true, "Kristoff");
         this.hans = new Person(10, 1,  1,  1,  false, "Hans");
 
         this.iceBreakers = new ArrayList<IceBreaker>();
