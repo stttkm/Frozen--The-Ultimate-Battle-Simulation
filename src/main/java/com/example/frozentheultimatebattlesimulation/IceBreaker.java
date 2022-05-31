@@ -11,16 +11,12 @@ import static com.example.frozentheultimatebattlesimulation.Main.turns;
 public class IceBreaker extends Character{
     public static int iceBreakersQuantity; //ilosc lamaczy lodu liczona na podstawie podanej przez uzytkownika mapSize
     private static int iceBreakersCounter=0; //aktulana ilosc lamaczy lodu
-    public IceBreaker(int Hp, int MoveRange, int IceResistance) {
-        super(Hp, MoveRange, IceResistance);
+    public IceBreaker() {
+        super(2*mapSize, 1, 1);
         iceBreakersCounter++;
         ((Turn) turns.get(0)).map[y][x].indexOfOccupiedBy=((Turn) turns.get(0)).iceBreakers.size();
     }
 
-    public IceBreaker() {
-        super();
-            iceBreakersCounter++;
-    }
 
     protected boolean crashIce(ArrayList<Point> availableIce)
     {

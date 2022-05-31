@@ -29,7 +29,7 @@ public class Character extends Element implements Cloneable {
         {
             x = (int)Math.floor(Math.random()*mapSize);
             y = (int)Math.floor(Math.random()*mapSize);
-        }while(!(((Turn) turns.get(0)).map[y][x].isEmpty) || ((Turn) turns.get(0)).map[y][x].type=="Water"); //nie chcemy falstartu i wrzucania ludzi do wody
+        }while(!(((Turn) turns.get(0)).map[y][x].isEmpty) || ((Turn) turns.get(0)).map[y][x].type.equals("Water")); //nie chcemy falstartu i wrzucania ludzi do wody
         setCoordinates(x,y);
 
         //ustawiamy pole
@@ -49,7 +49,7 @@ public class Character extends Element implements Cloneable {
         {
             x = (int)Math.floor(Math.random()*mapSize);
             y = (int)Math.floor(Math.random()*mapSize);
-        }while(!(((Turn) turns.get(0)).map[y][x].isEmpty) || ((Turn) turns.get(0)).map[y][x].type=="Water"); //nie chcemy falstartu i wrzucania ludzi do wody
+        }while(!(((Turn) turns.get(0)).map[y][x].isEmpty) || ((Turn) turns.get(0)).map[y][x].type.equals("Water")); //nie chcemy falstartu i wrzucania ludzi do wody
         setCoordinates(x,y);
         ((Turn) turns.get(0)).map[y][x].isEmpty=false;
         ((Turn) turns.get(0)).map[y][x].occupiedBy=this.getClass().getSimpleName();
@@ -94,7 +94,7 @@ public class Character extends Element implements Cloneable {
     protected void Heal()
     {
 
-        if(((Turn) turns.get(turns.size()-1)).map[x][y].type=="Geyser") hp +=IceResistance;
+        if(((Turn) turns.get(turns.size()-1)).map[x][y].type.equals("Geyser")) hp +=IceResistance;
         if(Objects.equals(((Turn) turns.get(turns.size() - 1)).map[y][x].type, "Geyser")) {
             hp += IceResistance;
         };

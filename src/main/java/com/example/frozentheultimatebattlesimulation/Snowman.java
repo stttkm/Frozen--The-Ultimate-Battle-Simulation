@@ -21,14 +21,14 @@ public class Snowman extends Attacker {
     @Override
     protected void IceReaction()
     {
-        if(((Turn) turns.get(turns.size()-1)).map[x][y].type=="Ice") hp +=IceResistance;
+        if(((Turn) turns.get(turns.size()-1)).map[x][y].type.equals("Ice")) hp +=IceResistance;
         if(Objects.equals(((Turn) turns.get(turns.size() - 1)).map[y][x].type, "Ice")) hp +=IceResistance;
     }
 
     @Override
     protected void Heal()
     {
-        if(((Turn) turns.get(turns.size()-1)).map[x][y].type=="Geyser") hp -=IceResistance;
+        if(((Turn) turns.get(turns.size()-1)).map[x][y].type.equals("Geyser")) hp -=IceResistance;
         if(((Turn)Main.turns.get(Main.turns.size()-1)).map[y][x].type.equals("Geyser")) hp -=IceResistance;
     }
 

@@ -16,8 +16,7 @@ public class Weapon {
 
     public Boolean canWeaponBeUsed()
     {
-        if(exhaustion >0) return true;
-        return false;
+         return exhaustion>3;
     }
 
 }
