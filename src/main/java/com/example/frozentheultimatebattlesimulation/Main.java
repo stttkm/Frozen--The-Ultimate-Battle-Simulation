@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -29,6 +31,14 @@ public class Main extends Application {
         //dodajemy ikonkę !!
         Image icon  = new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/O.png ");
         primaryStage.getIcons().add(icon);
+
+
+        primaryStage.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (KeyCode.F11.equals(event.getCode())) {
+                primaryStage.setFullScreen(!primaryStage.isFullScreen());
+            }
+        });
+
 
         primaryStage.show(); // Show Yourself
     }

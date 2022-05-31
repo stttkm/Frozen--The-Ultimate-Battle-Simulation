@@ -43,78 +43,57 @@ public class Attacker extends Character{
                     int soldierIndex = ((Turn) turns.get(turns.size() - 1)).map[target.y][target.x].indexOfOccupiedBy;
                     this.hp = this.hp - ((Soldier) ((Turn) turns.get(turns.size() - 1)).soldiers.get(soldierIndex)).strength;
                     ((Soldier) ((Turn) turns.get(turns.size() - 1)).soldiers.get(soldierIndex)).hp -= this.strength;
+                    Turn.notify(this.getClass().getSimpleName() + " #" + this.id+ " ["+ this.x + ","+this.y+"] attacks soldier #"  + ((Soldier) ((Turn) turns.get(turns.size() - 1)).soldiers.get(soldierIndex)).id + " [" + ((Soldier) ((Turn) turns.get(turns.size() - 1)).soldiers.get(soldierIndex)).x + "," + ((Soldier) ((Turn) turns.get(turns.size() - 1)).soldiers.get(soldierIndex)).y + "]");
                     if (((Soldier) ((Turn) turns.get(turns.size() - 1)).soldiers.get(soldierIndex)).hp < 1) {
-                        for (int i = soldierIndex + 1; i < ((Turn) Main.turns.get(Main.turns.size() - 1)).soldiers.size(); i++) {
-                            ((Turn) Main.turns.get(Main.turns.size() - 1)).map[((Soldier) ((Turn) Main.turns.get(Main.turns.size() - 1)).soldiers.get(i)).y][((Soldier) ((Turn) Main.turns.get(Main.turns.size() - 1)).soldiers.get(i)).x].indexOfOccupiedBy--; //update'ujemy indexy
-                        }
-                        ((Turn) turns.get(turns.size() - 1)).map[((Soldier) ((Turn) turns.get(turns.size() - 1)).soldiers.get(soldierIndex)).y][((Soldier) ((Turn) turns.get(turns.size() - 1)).soldiers.get(soldierIndex)).x].indexOfOccupiedBy =0;
-                        ((Turn) turns.get(turns.size() - 1)).map[((Soldier) ((Turn) turns.get(turns.size() - 1)).soldiers.get(soldierIndex)).y][((Soldier) ((Turn) turns.get(turns.size() - 1)).soldiers.get(soldierIndex)).x].occupiedBy =null;
-                        ((Turn) turns.get(turns.size() - 1)).map[((Soldier) ((Turn) turns.get(turns.size() - 1)).soldiers.get(soldierIndex)).y][((Soldier) ((Turn) turns.get(turns.size() - 1)).soldiers.get(soldierIndex)).x].isEmpty = true;
-                        ((Turn) turns.get(turns.size() - 1)).soldiers.remove(soldierIndex);
+                        Turn.notify("Soldier #" + ((Soldier) ((Turn) turns.get(turns.size() - 1)).soldiers.get(soldierIndex)).id + " [" + ((Soldier) ((Turn) turns.get(turns.size() - 1)).soldiers.get(soldierIndex)).x +"," + ((Soldier) ((Turn) turns.get(turns.size() - 1)).soldiers.get(soldierIndex)).y + "] died!");
+                        ((Soldier) ((Turn) turns.get(turns.size() - 1)).soldiers.get(soldierIndex)).die();
                     }
                 }
                 case "Snowman" -> {
                     int snowmanIndex = ((Turn) turns.get(turns.size() - 1)).map[target.y][target.x].indexOfOccupiedBy;
                     this.hp = this.hp - ((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(snowmanIndex)).strength;
                     ((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(snowmanIndex)).hp -= this.strength;
+                    Turn.notify(this.getClass().getSimpleName() + " #" + this.id+ " ["+ this.x + ","+this.y+"] attacks snowman #"  + ((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(snowmanIndex)).id + " [" + ((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(snowmanIndex)).x+","+((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(snowmanIndex)).y+"]");
                     if (((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(snowmanIndex)).hp < 1) {
-                        for (int i = snowmanIndex + 1; i < ((Turn) turns.get(turns.size() - 1)).snowmen.size(); i++) {
-                            ((Turn) Main.turns.get(Main.turns.size() - 1)).map[((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(i)).y][((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(i)).x].indexOfOccupiedBy--; //update'ujemy indexy
-                        }
-                        ((Turn) turns.get(turns.size() - 1)).map[((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(snowmanIndex)).y][((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(snowmanIndex)).x].indexOfOccupiedBy =0;
-                        ((Turn) turns.get(turns.size() - 1)).map[((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(snowmanIndex)).y][((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(snowmanIndex)).x].occupiedBy =null;
-                        ((Turn) turns.get(turns.size() - 1)).map[((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(snowmanIndex)).y][((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(snowmanIndex)).x].isEmpty = true;
-                        ((Turn) turns.get(turns.size() - 1)).snowmen.remove(snowmanIndex);
+                        Turn.notify("Snowman #" + ((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(snowmanIndex)).id +" ["+ ((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(snowmanIndex)).x + "," +((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(snowmanIndex)).y +"] melted!");
+                        ((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(snowmanIndex)).die();
                     }
                 }
                 case "IceBreaker" -> {
                     int iceBreakerIndex = ((Turn) turns.get(turns.size() - 1)).map[target.y][target.x].indexOfOccupiedBy;
                     ((IceBreaker) ((Turn) turns.get(turns.size() - 1)).iceBreakers.get(iceBreakerIndex)).hp -= this.strength;
+                    Turn.notify(this.getClass().getSimpleName() + " #" + this.id+ " ["+ this.x + ","+this.y+"] attacks ice breaker #"  + ((IceBreaker) ((Turn) turns.get(turns.size() - 1)).iceBreakers.get(iceBreakerIndex)).id + " [" + ((IceBreaker) ((Turn) turns.get(turns.size() - 1)).iceBreakers.get(iceBreakerIndex)).x+"," + ((IceBreaker) ((Turn) turns.get(turns.size() - 1)).iceBreakers.get(iceBreakerIndex)).y + "]");
                     if (((IceBreaker) ((Turn) turns.get(turns.size() - 1)).iceBreakers.get(iceBreakerIndex)).hp < 1) {
-                        for (int i = iceBreakerIndex + 1; i < ((Turn) turns.get(turns.size() - 1)).iceBreakers.size(); i++) {
-                            ((Turn) Main.turns.get(Main.turns.size() - 1)).map[((IceBreaker) ((Turn) turns.get(turns.size() - 1)).iceBreakers.get(i)).y][((IceBreaker) ((Turn) turns.get(turns.size() - 1)).iceBreakers.get(i)).x].indexOfOccupiedBy--; //update'ujemy indexy
-                        }
-                        ((Turn) turns.get(turns.size() - 1)).map[((IceBreaker) ((Turn) turns.get(turns.size() - 1)).iceBreakers.get(iceBreakerIndex)).y][((IceBreaker) ((Turn) turns.get(turns.size() - 1)).iceBreakers.get(iceBreakerIndex)).x].indexOfOccupiedBy =0;
-                        ((Turn) turns.get(turns.size() - 1)).map[((IceBreaker) ((Turn) turns.get(turns.size() - 1)).iceBreakers.get(iceBreakerIndex)).y][((IceBreaker) ((Turn) turns.get(turns.size() - 1)).iceBreakers.get(iceBreakerIndex)).x].occupiedBy =null;
-                        ((Turn) turns.get(turns.size() - 1)).map[((IceBreaker) ((Turn) turns.get(turns.size() - 1)).iceBreakers.get(iceBreakerIndex)).y][((IceBreaker) ((Turn) turns.get(turns.size() - 1)).iceBreakers.get(iceBreakerIndex)).x].isEmpty = true;
-                        ((Turn) turns.get(turns.size() - 1)).iceBreakers.remove(iceBreakerIndex);
+                        Turn.notify("Ice breaker #" + ((IceBreaker) ((Turn) turns.get(turns.size() - 1)).iceBreakers.get(iceBreakerIndex)).id + " [" + ((IceBreaker) ((Turn) turns.get(turns.size() - 1)).iceBreakers.get(iceBreakerIndex)).x +"," + ((IceBreaker) ((Turn) turns.get(turns.size() - 1)).iceBreakers.get(iceBreakerIndex)).y+"] died!");
+                        ((IceBreaker) ((Turn) turns.get(turns.size() - 1)).iceBreakers.get(iceBreakerIndex)).die();
                     }
                 }
                 case "Anna" -> {
                     this.hp = this.hp - (((Turn) turns.get(turns.size() - 1)).anna.hp);
                     ((Turn) turns.get(turns.size() - 1)).anna.hp -= this.strength;
+                    Turn.notify(this.getClass().getSimpleName() + " #" + this.id+ " ["+ this.x + ","+this.y+"] attacks Anna!");
                     if ((((Turn) turns.get(turns.size() - 1)).anna.hp < 1)) {
-                        ((Turn) turns.get(turns.size() - 1)).isGameOver = true;
-                        System.out.println("Wilki zjadły Annę");
-                    }
-                }
-                case "IceQueen" -> {
-                    this.hp = this.hp - (((Turn) turns.get(turns.size() - 1)).elsa.hp);
-                    ((Turn) turns.get(turns.size() - 1)).elsa.hp -= this.strength;
-                    if ((((Turn) turns.get(turns.size() - 1)).elsa.hp < 1)) {
-                        ((Turn) turns.get(turns.size() - 1)).isGameOver = true;
-                        System.out.println("Wilki zjadły królowę śniegu");
+                        Turn.notify("Ravenous wolves devoured Anna voraciously!");
+                        ((Turn) turns.get(turns.size() - 1)).kill(((Turn) turns.get(turns.size() - 1)).anna);
                     }
                 }
                 case "Kristoff" -> {
                     this.hp = this.hp - (((Turn) turns.get(turns.size() - 1)).kristoff.hp);
                     ((Turn) turns.get(turns.size() - 1)).kristoff.hp -= this.strength;
+                    Turn.notify(this.getClass().getSimpleName() + " #" + this.id+ " ["+ this.x + ","+this.y+"] attacks Kristoff!");
                     if ((((Turn) turns.get(turns.size() - 1)).kristoff.hp < 1)) {
-                        ((Turn) turns.get(turns.size() - 1)).map[((Turn) turns.get(turns.size() - 1)).kristoff.y][((Turn) turns.get(turns.size() - 1)).kristoff.x].indexOfOccupiedBy =0;
-                        ((Turn) turns.get(turns.size() - 1)).map[((Turn) turns.get(turns.size() - 1)).kristoff.y][((Turn) turns.get(turns.size() - 1)).kristoff.x].occupiedBy =null;
-                        ((Turn) turns.get(turns.size() - 1)).map[((Turn) turns.get(turns.size() - 1)).kristoff.y][((Turn) turns.get(turns.size() - 1)).kristoff.x].isEmpty = true;
-
-                        ((Turn) turns.get(turns.size() - 1)).kristoff = null;
-                        System.out.println("Wilki zjadły Kristoffa, ale życie toczy się dalej");
-
+                        Turn.notify("Wolves knocked Kristoff off, but life goes on.");
+                        ((Turn) turns.get(turns.size() - 1)).kill(((Turn) turns.get(turns.size() - 1)).kristoff);
                     }
                 }
                 case "Hans" -> {
                     this.hp = this.hp - (((Turn) turns.get(turns.size() - 1)).hans.hp);
                     ((Turn) turns.get(turns.size() - 1)).hans.hp -= this.strength;
+                    Turn.notify(this.getClass().getSimpleName() + " #" + this.id+ " ["+ this.x + ","+this.y+"] attacks Hans!");
                     if ((((Turn) turns.get(turns.size() - 1)).hans.hp < 1)) {
-                        ((Turn) turns.get(turns.size() - 1)).isGameOver = true;
-                        System.out.println("Wilki zjadły Hansa");
+                        Turn.notify("Wolves eliminated the greatest danger to the kingdom of Arendell pro bono publico - Hans died, dead!");
+                        ((Turn) turns.get(turns.size() - 1)).kill(((Turn) turns.get(turns.size() - 1)).hans);
+
                     }
                 }
             }

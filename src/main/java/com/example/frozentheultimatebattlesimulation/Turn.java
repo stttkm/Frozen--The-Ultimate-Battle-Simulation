@@ -1,8 +1,13 @@
 package com.example.frozentheultimatebattlesimulation;
 
 
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import static com.example.frozentheultimatebattlesimulation.Main.turns;
 
 public class Turn {
     Field[][] map;
@@ -11,6 +16,7 @@ public class Turn {
     IceQueen elsa;
     Person kristoff, hans, anna;
     ArrayList iceBreakers, snowmen, wolves, soldiers;
+    GridPane notificationsGrid = new GridPane();
 
 
 
@@ -32,12 +38,19 @@ public class Turn {
 
         try {
             this.elsa = (IceQueen) original.elsa.clone();
-            this.anna = (Person) original.anna.clone();
+
+            if(original.anna!=null) {
+                this.anna = (Person) original.anna.clone();
+            } else {this.anna=null;}
+
+            if(original.hans!=null) {
+                this.hans = (Person) original.hans.clone();
+            } else {this.hans=null;}
+
             if(original.kristoff!=null) {
                 this.kristoff = (Person) original.kristoff.clone();
             } else {this.kristoff=null;}
 
-            this.hans = (Person)original.hans.clone();
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }
@@ -98,6 +111,36 @@ public class Turn {
 
         this.wolves = new ArrayList<Wolf>();
         for(int i =0; i<Math.floor(0.04*Math.pow(Main.mapSize, 2)); i++) this.wolves.add(new Wolf());
+    }
+
+
+    void kill(Person person){
+        this.map[person.y][person.x].indexOfOccupiedBy =0;
+        this.map[person.y][person.x].occupiedBy = null;
+        this.map[person.y][person.x].isEmpty = true;
+
+        if(person.name.equals("Kristoff")) this.kristoff = null;
+
+        if(person.name.equals("Anna")) {
+            this.anna =null;
+            if(this.hans == null) {
+                this.isGameOver =true;
+                Turn.notify("We're on the track for heat death of the universe, since no one can stop Elsa now. Anna and Hans shuffled off this mortal coil");
+            }// :(
+        }
+
+        if(person.name.equals("Hans")) {
+            this.hans =null;
+            if(this.anna == null) {
+                this.isGameOver =true; // :(
+                Turn.notify("We're on the track for heat death of the universe, since no one can stop Elsa now. Anna and Hans shuffled off this mortal coil");
+                 }
+        }
+
+    }
+
+    static void notify(String message){
+        ((Turn)turns.get(turns.size()-1)).notificationsGrid.add(new Label(message), 0, ((Turn)turns.get(turns.size()-1)).notificationsGrid.getChildren().size());
     }
 
     }
