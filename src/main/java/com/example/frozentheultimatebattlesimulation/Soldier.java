@@ -26,20 +26,18 @@ public class Soldier extends Person{
     void act(){
         // tutaj wywołamy reakcję na podłoże
 
-        // szukamy gdzie się ruszyć
+        // szukamy gdzie się ruszyć i lodu
         ArrayList<Point> availableTilesForMovement = new ArrayList<>();
-        for(int i = -1*MoveRange; i<=MoveRange;i++) for(int j=-1*MoveRange;j<=MoveRange; j++){
-            if(((Turn)turns.get(turns.size()-1)).map[(this.y+i+mapSize)%mapSize][(this.x+j+mapSize)%mapSize].isEmpty && !Objects.equals(((Turn) turns.get(turns.size() - 1)).map[(this.y + i + mapSize) % mapSize][(this.x + j + mapSize) % mapSize].type, "Water")){
-                availableTilesForMovement.add(new Point((this.x+j+mapSize)%mapSize,(this.y+i+mapSize)%mapSize));
-            }}
-
-        // szukamy lodu
         ArrayList<Point> enemiesInRange = new ArrayList<>();
         for(int i = -1*MoveRange; i<=MoveRange;i++) for(int j=-1*MoveRange;j<=MoveRange; j++){
             if(Objects.equals(((Turn) turns.get(turns.size() - 1)).map[(this.y + i + mapSize) % mapSize][(this.x + j + mapSize) % mapSize].occupiedBy, "Snowman") && ((Snowman)((Turn) turns.get(turns.size() - 1)).snowmen.get(((Turn) turns.get(turns.size() - 1)).map[(this.y + i + mapSize) % mapSize][(this.x + j + mapSize) % mapSize].indexOfOccupiedBy)).strength< this.hp){
                 // szukamy snowmanów do zaatakowania, których siła jest mniejsza niż nasze hp
                 enemiesInRange.add(new Point((this.x+j+mapSize)%mapSize,(this.y+i+mapSize)%mapSize));
-            }}
+            }
+            if(((Turn)turns.get(turns.size()-1)).map[(this.y+i+mapSize)%mapSize][(this.x+j+mapSize)%mapSize].isEmpty && !Objects.equals(((Turn) turns.get(turns.size() - 1)).map[(this.y + i + mapSize) % mapSize][(this.x + j + mapSize) % mapSize].type, "Water")){
+                availableTilesForMovement.add(new Point((this.x+j+mapSize)%mapSize,(this.y+i+mapSize)%mapSize));
+            }
+        }
 
         // losujemy
         Random random = new Random();
@@ -61,6 +59,17 @@ public class Soldier extends Person{
 
 
 
+    }
+
+    void die(){
+    int index = ((Turn)turns.get(turns.size()-1)).soldiers.indexOf(this);
+        for (int i = index+ 1; i < ((Turn) Main.turns.get(Main.turns.size() - 1)).soldiers.size(); i++) {
+            ((Turn) Main.turns.get(Main.turns.size() - 1)).map[((Soldier) ((Turn) Main.turns.get(Main.turns.size() - 1)).soldiers.get(i)).y][((Soldier) ((Turn) Main.turns.get(Main.turns.size() - 1)).soldiers.get(i)).x].indexOfOccupiedBy--; //update'ujemy indexy
+        }
+        ((Turn) turns.get(turns.size() - 1)).map[this.y][this.x].indexOfOccupiedBy =0;
+        ((Turn) turns.get(turns.size() - 1)).map[this.y][this.x].occupiedBy = null;
+        ((Turn) turns.get(turns.size() - 1)).map[this.y][this.x].isEmpty = true;
+        ((Turn) turns.get(turns.size() - 1)).soldiers.remove(index);
     }
     @Override
     protected void levelUp()

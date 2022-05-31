@@ -38,9 +38,9 @@ public class Simulation {
                 throw new RuntimeException(e);
             }
 
-            ((Turn)Main.turns.get(Main.turns.size()-1)).anna.act();
+            if(((Turn)Main.turns.get(Main.turns.size()-1)).anna != null) ((Turn)Main.turns.get(Main.turns.size()-1)).anna.act();
             if(((Turn)Main.turns.get(Main.turns.size()-1)).kristoff != null) {((Turn) Main.turns.get(Main.turns.size() - 1)).kristoff.act();}
-            ((Turn)Main.turns.get(Main.turns.size()-1)).hans.act();
+            if(((Turn)Main.turns.get(Main.turns.size()-1)).hans != null) ((Turn)Main.turns.get(Main.turns.size()-1)).hans.act();
             ((Turn)Main.turns.get(Main.turns.size()-1)).elsa.act();
 
             ((Turn) turns.get(turns.size()-1)).snowmen.forEach((og) -> {
@@ -49,11 +49,11 @@ public class Simulation {
             ((Turn) turns.get(turns.size()-1)).soldiers.forEach((og) -> {
                 ((Soldier)og).act();
             });
-            ((Turn)Main.turns.get(Main.turns.size()-1)).iceBreakers.forEach((og) -> {
-                ((IceBreaker)og).act();
-            });
             ((Turn)Main.turns.get(Main.turns.size()-1)).wolves.forEach((og) -> {
                 ((Wolf)og).act();
+            });
+            ((Turn)Main.turns.get(Main.turns.size()-1)).iceBreakers.forEach((og) -> {
+                ((IceBreaker)og).act();
             });
 
 
@@ -172,9 +172,11 @@ public class Simulation {
                 .getChildren().get(turn.elsa.y*Main.mapSize+turn.elsa.x))
                 .getChildren().add(new ImageView(turn.elsa.characterImage));
 
-        ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
-                .getChildren().get(turn.anna.y*Main.mapSize+turn.anna.x))
-                .getChildren().add(new ImageView(turn.anna.characterImage));
+        if(turn.anna!=null) {
+            ((StackPane) ((GridPane) simulationRoot.getChildren().get(0))
+                    .getChildren().get(turn.anna.y * Main.mapSize + turn.anna.x))
+                    .getChildren().add(new ImageView(turn.anna.characterImage));
+        }
 
         if(turn.kristoff!=null) {
             ((StackPane) ((GridPane) simulationRoot.getChildren().get(0))
@@ -182,10 +184,11 @@ public class Simulation {
                     .getChildren().add(new ImageView(turn.kristoff.characterImage));
         }
 
-        ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
-                .getChildren().get(turn.hans.y*Main.mapSize+turn.hans.x))
-                .getChildren().add(new ImageView(turn.hans.characterImage));
-
+        if(turn.hans!=null) {
+            ((StackPane) ((GridPane) simulationRoot.getChildren().get(0))
+                    .getChildren().get(turn.hans.y * Main.mapSize + turn.hans.x))
+                    .getChildren().add(new ImageView(turn.hans.characterImage));
+        }
     }
 
 

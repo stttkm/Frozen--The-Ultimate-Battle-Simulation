@@ -60,44 +60,33 @@ public class Field extends Element implements Cloneable
                 this.type = fieldTypes[1];
 
         if(Objects.equals(this.occupiedBy, "Anna")){
-            ((Turn)Main.turns.get(Main.turns.size()-1)).isGameOver = true;
             System.out.println("Anna utonęła");
+            ((Turn)Main.turns.get(Main.turns.size()-1)).kill(((Turn)Main.turns.get(Main.turns.size()-1)).anna);
             // ustawiamy napisy końcowe na abismal ending
         }
 
         if(Objects.equals(this.occupiedBy, "Hans")){
-            ((Turn)Main.turns.get(Main.turns.size()-1)).isGameOver = true;
-            // ustawiamy napisy końcowe na happy ending
             System.out.println("Hans utonął");
+            ((Turn)Main.turns.get(Main.turns.size()-1)).kill(((Turn)Main.turns.get(Main.turns.size()-1)).hans);
+            // ustawiamy napisy końcowe na happy ending
         }
         if(Objects.equals(this.occupiedBy, "Kristoff")){
-        ((Turn)Main.turns.get(Main.turns.size()-1)).kristoff=null;
             System.out.println("Kristoff się utopił, ale życie toczy się dalej");
+            ((Turn)Main.turns.get(Main.turns.size()-1)).kill(((Turn)Main.turns.get(Main.turns.size()-1)).kristoff);
+
     }
         if(Objects.equals(this.occupiedBy, "Snowman")){
-            for(int i = this.indexOfOccupiedBy+1; i<((Turn)Main.turns.get(Main.turns.size()-1)).snowmen.size();i++){
-                ((Turn)Main.turns.get(Main.turns.size()-1)).map[((Snowman)((Turn)Main.turns.get(Main.turns.size()-1)).snowmen.get(i)).y][((Snowman)((Turn)Main.turns.get(Main.turns.size()-1)).snowmen.get(i)).x].indexOfOccupiedBy--; //update'ujemy indexy
-            }
-            ((Turn)Main.turns.get(Main.turns.size()-1)).snowmen.remove(this.indexOfOccupiedBy);
+            ((Snowman)((Turn)Main.turns.get(Main.turns.size()-1)).snowmen.get(this.indexOfOccupiedBy)).die();
+
         }
         if(Objects.equals(this.occupiedBy, "IceBreaker")){
-            for(int i = this.indexOfOccupiedBy+1; i<((Turn)Main.turns.get(Main.turns.size()-1)).iceBreakers.size();i++){
-                ((Turn)Main.turns.get(Main.turns.size()-1)).map[((IceBreaker)((Turn)Main.turns.get(Main.turns.size()-1)).iceBreakers.get(i)).y][((IceBreaker)((Turn)Main.turns.get(Main.turns.size()-1)).iceBreakers.get(i)).x].indexOfOccupiedBy--; //update'ujemy indexy
-            }
-            ((Turn)Main.turns.get(Main.turns.size()-1)).iceBreakers.remove(this.indexOfOccupiedBy);
+            ((IceBreaker)((Turn)Main.turns.get(Main.turns.size()-1)).iceBreakers.get(this.indexOfOccupiedBy)).die();
         }
         if(Objects.equals(this.occupiedBy, "Soldier")){
-            for(int i = this.indexOfOccupiedBy+1; i<((Turn)Main.turns.get(Main.turns.size()-1)).soldiers.size();i++){
-                ((Turn)Main.turns.get(Main.turns.size()-1)).map[((Soldier)((Turn)Main.turns.get(Main.turns.size()-1)).soldiers.get(i)).y][((Soldier)((Turn)Main.turns.get(Main.turns.size()-1)).soldiers.get(i)).x].indexOfOccupiedBy--; //update'ujemy indexy
-            }
-
-            ((Turn)Main.turns.get(Main.turns.size()-1)).soldiers.remove(this.indexOfOccupiedBy);
+            ((Soldier)((Turn)Main.turns.get(Main.turns.size()-1)).soldiers.get(this.indexOfOccupiedBy)).die();
         }
         if(Objects.equals(this.occupiedBy, "Wolf")){
-            for(int i = this.indexOfOccupiedBy+1; i<((Turn)Main.turns.get(Main.turns.size()-1)).wolves.size();i++){
-                ((Turn)Main.turns.get(Main.turns.size()-1)).map[((Wolf)((Turn)Main.turns.get(Main.turns.size()-1)).wolves.get(i)).y][((Wolf)((Turn)Main.turns.get(Main.turns.size()-1)).wolves.get(i)).x].indexOfOccupiedBy--; //update'ujemy indexy
-            }
-            ((Turn)Main.turns.get(Main.turns.size()-1)).wolves.remove(this.indexOfOccupiedBy);
+            ((Wolf)((Turn)Main.turns.get(Main.turns.size()-1)).wolves.get(this.indexOfOccupiedBy)).die();
         }
 
 
