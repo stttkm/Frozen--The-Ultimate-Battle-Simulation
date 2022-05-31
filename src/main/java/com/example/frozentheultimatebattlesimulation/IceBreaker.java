@@ -20,15 +20,6 @@ public class IceBreaker extends Character{
         ((Turn) turns.get(0)).map[y][x].idOfOccupiedBy=this.id;
     }
 
-<<<<<<< HEAD
-=======
-    public IceBreaker() {
-        super();
-            iceBreakersCounter++;
-        id = ((Turn) turns.get(0)).iceBreakers.size();
-        ((Turn) turns.get(0)).map[y][x].idOfOccupiedBy=this.id;
-    }
->>>>>>> all_mine!!
 
     protected boolean crashIce(ArrayList<Point> availableIce)
     {
