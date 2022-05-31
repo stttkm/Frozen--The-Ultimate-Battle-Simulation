@@ -9,17 +9,22 @@ import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
 import static com.example.frozentheultimatebattlesimulation.Main.turns;
 
 public class IceBreaker extends Character{
+
     public static int iceBreakersQuantity; //ilosc lamaczy lodu liczona na podstawie podanej przez uzytkownika mapSize
     private static int iceBreakersCounter=0; //aktulana ilosc lamaczy lodu
     public IceBreaker(int Hp, int MoveRange, int IceResistance) {
         super(Hp, MoveRange, IceResistance);
         iceBreakersCounter++;
         ((Turn) turns.get(0)).map[y][x].indexOfOccupiedBy=((Turn) turns.get(0)).iceBreakers.size();
+        id = ((Turn) turns.get(0)).iceBreakers.size();
+        ((Turn) turns.get(0)).map[y][x].idOfOccupiedBy=this.id;
     }
 
     public IceBreaker() {
         super();
             iceBreakersCounter++;
+        id = ((Turn) turns.get(0)).iceBreakers.size();
+        ((Turn) turns.get(0)).map[y][x].idOfOccupiedBy=this.id;
     }
 
     protected boolean crashIce(ArrayList<Point> availableIce)
@@ -29,6 +34,7 @@ public class IceBreaker extends Character{
             Point target = availableIce.get(random.nextInt(availableIce.size()));
 
             ((Turn) turns.get(turns.size() - 1)).map[target.y][target.x].changeIntoWater();
+            Turn.notify("Ice breaker #" +this.id + " [" +this.x+"," + this.y +"] crashed ice in the field [" + target.x +"," + target.y +"]!" );
             return true; //zrobione
         }
         return false; //niezrobione

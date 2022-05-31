@@ -18,8 +18,8 @@ public class IceQueen extends Character{
         Random random = new Random();
         if(availableWater.size()!=0) {
             Point target = availableWater.get(random.nextInt(availableWater.size()));
-
             ((Turn) turns.get(turns.size() - 1)).map[target.y][target.x].changeIntoIce();
+            Turn.notify("Elsa turned water in the field [" + target.x +"," + target.y +"] into ice!" );
             return true; //zrobione
         }
         return false; //niezrobione
@@ -32,12 +32,12 @@ public class IceQueen extends Character{
         for(int i = -1; i<=1;i++) for(int j=-1;j<=1; j++){
             if(Objects.equals(((Turn) turns.get(turns.size() - 1)).map[(this.y + i + mapSize) % mapSize][(this.x + j + mapSize) % mapSize].occupiedBy, "Anna")){
                 ((Turn) turns.get(turns.size() - 1)).isGameOver = true;
-                System.out.println("Anna przemówiła Elsie do rozumu - od teraz Elsa ma równo pod kopułą");
+                Turn.notify("Anna brought Elsa to her senses - from now on Elsa won't go nuclear");
                 //ustawiamy napisy końcowe na happy ending
             }
             if(Objects.equals(((Turn) turns.get(turns.size() - 1)).map[(this.y + i + mapSize) % mapSize][(this.x + j + mapSize) % mapSize].occupiedBy, "Hans")){
                 ((Turn) turns.get(turns.size() - 1)).isGameOver = true;
-                System.out.println("Hans zabił Elsię - od teraz Arendell jest jego");
+                Turn.notify("Hans did Elsa in  - henceforth he will hold sway over the Kingdom of Arendelle");
                 //ustawiamy napisy końcowe na goulishly ghastly ending
             }
         }

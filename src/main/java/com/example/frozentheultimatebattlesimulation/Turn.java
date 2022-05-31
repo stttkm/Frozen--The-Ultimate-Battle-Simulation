@@ -1,6 +1,9 @@
 package com.example.frozentheultimatebattlesimulation;
 
 
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,6 +16,7 @@ public class Turn {
     IceQueen elsa;
     Person kristoff, hans, anna;
     ArrayList iceBreakers, snowmen, wolves, soldiers;
+    GridPane notificationsGrid = new GridPane();
 
 
 
@@ -121,7 +125,7 @@ public class Turn {
             this.anna =null;
             if(this.hans == null) {
                 this.isGameOver =true;
-                System.out.println("Jesteśmy na dobrej drodze do śmierci cieplnej wszechświata, bo teraz nikt nie powstrzyma Elsy, bo Hans i Anna nie żyją");
+                Turn.notify("We're on the track for heat death of the universe, since no one can stop Elsa now. Anna and Hans shuffled off this mortal coil");
             }// :(
         }
 
@@ -129,10 +133,14 @@ public class Turn {
             this.hans =null;
             if(this.anna == null) {
                 this.isGameOver =true; // :(
-                System.out.println("Jesteśmy na dobrej drodze do śmierci cieplnej wszechświata, bo teraz nikt nie powstrzyma Elsy, bo Hans i Anna nie żyją");
+                Turn.notify("We're on the track for heat death of the universe, since no one can stop Elsa now. Anna and Hans shuffled off this mortal coil");
                  }
         }
 
+    }
+
+    static void notify(String message){
+        ((Turn)turns.get(turns.size()-1)).notificationsGrid.add(new Label(message), 0, ((Turn)turns.get(turns.size()-1)).notificationsGrid.getChildren().size());
     }
 
     }

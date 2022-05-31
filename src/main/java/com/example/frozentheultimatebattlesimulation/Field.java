@@ -17,6 +17,7 @@ public class Field extends Element implements Cloneable
     boolean isEmpty;
     public String occupiedBy;
     int indexOfOccupiedBy;
+    int idOfOccupiedBy = indexOfOccupiedBy;
 
     protected Field(int x, int y)
     {
@@ -60,32 +61,32 @@ public class Field extends Element implements Cloneable
                 this.type = fieldTypes[1];
 
         if(Objects.equals(this.occupiedBy, "Anna")){
-            System.out.println("Anna utonęła");
+            Turn.notify("Sanguine Anna drowned lamentably in the field [" + this.x + ", " + this.y + "]");
             ((Turn)Main.turns.get(Main.turns.size()-1)).kill(((Turn)Main.turns.get(Main.turns.size()-1)).anna);
             // ustawiamy napisy końcowe na abismal ending
         }
 
         if(Objects.equals(this.occupiedBy, "Hans")){
-            System.out.println("Hans utonął");
+            Turn.notify("Despicable Hans drowned karmically in the field [" + this.x + ", " + this.y + "]");
             ((Turn)Main.turns.get(Main.turns.size()-1)).kill(((Turn)Main.turns.get(Main.turns.size()-1)).hans);
             // ustawiamy napisy końcowe na happy ending
         }
         if(Objects.equals(this.occupiedBy, "Kristoff")){
-            System.out.println("Kristoff się utopił, ale życie toczy się dalej");
+            Turn.notify("Alas, loveable Kristoff drowned in the field [" + this.x + ", " + this.y + "]");
             ((Turn)Main.turns.get(Main.turns.size()-1)).kill(((Turn)Main.turns.get(Main.turns.size()-1)).kristoff);
 
     }
         if(Objects.equals(this.occupiedBy, "Snowman")){
+            Turn.notify("Ferocious snowman #" + this.idOfOccupiedBy + " drowned lugubriously in the field [" + this.x + ", " + this.y + "]");
             ((Snowman)((Turn)Main.turns.get(Main.turns.size()-1)).snowmen.get(this.indexOfOccupiedBy)).die();
 
         }
-        if(Objects.equals(this.occupiedBy, "IceBreaker")){
-            ((IceBreaker)((Turn)Main.turns.get(Main.turns.size()-1)).iceBreakers.get(this.indexOfOccupiedBy)).die();
-        }
         if(Objects.equals(this.occupiedBy, "Soldier")){
+            Turn.notify("Fearless soldier #" + this.idOfOccupiedBy + " drowned swiftly in the field [" + this.x + ", " + this.y + "]");
             ((Soldier)((Turn)Main.turns.get(Main.turns.size()-1)).soldiers.get(this.indexOfOccupiedBy)).die();
         }
         if(Objects.equals(this.occupiedBy, "Wolf")){
+            Turn.notify("Bonhomous wolf #" + this.idOfOccupiedBy + " drowned dolefully in the field [" + this.x + ", " + this.y + "]");
             ((Wolf)((Turn)Main.turns.get(Main.turns.size()-1)).wolves.get(this.indexOfOccupiedBy)).die();
         }
 

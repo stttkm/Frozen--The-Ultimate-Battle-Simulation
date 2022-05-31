@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -26,6 +27,7 @@ import static javafx.scene.layout.HBox.setMargin;
 // klasa służy głównie przechowywaniu elementów wizualnych
 public class Simulation {
     static HBox simulationBody;
+    static boolean showIds = false;
     static public void pseudoMain(ActionEvent event) {
         Main.turns.add(new Turn()); //dodajemy pierwszą turę
         ((Turn)Main.turns.get(0)).generateCharacters(); //generujemy postacie
@@ -73,7 +75,7 @@ public class Simulation {
 
     //służy dodaniu do sceny niezmiennych elementów
     static public HBox simulationRoot(){
-    HBox  body = new HBox();
+    HBox body = new HBox();
     body.setAlignment(Pos.CENTER);
 
     GridPane mapGrid = new GridPane();
@@ -85,16 +87,20 @@ public class Simulation {
     Image logo  = new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/Frozen.png");
     ImageView logoView = new ImageView(logo);
 
-    HBox turnChanger = new HBox();
+        HBox turnChanger = new HBox();
         turnChanger.setAlignment(Pos.CENTER);
-    Text setTurnText = new Text("Turn   ");
+    Text setTurnText = new Text("Turn");
     setTurnText.setStyle("-fx-font-size: 30; ");
     Spinner<Integer> turnSpinner = new Spinner<>(0, Main.turns.size(), 0);
     turnSpinner.getStyleClass().add(Spinner.STYLE_CLASS_SPLIT_ARROWS_HORIZONTAL);
-    Text turnDurationText = new Text("       Turn Duration[ms]   ");
+    Text turnDurationText = new Text("Turn Duration[ms]");
     turnDurationText.setStyle("-fx-font-size: 30; ");
     Spinner<Integer> durationSpinner = new Spinner<>(100, 10000, 500, 100);
     Button autoplay = new Button("Autoplay ▶");
+    Button IdsOnOff = new Button("ON/OFF IDs");
+
+    ScrollPane notifications = new ScrollPane();
+
 
     autoplay.setOnAction((e) -> {
 
@@ -111,7 +117,7 @@ public class Simulation {
                 timeline.setCycleCount(Main.turns.size()-turnSpinner.getValue()-1);
                 timeline.play();
             });
-    turnChanger.getChildren().addAll(setTurnText,turnSpinner, turnDurationText,durationSpinner, autoplay );
+
 
     // event handler dla spinnerka
         turnSpinner.valueProperty().addListener((obs, oldValue, newValue) ->
@@ -123,12 +129,20 @@ public class Simulation {
                     }
         });
 
+        IdsOnOff.setOnAction((e) -> {
+            if(showIds) showIds=false;
+            else showIds=true;
+
+            loadMap(simulationBody, (Turn) Main.turns.get(turnSpinner.getValue()));
+        });
+        turnChanger.getChildren().addAll(setTurnText,turnSpinner, turnDurationText,durationSpinner, autoplay, IdsOnOff);
 
 
 
 
 
-        rightMenu.getChildren().addAll(logoView, turnChanger);
+
+        rightMenu.getChildren().addAll(logoView, turnChanger, notifications);
 
 
 
@@ -145,27 +159,65 @@ public class Simulation {
 
         };
         for(int i = 0; i < turn.iceBreakers.size(); i++){ // ładujemy łamaczy lodu
-            ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
+                     ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
                     .getChildren().get(((IceBreaker)turn.iceBreakers.get(i)).y*Main.mapSize+((IceBreaker)turn.iceBreakers.get(i)).x))
                     .getChildren().add(new ImageView(((IceBreaker) turn.iceBreakers.get(i)).characterImage));
+
+                     if(showIds){
+                         Text id = new Text(Integer.toString(((IceBreaker) turn.iceBreakers.get(i)).id));
+                         int fontSize = (int) ((Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize) *0.65);
+                         id.setStyle("-fx-font: "+fontSize+" impact; -fx-stroke: white; -fx-stroke-width: 1; -fx-fill: #9900ff;");
+                         ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
+                                 .getChildren().get(((IceBreaker)turn.iceBreakers.get(i)).y*Main.mapSize+((IceBreaker)turn.iceBreakers.get(i)).x))
+                                 .getChildren().add(id);
+                     }
         }
+
 
         for(int i = 0; i < turn.wolves.size(); i++){ // ładujemy wilki
             ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
                     .getChildren().get(((Wolf)turn.wolves.get(i)).y*Main.mapSize+((Wolf)turn.wolves.get(i)).x))
                     .getChildren().add(new ImageView(((Wolf) turn.wolves.get(i)).characterImage));
+
+            if(showIds){
+                Text id = new Text(Integer.toString(((Wolf) turn.wolves.get(i)).id));
+                int fontSize = (int) ((Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize) *0.65);
+                id.setStyle("-fx-font: "+fontSize+" impact; -fx-stroke: white; -fx-stroke-width: 1; -fx-fill: #0066ff;");
+                ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
+                        .getChildren().get(((Wolf)turn.wolves.get(i)).y*Main.mapSize+((Wolf)turn.wolves.get(i)).x))
+                        .getChildren().add(id);
+            }
         }
 
         for(int i = 0; i < turn.snowmen.size(); i++){ // ładujemy armię Elsy
             ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
                     .getChildren().get(((Snowman)turn.snowmen.get(i)).y*Main.mapSize+((Snowman)turn.snowmen.get(i)).x))
                     .getChildren().add(new ImageView(((Snowman) turn.snowmen.get(i)).characterImage));
+
+            if(showIds){
+                Text id = new Text(Integer.toString(((Snowman) turn.snowmen.get(i)).id));
+                int fontSize = (int) ((Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize) *0.65);
+                id.setStyle("-fx-font: "+fontSize+" impact; -fx-stroke: black; -fx-stroke-width: 1; -fx-fill: white;");
+                ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
+                        .getChildren().get(((Snowman)turn.snowmen.get(i)).y*Main.mapSize+((Snowman)turn.snowmen.get(i)).x))
+                        .getChildren().add(id);
+            }
+
         }
 
         for(int i = 0; i < turn.soldiers.size(); i++){ // ładujemy armię Hansa
             ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
                     .getChildren().get(((Soldier)turn.soldiers.get(i)).y*Main.mapSize+((Soldier)turn.soldiers.get(i)).x))
                     .getChildren().add(new ImageView(((Soldier) turn.soldiers.get(i)).characterImage));
+
+            if(showIds){
+                Text id = new Text(Integer.toString(((Soldier) turn.soldiers.get(i)).id));
+                int fontSize = (int) ((Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize) *0.65);
+                id.setStyle("-fx-font: "+fontSize+" impact; -fx-stroke: white; -fx-stroke-width: 1; -fx-fill: black;");
+                ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
+                        .getChildren().get(((Soldier)turn.soldiers.get(i)).y*Main.mapSize+((Soldier)turn.soldiers.get(i)).x))
+                        .getChildren().add(id);
+            }
         }
 
         ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
@@ -189,6 +241,8 @@ public class Simulation {
                     .getChildren().get(turn.hans.y * Main.mapSize + turn.hans.x))
                     .getChildren().add(new ImageView(turn.hans.characterImage));
         }
+
+        ((ScrollPane)((VBox)simulationRoot.getChildren().get(1)).getChildren().get(2)).setContent(turn.notificationsGrid);
     }
 
 

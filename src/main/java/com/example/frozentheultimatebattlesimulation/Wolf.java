@@ -18,6 +18,8 @@ public class Wolf extends Attacker{
         IceResistance=0;
         attackertype=AttackerType[2];
         ((Turn) Main.turns.get(0)).map[y][x].indexOfOccupiedBy=((Turn) Main.turns.get(0)).wolves.size();
+        id = ((Turn) turns.get(0)).wolves.size();
+        ((Turn) turns.get(0)).map[y][x].idOfOccupiedBy=this.id;
     }
 
     @Override

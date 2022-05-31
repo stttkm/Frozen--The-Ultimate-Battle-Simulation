@@ -21,6 +21,8 @@ public class Soldier extends Person{
 
         ((Turn) turns.get(0)).map[y][x].occupiedBy=this.getClass().getSimpleName();
         ((Turn) turns.get(0)).map[y][x].indexOfOccupiedBy=((Turn) turns.get(0)).soldiers.size();
+        id = ((Turn) turns.get(0)).soldiers.size();
+        ((Turn) turns.get(0)).map[y][x].idOfOccupiedBy=this.id;
     }
     @Override
     void act(){
