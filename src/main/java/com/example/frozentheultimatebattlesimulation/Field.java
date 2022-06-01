@@ -95,4 +95,66 @@ public class Field extends Element implements Cloneable
                 this.indexOfOccupiedBy = 0;
                 this.occupiedBy = null;
     }
+
+    void fieldImpact(){
+        if(this.type.equals(fieldTypes[0])) {
+            if (Objects.equals(this.occupiedBy, "Hans")) {
+                ((Turn) Main.turns.get(Main.turns.size() - 1)).hans.hp-= ((Turn) Main.turns.get(Main.turns.size() - 1)).hans.fieldReaction;
+                if(((Turn) Main.turns.get(Main.turns.size() - 1)).hans.hp<1) {
+                    Turn.notify("Hans caught his death of cold ["+this.x+","+this.y+"]!");
+                    ((Turn) Main.turns.get(Main.turns.size() - 1)).kill(((Turn) Main.turns.get(Main.turns.size() - 1)).hans);
+                }
+            }
+            if (Objects.equals(this.occupiedBy, "Anna")) {
+                ((Turn) Main.turns.get(Main.turns.size() - 1)).anna.hp-= ((Turn) Main.turns.get(Main.turns.size() - 1)).anna.fieldReaction;
+                if(((Turn) Main.turns.get(Main.turns.size() - 1)).anna.hp<1) {
+                    Turn.notify("Anna froze to death ["+this.x+","+this.y+"]!");
+                    ((Turn) Main.turns.get(Main.turns.size() - 1)).kill(((Turn) Main.turns.get(Main.turns.size() - 1)).anna);
+                }
+            }
+            if (Objects.equals(this.occupiedBy, "Kristoff")) {
+                ((Turn) Main.turns.get(Main.turns.size() - 1)).kristoff.hp-= ((Turn) Main.turns.get(Main.turns.size() - 1)).kristoff.fieldReaction;
+                if(((Turn) Main.turns.get(Main.turns.size() - 1)).kristoff.hp<1) {
+                    Turn.notify("Kristoff is frozen to the marrow ["+this.x+","+this.y+"]!");
+                    ((Turn) Main.turns.get(Main.turns.size() - 1)).kill(((Turn) Main.turns.get(Main.turns.size() - 1)).kristoff);
+                }
+            }
+            if (Objects.equals(this.occupiedBy, "Soldier")) {
+                ((Soldier)((Turn) Main.turns.get(Main.turns.size() - 1)).soldiers.get(this.indexOfOccupiedBy) ).hp-= ((Soldier)((Turn) Main.turns.get(Main.turns.size() - 1)).soldiers.get(this.indexOfOccupiedBy) ).fieldReaction;
+                if(((Soldier)((Turn) Main.turns.get(Main.turns.size() - 1)).soldiers.get(this.indexOfOccupiedBy) ).hp<1) {
+                    Turn.notify("Soldier #" + ((Soldier)((Turn) Main.turns.get(Main.turns.size() - 1)).soldiers.get(this.indexOfOccupiedBy) ).id + " [" + ((Soldier)((Turn) Main.turns.get(Main.turns.size() - 1)).soldiers.get(this.indexOfOccupiedBy) ).x + "," + ((Soldier)((Turn) Main.turns.get(Main.turns.size() - 1)).soldiers.get(this.indexOfOccupiedBy) ).y + "] got to know what \"Frozen\" really means to his cost.");
+                    ((Soldier)((Turn) Main.turns.get(Main.turns.size() - 1)).soldiers.get(this.indexOfOccupiedBy) ).die();
+
+                }
+            }
+            if (Objects.equals(this.occupiedBy, "Snowman")) {
+                ((Snowman)((Turn) Main.turns.get(Main.turns.size() - 1)).snowmen.get(this.indexOfOccupiedBy) ).hp+= ((Snowman)((Turn) Main.turns.get(Main.turns.size() - 1)).snowmen.get(this.indexOfOccupiedBy) ).fieldReaction;
+            }
+        }
+
+        if(this.type.equals(fieldTypes[3])) {
+            if (Objects.equals(this.occupiedBy, "Hans")) {
+                ((Turn) Main.turns.get(Main.turns.size() - 1)).hans.hp+= ((Turn) Main.turns.get(Main.turns.size() - 1)).hans.fieldReaction;
+            }
+            if (Objects.equals(this.occupiedBy, "Anna")) {
+                ((Turn) Main.turns.get(Main.turns.size() - 1)).anna.hp+= ((Turn) Main.turns.get(Main.turns.size() - 1)).anna.fieldReaction;
+            }
+            if (Objects.equals(this.occupiedBy, "Kristoff")) {
+                ((Turn) Main.turns.get(Main.turns.size() - 1)).kristoff.hp+= ((Turn) Main.turns.get(Main.turns.size() - 1)).kristoff.fieldReaction;
+            }
+            if (Objects.equals(this.occupiedBy, "Soldier")) {
+                ((Soldier)((Turn) Main.turns.get(Main.turns.size() - 1)).soldiers.get(this.indexOfOccupiedBy) ).hp+= ((Soldier)((Turn) Main.turns.get(Main.turns.size() - 1)).soldiers.get(this.indexOfOccupiedBy) ).fieldReaction;
+            }
+            if (Objects.equals(this.occupiedBy, "Snowman")) {
+                ((Snowman)((Turn) Main.turns.get(Main.turns.size() - 1)).snowmen.get(this.indexOfOccupiedBy) ).hp-= ((Snowman)((Turn) Main.turns.get(Main.turns.size() - 1)).snowmen.get(this.indexOfOccupiedBy) ).fieldReaction;
+                if(((Snowman)((Turn) Main.turns.get(Main.turns.size() - 1)).snowmen.get(this.indexOfOccupiedBy) ).hp<1) {
+
+                    Turn.notify("Snowman #" + ((Snowman)((Turn) Main.turns.get(Main.turns.size() - 1)).snowmen.get(this.indexOfOccupiedBy) ).id + " [" + ((Snowman)((Turn) Main.turns.get(Main.turns.size() - 1)).snowmen.get(this.indexOfOccupiedBy) ).x + "," + ((Snowman)((Turn) Main.turns.get(Main.turns.size() - 1)).snowmen.get(this.indexOfOccupiedBy) ).y + "] deliquesced.");
+                    ((Snowman)((Turn) Main.turns.get(Main.turns.size() - 1)).snowmen.get(this.indexOfOccupiedBy) ).die();
+                }
+            }
+        }
+    }
+
+
 }

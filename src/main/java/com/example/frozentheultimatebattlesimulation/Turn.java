@@ -125,6 +125,7 @@ public class Turn {
             this.anna =null;
             if(this.hans == null) {
                 this.isGameOver =true;
+                Simulation.endCredits = "Idina";
                 Turn.notify("We're on the track for heat death of the universe, since no one can stop Elsa now. Anna and Hans shuffled off this mortal coil");
             }// :(
         }
@@ -133,6 +134,7 @@ public class Turn {
             this.hans =null;
             if(this.anna == null) {
                 this.isGameOver =true; // :(
+                Simulation.endCredits = "Idina";
                 Turn.notify("We're on the track for heat death of the universe, since no one can stop Elsa now. Anna and Hans shuffled off this mortal coil");
                  }
         }

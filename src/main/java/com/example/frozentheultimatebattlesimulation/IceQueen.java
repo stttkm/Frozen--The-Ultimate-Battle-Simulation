@@ -11,7 +11,7 @@ public class IceQueen extends Character{
     public IceQueen() {
         super();
         MoveRange = 0;
-        IceResistance=0;
+        fieldReaction =0;
     }
     private boolean freeze(ArrayList<Point> availableWater)
     {
@@ -33,37 +33,55 @@ public class IceQueen extends Character{
             if(Objects.equals(((Turn) turns.get(turns.size() - 1)).map[(this.y + i + mapSize) % mapSize][(this.x + j + mapSize) % mapSize].occupiedBy, "Anna")){
                 ((Turn) turns.get(turns.size() - 1)).isGameOver = true;
                 Turn.notify("Anna brought Elsa to her senses - from now on Elsa won't go nuclear");
-                //ustawiamy napisy końcowe na happy ending
+                Simulation.endCredits= "Taylor";
             }
             if(Objects.equals(((Turn) turns.get(turns.size() - 1)).map[(this.y + i + mapSize) % mapSize][(this.x + j + mapSize) % mapSize].occupiedBy, "Hans")){
                 ((Turn) turns.get(turns.size() - 1)).isGameOver = true;
                 Turn.notify("Hans did Elsa in  - henceforth he will hold sway over the Kingdom of Arendelle");
-                //ustawiamy napisy końcowe na goulishly ghastly ending
+                Simulation.endCredits= "Poot";
             }
         }
 
 
-        // szukamy wody
+        // szukamy wody i bałwanów do upgrade'u
         ArrayList<Point> availableWater = new ArrayList<>();
         for(int i = 0; i< mapSize; i++) for(int j = 0; j<mapSize; j++){
             if(Objects.equals(((Turn) turns.get(turns.size() - 1)).map[i][j].type, "Water")){
                 availableWater.add(new Point(j,i));
             }}
-
+        ArrayList<Integer> snowmenToBeUpgraded = new ArrayList();
+        for(int i = 0; i<((Turn) turns.get(turns.size()-1)).snowmen.size(); i++) {
+            if((((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(i)).upgraded) == false) {
+                snowmenToBeUpgraded.add(i);
+            }
+        }
         // losujemy
         Random random = new Random();
         boolean done = false;
         int attempts=0;
         while(!done && attempts<5){
             attempts++;
-            switch (random.nextInt(1)) {
+            switch (random.nextInt(2)) {
                 case 0 -> done = this.freeze(availableWater);
+                case 1 -> done = this.promote(snowmenToBeUpgraded);
             }
+
+
         }
 
 
 
 
+    }
+    boolean promote(ArrayList<Integer> snowmenToBeUpgraded){
+        Random random = new Random();
+        if(snowmenToBeUpgraded.size()!=0) {
+            int indexOfTheChosenOne = random.nextInt(snowmenToBeUpgraded.size());
+            ((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(indexOfTheChosenOne)).upgrade();
+            Turn.notify("Elsa promoted #" + ((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(indexOfTheChosenOne)).id + " [" + ((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(indexOfTheChosenOne)).x +"," + ((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(indexOfTheChosenOne)).y +"]!" );
+            return true; //zrobione
+        }
+        return false; //niezrobione
     }
 
 

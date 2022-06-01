@@ -1,5 +1,9 @@
 package com.example.frozentheultimatebattlesimulation;
 
+import javafx.scene.image.Image;
+import javafx.scene.text.Text;
+import javafx.stage.Screen;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -10,29 +14,19 @@ import static com.example.frozentheultimatebattlesimulation.Main.turns;
 
 public class Snowman extends Attacker {
     public static int counter;
+    static Text[]
+            idImages;
     public Snowman()
     {
         super();
         counter++;
         attackertype=AttackerType[1];
-        IceResistance=0;
+        fieldReaction = 2;
         ((Turn) turns.get(0)).map[y][x].indexOfOccupiedBy=((Turn) turns.get(0)).snowmen.size();
         id = ((Turn) turns.get(0)).snowmen.size();
         ((Turn) turns.get(0)).map[y][x].idOfOccupiedBy=this.id;
     }
-    @Override
-    protected void IceReaction()
-    {
-        if(((Turn) turns.get(turns.size()-1)).map[x][y].type.equals("Ice")) hp +=IceResistance;
-        if(Objects.equals(((Turn) turns.get(turns.size() - 1)).map[y][x].type, "Ice")) hp +=IceResistance;
-    }
 
-    @Override
-    protected void Heal()
-    {
-        if(((Turn) turns.get(turns.size()-1)).map[x][y].type.equals("Geyser")) hp -=IceResistance;
-        if(((Turn)Main.turns.get(Main.turns.size()-1)).map[y][x].type.equals("Geyser")) hp -=IceResistance;
-    }
 
     @Override
     void act(){
@@ -79,4 +73,22 @@ public class Snowman extends Attacker {
         ((Turn) turns.get(turns.size() - 1)).snowmen.remove(snowmanIndex);
     }
 
+    static void generateIdImages(){
+        idImages = new Text[Main.elsasArmySize];
+        int fontSize = (int) ((Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize) *0.65);
+
+        for(int i=0; i<Main.elsasArmySize; i++){
+            Text id = new Text(Integer.toString(i));
+            id.setStyle("-fx-font: "+fontSize+" impact; -fx-stroke: #000000; -fx-stroke-width: 1; -fx-fill: #ffffff;");
+            idImages[i] = id;
+        }
+    }
+
+    void upgrade(){
+        this.upgraded = true;
+        this.hp +=10;
+        this.fieldReaction = 1;
+        this.strength +=3;
+        this.characterImage = new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/Yeti.png", Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, true, true);;;
+    }
 }

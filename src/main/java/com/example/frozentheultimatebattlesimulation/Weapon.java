@@ -1,12 +1,13 @@
 package com.example.frozentheultimatebattlesimulation;
 
 public class Weapon {
-    protected int Power;
+    protected int
+            power;
     protected int exhaustion;
 
     public Weapon(int Power, int Exhaustion)
     {
-        this.Power=Power;
+        this.power =Power;
         this.exhaustion =Exhaustion;
     }
     public Weapon()
@@ -16,7 +17,7 @@ public class Weapon {
 
     public Boolean canWeaponBeUsed()
     {
-         return exhaustion>3;
+         return exhaustion>0;
     }
 
 }

@@ -9,23 +9,30 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Spinner;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Objects;
 
+import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
 import static com.example.frozentheultimatebattlesimulation.Main.turns;
 import static javafx.scene.layout.HBox.setMargin;
 
 // klasa służy głównie przechowywaniu elementów wizualnych
 public class Simulation {
+    static String endCredits;
     static HBox simulationBody;
     static boolean showIds = false;
     static public void pseudoMain(ActionEvent event) {
@@ -42,6 +49,7 @@ public class Simulation {
 
             if(((Turn)Main.turns.get(Main.turns.size()-1)).anna != null) ((Turn)Main.turns.get(Main.turns.size()-1)).anna.act();
             if(((Turn)Main.turns.get(Main.turns.size()-1)).kristoff != null) {((Turn) Main.turns.get(Main.turns.size() - 1)).kristoff.act();}
+            hasKristoffReachedAnna();
             if(((Turn)Main.turns.get(Main.turns.size()-1)).hans != null) ((Turn)Main.turns.get(Main.turns.size()-1)).hans.act();
             ((Turn)Main.turns.get(Main.turns.size()-1)).elsa.act();
 
@@ -57,6 +65,9 @@ public class Simulation {
             ((Turn)Main.turns.get(Main.turns.size()-1)).iceBreakers.forEach((og) -> {
                 ((IceBreaker)og).act();
             });
+            for(int i = 0; i< mapSize;i++)for(int j = 0; j< mapSize;j++){
+                ((Turn) turns.get(turns.size()-1)).map[j][i].fieldImpact();
+            }
 
 
 
@@ -70,7 +81,7 @@ public class Simulation {
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         stage.setScene(simulationScene);
         stage.setFullScreen(true);
-        stage.show();
+        stage.show(); //show yourself!
     }
 
     //służy dodaniu do sceny niezmiennych elementów
@@ -91,7 +102,7 @@ public class Simulation {
         turnChanger.setAlignment(Pos.CENTER);
     Text setTurnText = new Text("Turn");
     setTurnText.setStyle("-fx-font-size: 30; ");
-    Spinner<Integer> turnSpinner = new Spinner<>(0, Main.turns.size(), 0);
+    Spinner<Integer> turnSpinner = new Spinner<>(0, Main.turns.size()-1, 0);
     turnSpinner.getStyleClass().add(Spinner.STYLE_CLASS_SPLIT_ARROWS_HORIZONTAL);
     Text turnDurationText = new Text("Turn Duration[ms]");
     turnDurationText.setStyle("-fx-font-size: 30; ");
@@ -122,11 +133,7 @@ public class Simulation {
     // event handler dla spinnerka
         turnSpinner.valueProperty().addListener((obs, oldValue, newValue) ->
         {
-                    if (newValue == Main.turns.size()){
-                        ; //napisy końcowe z Taylor Swift <3 lub Poot Lovato :(
-                    } else {
                         loadMap(simulationBody, (Turn) Main.turns.get(newValue));
-                    }
         });
 
         IdsOnOff.setOnAction((e) -> {
@@ -137,12 +144,34 @@ public class Simulation {
         });
         turnChanger.getChildren().addAll(setTurnText,turnSpinner, turnDurationText,durationSpinner, autoplay, IdsOnOff);
 
+        GridPane stats = new GridPane();
+        stats.setVgap(5.0);
+        stats.setHgap(20.0);
+        stats.add(new Text("Elsa's army"), 2, 0);
+        stats.add(new Text("Hans' army"), 3, 0);
+        stats.add(new Text("Ice breakers"), 4, 0);
+        stats.add(new Text("Wolves"), 5, 0);
+        stats.add(new Text("Total"), 1, 1);
+        stats.add(new Text("Alive"), 1, 2);
+        stats.add(new Text("Upgraded & alive"), 1, 3);
+        stats.add(new Text(Integer.toString(Main.elsasArmySize)), 2, 1);
+        stats.add(new Text(Integer.toString(Main.elsasArmySize)), 2, 2);
+        stats.add(new Text(Integer.toString(0)), 2, 3);
+        stats.add(new Text(Integer.toString(Main.hansArmySize)), 3, 1);
+        stats.add(new Text(Integer.toString(Main.hansArmySize)), 3, 2);
+        stats.add(new Text(Integer.toString(0)), 3, 3);
+        stats.add(new Text(Integer.toString((int) Math.floor(0.04*Math.pow(mapSize, 2)))), 4, 1);
+        stats.add(new Text(Integer.toString((int) Math.floor(0.04*Math.pow(mapSize, 2)))), 4, 2);
+        stats.add(new Text(Integer.toString((int) Math.floor(0.04*Math.pow(mapSize, 2)))), 5, 1);
+        stats.add(new Text(Integer.toString((int) Math.floor(0.04*Math.pow(mapSize, 2)))), 5, 2);
 
 
 
 
 
-        rightMenu.getChildren().addAll(logoView, turnChanger, notifications);
+
+
+        rightMenu.getChildren().addAll(logoView, turnChanger, stats, notifications);
 
 
 
@@ -152,7 +181,17 @@ public class Simulation {
     }
 
     static public void loadMap(HBox simulationRoot, Turn turn){
+        Soldier.generateIdImages();
+        Snowman.generateIdImages();
         for(int i =0; i< Main.mapSize; i++) for(int j = 0; j < Main.mapSize;j++){
+            if(((StackPane)((GridPane)simulationRoot.getChildren().get(0))
+                    .getChildren().get(i*Main.mapSize+j))
+                    .getChildren().size()>0) {
+                ((StackPane) ((GridPane) simulationRoot.getChildren().get(0))
+                        .getChildren().get(i * Main.mapSize + j))
+                        .getChildren().removeAll();
+            }
+
             ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
                     .getChildren().get(i*Main.mapSize+j))
                     .getChildren().add(new ImageView(Field.fieldImages[Arrays.asList(Field.fieldTypes).indexOf(turn.map[i][j].type)]));
@@ -195,12 +234,9 @@ public class Simulation {
                     .getChildren().add(new ImageView(((Snowman) turn.snowmen.get(i)).characterImage));
 
             if(showIds){
-                Text id = new Text(Integer.toString(((Snowman) turn.snowmen.get(i)).id));
-                int fontSize = (int) ((Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize) *0.65);
-                id.setStyle("-fx-font: "+fontSize+" impact; -fx-stroke: black; -fx-stroke-width: 1; -fx-fill: white;");
                 ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
                         .getChildren().get(((Snowman)turn.snowmen.get(i)).y*Main.mapSize+((Snowman)turn.snowmen.get(i)).x))
-                        .getChildren().add(id);
+                        .getChildren().add(Snowman.idImages[((Snowman)turn.snowmen.get(i)).id]);
             }
 
         }
@@ -211,12 +247,10 @@ public class Simulation {
                     .getChildren().add(new ImageView(((Soldier) turn.soldiers.get(i)).characterImage));
 
             if(showIds){
-                Text id = new Text(Integer.toString(((Soldier) turn.soldiers.get(i)).id));
-                int fontSize = (int) ((Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize) *0.65);
-                id.setStyle("-fx-font: "+fontSize+" impact; -fx-stroke: white; -fx-stroke-width: 1; -fx-fill: black;");
+
                 ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
                         .getChildren().get(((Soldier)turn.soldiers.get(i)).y*Main.mapSize+((Soldier)turn.soldiers.get(i)).x))
-                        .getChildren().add(id);
+                        .getChildren().add(Soldier.idImages[((Soldier)turn.soldiers.get(i)).id]);
             }
         }
 
@@ -242,10 +276,39 @@ public class Simulation {
                     .getChildren().add(new ImageView(turn.hans.characterImage));
         }
 
-        ((ScrollPane)((VBox)simulationRoot.getChildren().get(1)).getChildren().get(2)).setContent(turn.notificationsGrid);
+        int upgradedAndAliveSnowmen = turn.snowmen.stream()
+                .filter(object -> ((Snowman)object).upgraded).toArray().length;
+        int upgradedAndAliveSoldiers = turn.soldiers.stream()
+                .filter(object -> ((Soldier)object).upgraded).toArray().length;
+
+        ((Text) ((GridPane) ((VBox) simulationRoot.getChildren().get(1)).getChildren().get(2)).getChildren().get(8)).setText(Integer.toString(turn.snowmen.size()));; //wielkość żywej armii Elsy
+        ((Text) ((GridPane) ((VBox) simulationRoot.getChildren().get(1)).getChildren().get(2)).getChildren().get(11)).setText(Integer.toString(turn.soldiers.size()));; //wielkość żywej armii Hansa
+        ((Text) ((GridPane) ((VBox) simulationRoot.getChildren().get(1)).getChildren().get(2)).getChildren().get(14)).setText(Integer.toString(turn.iceBreakers.size()));; //wielkość żywej armii icebreakerów
+        ((Text) ((GridPane) ((VBox) simulationRoot.getChildren().get(1)).getChildren().get(2)).getChildren().get(16)).setText(Integer.toString(turn.wolves.size()));; //wielkość żywej armii wilków
+        ((Text) ((GridPane) ((VBox) simulationRoot.getChildren().get(1)).getChildren().get(2)).getChildren().get(9)).setText(Integer.toString(upgradedAndAliveSnowmen));; //wielkość zapgrejdowanej armii elsy
+        ((Text) ((GridPane) ((VBox) simulationRoot.getChildren().get(1)).getChildren().get(2)).getChildren().get(12)).setText(Integer.toString(upgradedAndAliveSoldiers));; //wielkość zapgrejdowanej armii hansa
+
+
+
+        ((ScrollPane)((VBox)simulationRoot.getChildren().get(1)).getChildren().get(3)).setContent(turn.notificationsGrid);
     }
 
+static void hasKristoffReachedAnna(){
+        if(((Turn) turns.get(turns.size()-1)).anna != null){
+
+        int annaX = ((Turn) Main.turns.get(Main.turns.size()-1)).anna.x;
+        int annaY = ((Turn) Main.turns.get(Main.turns.size()-1)).anna.y;
+
+    for(int i = -1; i<=1;i++) for(int j=-1;j<=1; j++){
+        if(Objects.equals(((Turn) turns.get(turns.size() - 1)).map[(annaY + i + mapSize) % mapSize][(annaX + j + mapSize) % mapSize].occupiedBy, "Kristoff")){
+            ((Turn) turns.get(turns.size()-1)).kill(((Turn) turns.get(turns.size()-1)).kristoff);
+
+            ((Turn) turns.get(turns.size()-1)).anna.hasHorse =true;
+            ((Turn) turns.get(turns.size()-1)).anna.MoveRange =2;
+            ((Turn) turns.get(turns.size()-1)).anna.characterImage = new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/KristoffAndAnna.png", Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, true, true);
+            Turn.notify("Kristoff stumbled upon Anna [" +annaX+","+annaY+"] and took her with him");
+        }
+}}
 
 
-
-    };
+    }}

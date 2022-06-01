@@ -12,6 +12,7 @@ public class Attacker extends Character{
 
     static String [] AttackerType={"Person", "Snowman", "Wolf"}; //ty wiesz, że istniej getClass().getSimpleName() ???
     public String attackertype;
+    boolean upgraded = false;
 
     public Attacker()
     {

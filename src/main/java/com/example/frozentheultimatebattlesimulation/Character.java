@@ -15,7 +15,8 @@ import java.util.Random;
 public class Character extends Element implements Cloneable {
     protected int hp;
     protected int MoveRange;
-    protected int IceResistance;
+    protected int
+            fieldReaction;
     int id;
     Image characterImage = new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/" + getClass().getSimpleName()+".png", Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, true, true);;;
 
@@ -23,7 +24,7 @@ public class Character extends Element implements Cloneable {
     {
         hp =2*mapSize;
         MoveRange=1;
-        IceResistance=0;
+        fieldReaction =0;
         int x;
         int y;
 
@@ -41,11 +42,12 @@ public class Character extends Element implements Cloneable {
 
     }
 
-    public Character(int Hp, int MoveRange, int IceResistance)
+    public Character(int Hp, int MoveRange, int fieldReaction)
     {
         this.hp =Hp;
         this.MoveRange=MoveRange;
-        this.IceResistance=IceResistance;
+        this.fieldReaction =
+                fieldReaction;
         int x;
         int y;
         do
@@ -84,23 +86,14 @@ public class Character extends Element implements Cloneable {
 
         }
 
-
-
-
-    protected void IceReaction()
-    {
-        if(((Turn) turns.get(turns.size()-1)).map[x][y].type=="Ice") hp -=IceResistance;
-
-        if(Objects.equals(((Turn) turns.get(turns.size() - 1)).map[y][x].type, "Ice")) hp -=IceResistance;
-
-    }
-
     protected void Heal()
     {
 
-        if(((Turn) turns.get(turns.size()-1)).map[x][y].type.equals("Geyser")) hp +=IceResistance;
+        if(((Turn) turns.get(turns.size()-1)).map[x][y].type.equals("Geyser")) hp +=
+                fieldReaction;
         if(Objects.equals(((Turn) turns.get(turns.size() - 1)).map[y][x].type, "Geyser")) {
-            hp += IceResistance;
+            hp +=
+                    fieldReaction;
         };
     }
 

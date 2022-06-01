@@ -59,7 +59,7 @@ public class SettingsController implements Initializable {
 
         elsasArmySizeSpinner.valueProperty().addListener((observable, oldValue, newValue) -> Main.elsasArmySize = elsasArmySizeSpinner.getValue());
 
-        hansArmySizeSpinner.valueProperty().addListener((observable, oldValue, newValue) -> Main.hansArmySize = elsasArmySizeSpinner.getValue());
+        hansArmySizeSpinner.valueProperty().addListener((observable, oldValue, newValue) -> Main.hansArmySize = hansArmySizeSpinner.getValue());
 
 
 

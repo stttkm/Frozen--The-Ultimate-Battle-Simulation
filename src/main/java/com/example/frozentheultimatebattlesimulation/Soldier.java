@@ -1,5 +1,9 @@
 package com.example.frozentheultimatebattlesimulation;
 
+import javafx.scene.image.Image;
+import javafx.scene.text.Text;
+import javafx.stage.Screen;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -11,12 +15,15 @@ import static com.example.frozentheultimatebattlesimulation.Main.turns;
 public class Soldier extends Person{
     public static int counter;
     private Weapon weapon;
+    static Text[] idImages;
+    int xpPoints = 0;
     public Soldier()
     {
         super();
         weapon=new Weapon();
         counter++;
-        strength+=weapon.Power;
+        fieldReaction = 2;
+        strength+=weapon.power;
         attackertype=AttackerType[0];
 
         ((Turn) turns.get(0)).map[y][x].occupiedBy=this.getClass().getSimpleName();
@@ -26,7 +33,7 @@ public class Soldier extends Person{
     }
     @Override
     void act(){
-        // tutaj wywołamy reakcję na podłoże
+        if(!weapon.canWeaponBeUsed()) this.strength-=this.weapon.power; // broń się skończyła
 
         // szukamy gdzie się ruszyć i lodu
         ArrayList<Point> availableTilesForMovement = new ArrayList<>();
@@ -52,7 +59,14 @@ public class Soldier extends Person{
                 case 1 -> {
                     if(this.weapon.canWeaponBeUsed()) {
                         done = this.attack(enemiesInRange);
-                        this.weapon.exhaustion--;
+                        if(done){
+                            this.weapon.exhaustion--;
+                            this.xpPoints++;
+                            if (this.xpPoints == 3){
+                                this.upgrade();
+                            }
+                        }
+
                     }
                 }
             }
@@ -79,4 +93,26 @@ public class Soldier extends Person{
         hasHorse=true;
     }
 
+
+        static void generateIdImages(){
+            idImages = new Text[Main.hansArmySize];
+            int fontSize = (int) ((Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize) *0.65);
+
+            for(int i=0; i<Main.hansArmySize; i++){
+            Text id = new Text(Integer.toString(i));
+            id.setStyle("-fx-font: "+fontSize+" impact; -fx-stroke: white; -fx-stroke-width: 1; -fx-fill: black;");
+            idImages[i] = id;
+        }
+    }
+    void upgrade(){
+        upgraded = true;
+        hp +=10;
+        fieldReaction = 1;
+        strength +=3;
+        characterImage = new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/Seargent.png", Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, true, true);;;
+    }
+
 }
+
+
+
