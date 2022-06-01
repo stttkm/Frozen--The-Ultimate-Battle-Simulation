@@ -34,7 +34,7 @@ public class Wolf extends Attacker{
                 availableTilesForMovement.add(new Point((this.x+j+mapSize)%mapSize,(this.y+i+mapSize)%mapSize));
             }
             if(!(((Turn)Main.turns.get(Main.turns.size()-1)).map[(this.y + i + mapSize) % mapSize][(this.x + j + mapSize) % mapSize].isEmpty && !(Objects.equals(((Turn) Main.turns.get(Main.turns.size() - 1)).map[(this.y + i + mapSize) % mapSize][(this.x + j + mapSize) % mapSize].occupiedBy, "IceQueen")))){
-                // szukamy żołnierzy do zaatakowania, których siła jest mniejsza niż nasze hp
+                // szukamy innych do zaatakowania, których siła jest mniejsza niż nasze hp
                 enemiesInRange.add(new Point((this.x+j+mapSize)%mapSize,(this.y+i+mapSize)%mapSize));
             }
         }

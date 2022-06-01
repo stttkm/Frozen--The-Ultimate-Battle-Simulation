@@ -13,7 +13,7 @@ public class IceBreaker extends Character{
     public static int iceBreakersQuantity; //ilosc lamaczy lodu liczona na podstawie podanej przez uzytkownika mapSize
     private static int iceBreakersCounter=0; //aktulana ilosc lamaczy lodu
     public IceBreaker() {
-        super(2*mapSize, 1, 1);
+        super(4, 1, 1); // niech będą na 2 hity wilka
         iceBreakersCounter++;
         ((Turn) turns.get(0)).map[y][x].indexOfOccupiedBy=((Turn) turns.get(0)).iceBreakers.size();
         id = ((Turn) turns.get(0)).iceBreakers.size();
@@ -55,9 +55,10 @@ public class IceBreaker extends Character{
         int attempts=0;
         while(!done && attempts<5){
             attempts++;
-            switch (random.nextInt(2)) {
-                case 0 -> done = this.move(availableTilesForMovement);
-                case 1 -> done = this.crashIce(availableIce);
+            if (random.nextInt(10)< 1) {
+                done = this.crashIce(availableIce);
+            } else {
+                done = this.move(availableTilesForMovement);
             }
         }
 
