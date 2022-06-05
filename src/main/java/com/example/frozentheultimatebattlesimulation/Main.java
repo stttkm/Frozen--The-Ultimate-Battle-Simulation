@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Klasa Main zawiera statyczne pola (mapSize, hansArmySize, elsasArmySize), które są parametrami rozgrywającej się symulacji
+ */
 public class Main extends Application {
     static int mapSize = 10;
     static int hansArmySize = 25;

@@ -8,19 +8,26 @@ import java.util.Random;
 import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
 import static com.example.frozentheultimatebattlesimulation.Main.turns;
 
+/**
+ * Klasa IceBreaker dziedziczy po klasie Character
+ */
 public class IceBreaker extends Character{
 
-    public static int iceBreakersQuantity; //ilosc lamaczy lodu liczona na podstawie podanej przez uzytkownika mapSize
-    private static int iceBreakersCounter=0; //aktulana ilosc lamaczy lodu
+    /**
+     * Class Constructor
+     */
     public IceBreaker() {
-        super(4, 1, 1); // niech będą na 2 hity wilka
-        iceBreakersCounter++;
+        super(4, 1, 0); // niech będą na 2 hity wilka
         ((Turn) turns.get(0)).map[y][x].indexOfOccupiedBy=((Turn) turns.get(0)).iceBreakers.size();
         id = ((Turn) turns.get(0)).iceBreakers.size();
         ((Turn) turns.get(0)).map[y][x].idOfOccupiedBy=this.id;
     }
 
-
+    /**
+     * Metoda obsługująca łamanie przez IceBreaker tafli lodu (zamiana Field.type z "Ice" na "Water"
+     * @param availableIce lista dostępnych tafli lodu w zasięgu ruchu obiektu IceBreaker
+     * @return true: zniszczono taflę lodu false: nie zniczono lodu
+     */
     protected boolean crashIce(ArrayList<Point> availableIce)
     {
         Random random = new Random();
@@ -33,7 +40,12 @@ public class IceBreaker extends Character{
         }
         return false; //niezrobione
         }
-@Override
+
+    /**
+     *  Nadpisana metoda obsługująca akcję IceBreaker w turze symulacji
+     *  Tworzy listę availableIce, która jest następnie udostępniania metodzie protected boolean crashIce(ArrayList<Point> availableIce)
+     */
+    @Override
     void act(){
         // szukamy lodu i gdzie się ruszyć
     ArrayList<Point> availableIce = new ArrayList<>();
@@ -67,7 +79,9 @@ public class IceBreaker extends Character{
 
     }
 
-
+    /**
+     * Metoda obsługująca śmierć obiektu IceBreaker
+     */
     void die(){
         int index = ((Turn)turns.get(turns.size()-1)).iceBreakers.indexOf(this);
         for (int i = index+ 1; i < ((Turn) Main.turns.get(Main.turns.size() - 1)).iceBreakers.size(); i++) {

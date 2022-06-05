@@ -6,6 +6,9 @@ import java.util.Random;
 
 import static com.example.frozentheultimatebattlesimulation.Main.turns;
 
+/**
+ * Klasa Attacker dziedziczy po klasie Character.
+ */
 public class Attacker extends Character{
 
     protected int strength;
@@ -14,18 +17,27 @@ public class Attacker extends Character{
     public String attackertype;
     boolean upgraded = false;
 
+    /**
+     * Class Constructor
+     */
     public Attacker()
     {
         super();
         strength=1;
     }
+    /**
+     * Class constructor specifying value of
+     * @param strength siła Attackera- wielkość przydatna w walce
+     */
     public Attacker(int strength)
     {
         super();
         this.strength=strength;
     }
 
-
+    /**
+     * Class constructor specifying values of: @param Hp @param IceResistance @param MoveRange @param strength
+     */
     public Attacker(int Hp, int IceResistance, int MoveRange, int strength) {
         super(Hp,IceResistance, MoveRange);
         this.strength=strength;
@@ -34,7 +46,11 @@ public class Attacker extends Character{
 
 
 
-
+    /**
+     * Metoda sprawdza, czy dokonano ataku.
+     * @param enemiesInRange lista wrogów (obiektów klas dziedziczących po klasie Attacker, ale nienależących do tej samej klasy co konkretny obiket wywołujący metodę)
+     * @return Czy dokonano ataku,czy nie
+     */
     protected boolean attack(ArrayList<Point> enemiesInRange){
         Random random = new Random();
         if(enemiesInRange.size()!=0) {
@@ -106,10 +122,14 @@ public class Attacker extends Character{
 
         return false; //niezrobione
     }
+
+    /*
     protected void levelUp()
     {
         hp = (int) Math.floor(hp *1.5);
         strength= (int) Math.floor(strength*1.5);
         MoveRange*=2;
     }
+
+     */
 }

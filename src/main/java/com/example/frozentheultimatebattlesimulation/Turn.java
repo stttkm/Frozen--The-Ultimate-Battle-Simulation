@@ -9,6 +9,9 @@ import java.util.Arrays;
 
 import static com.example.frozentheultimatebattlesimulation.Main.turns;
 
+/**
+ * Klasa Turn ma za zadenie obsługę symulacji w czasie trwania jednej tury
+ */
 public class Turn {
     Field[][] map;
     boolean isGameOver = false;

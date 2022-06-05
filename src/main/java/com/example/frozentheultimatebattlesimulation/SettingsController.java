@@ -1,7 +1,5 @@
 package com.example.frozentheultimatebattlesimulation;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,6 +11,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Inicjalizacja symulacji, Klasa ma za zadanie wyświetlenie pierwszego panelu i umożliwienie użytkownikowi wyboru parametrów do symulacji (mapSize, hansArmySize, elsasArmySize)
+ */
 public class SettingsController implements Initializable {
     @FXML
     private Slider mapSizeSlider;

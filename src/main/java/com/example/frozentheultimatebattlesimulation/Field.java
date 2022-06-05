@@ -6,19 +6,30 @@ import javafx.stage.Screen;
 import java.util.Objects;
 import java.util.Random;
 
+/**
+ * Klasa Field
+ * Dziedziczy po klasie Element
+ * Implementuje Interfejs Cloneable
+ */
 public class Field extends Element implements Cloneable
-{  static int[] fieldTypesCount = {0,0,0,0};
-    static String[] fieldTypes = {"Ice", "Water", "Earth", "Geyser"};
+{  static int[] fieldTypesCount = {0,0,0,0}; /** Tablica zliczająca wystąpienia poszcególnych typów Field na mapie */
+    static String[] fieldTypes = {"Ice", "Water", "Earth", "Geyser"}; /** Dostępne typy Field */
     static Image[] fieldImages = {new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/Ice.jpg", Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, true, true),
             new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/Water.jpg", Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, true, true),
             new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/Earth.jpg", Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, true, true),
             new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/Geyser.jpg", Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, true, true)};
-    String type;
-    boolean isEmpty;
-    public String occupiedBy;
-    int indexOfOccupiedBy;
+    String type; /** Typ Field, jedna z wartości z tablicy []fieldTypes */
+    boolean isEmpty; /** informacja o tym, czy dane Field jest zajęte */
+    public String occupiedBy; /** informacja o tym, przez kogo Field jest zajęte */
+    int indexOfOccupiedBy; /** index obiektu Character, który zajmuje Field */
     int idOfOccupiedBy = indexOfOccupiedBy;
 
+    /**
+     * Class Contructor
+     * @param x współrzędna x Field
+     * @param y współrzędna y Field
+     * W sposób losowy przypisujemy do Field type (ograniczenie: type "Water" może stanowić max 15% całej mapy)
+     */
     protected Field(int x, int y)
     {
         setCoordinates(x,y);
@@ -29,7 +40,7 @@ public class Field extends Element implements Cloneable
         Random random = new Random();
         int randomNum = random.nextInt(100);
         if (randomNum<70) {this.type= fieldTypes[0];  fieldTypesCount[0]++;}
-        if (randomNum>69 && randomNum < 85) {
+        else if (randomNum < 84) {
             if (fieldTypesCount[1]<=0.15*Main.mapSize*Main.mapSize){ // zmieniam to, by nie było sytuacji, że cała mapa to woda,
                 this.type= fieldTypes[1];                                                                   // a symulacja nie odpali, bo nie umie usadzić postaci
                 fieldTypesCount[1]++;
@@ -38,24 +49,23 @@ public class Field extends Element implements Cloneable
                 fieldTypesCount[0]++;
             }
         }
-        if (randomNum>84 && randomNum < 95) {this.type= fieldTypes[2]; fieldTypesCount[2]++;}
-        if (randomNum>94) {this.type= fieldTypes[3]; fieldTypesCount[3]++;}
+       else if (randomNum < 95) {this.type= fieldTypes[2]; fieldTypesCount[2]++;}
+       else  {this.type= fieldTypes[3]; fieldTypesCount[3]++;}
 
     }
 
 
-
-
-
-
-
-
-
-
+    /**
+     * Metoda zmienia typ Field na "Ice" (zamraża pole)
+     */
     public void changeIntoIce()
     {
         type= fieldTypes[0];
     }
+    /**
+     * Metoda zmienia typ Field na "Water" (rozmraża pole)
+     * Jeśli Field było zajęte przez obiekt Character, to obiekt ten tonie
+     */
     public void changeIntoWater()
     {
                 this.type = fieldTypes[1];
@@ -90,12 +100,17 @@ public class Field extends Element implements Cloneable
             ((Wolf)((Turn)Main.turns.get(Main.turns.size()-1)).wolves.get(this.indexOfOccupiedBy)).die();
         }
 
-
                 this.isEmpty = true;
                 this.indexOfOccupiedBy = 0;
                 this.occupiedBy = null;
     }
 
+    /**
+     * Metoda obsługująca reakcję zajmującego Field obiektu Character na type Field
+     * W zależności od klasy, do której należy obiekt, obecność na danym Field może leczyć lub ranić  Character
+     * Jeśli Person (Hans, Anna, Kristoff, Soldier) stanie na Field o type="Ice" zostaje ona zraniona (hp Person się zmniejsza), jeśli type="Geyser"- zostaje ona leczona
+     * Jeśli Snowman stanie na Field o type="Geyser" zostaje ona zraniona (hp Person się zmniejsza), jeśli type="Ice"- zostaje ona leczona
+     */
     void fieldImpact(){
         if(this.type.equals(fieldTypes[0])) {
             if (Objects.equals(this.occupiedBy, "Hans")) {
@@ -132,7 +147,7 @@ public class Field extends Element implements Cloneable
             }
         }
 
-        if(this.type.equals(fieldTypes[3])) {
+        else if(this.type.equals(fieldTypes[3])) {
             if (Objects.equals(this.occupiedBy, "Hans")) {
                 ((Turn) Main.turns.get(Main.turns.size() - 1)).hans.hp+= ((Turn) Main.turns.get(Main.turns.size() - 1)).hans.fieldReaction;
             }

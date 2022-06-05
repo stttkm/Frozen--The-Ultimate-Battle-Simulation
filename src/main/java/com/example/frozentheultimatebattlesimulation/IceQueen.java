@@ -7,12 +7,24 @@ import java.util.Random;
 import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
 import static com.example.frozentheultimatebattlesimulation.Main.turns;
 
+/**
+ * Klasa IceQueen dziedziczy po klasie Character
+ */
 public class IceQueen extends Character{
+    /**
+     * Class Constructor
+     */
     public IceQueen() {
         super();
         MoveRange = 0;
         fieldReaction =0;
     }
+
+    /**
+     * Metoda obsługująca zamrażanie przez IceQueen Field o type="Water"
+     * @param availableWater lista Field o type= "Water"
+     * @return true: IceQueen zamroziła pole false: nie było dostępnych Filed o type="Water"
+     */
     private boolean freeze(ArrayList<Point> availableWater)
     {
         Random random = new Random();
@@ -25,6 +37,12 @@ public class IceQueen extends Character{
         return false; //niezrobione
     }
 
+    /**
+     * Obsługa ruchu IceQueen w turze symulacji
+     * Jeśli Anna dotrze do Elsy symulacja kończy się sukcesem
+     * Jeśli Hans dotrze do Elsy, Hans wygrywa symulację
+     * Tworzenie listy availableWater i losowanie, czy IceQueen zamrozi pole private boolean freeze(ArrayList<Point> availableWater), czy ulepszy element swojej armii (Snowman) boolean promote(ArrayList<Integer> snowmenToBeUpgraded)
+     */
     void act(){
         // the cold never bothered me anyway
 
@@ -51,7 +69,7 @@ public class IceQueen extends Character{
             }}
         ArrayList<Integer> snowmenToBeUpgraded = new ArrayList();
         for(int i = 0; i<((Turn) turns.get(turns.size()-1)).snowmen.size(); i++) {
-            if((((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(i)).upgraded) == false) {
+            if(!(((Snowman) ((Turn) turns.get(turns.size() - 1)).snowmen.get(i)).upgraded)) {
                 snowmenToBeUpgraded.add(i);
             }
         }
@@ -65,14 +83,14 @@ public class IceQueen extends Character{
                 case 0 -> done = this.freeze(availableWater);
                 case 1 -> done = this.promote(snowmenToBeUpgraded);
             }
-
-
         }
-
-
-
-
     }
+
+    /**
+     * Metoda obsługująca ulepszanie przez IceQueen żołnierzy jej armii- obiektu klasy Snowman
+     * @param snowmenToBeUpgraded lista obiektów klasy Snowman, których można ulepszyć
+     * @return true: IceQueen ulepszyła Snowmana, false: żaden bałwan nie został ulepszony
+     */
     boolean promote(ArrayList<Integer> snowmenToBeUpgraded){
         Random random = new Random();
         if(snowmenToBeUpgraded.size()!=0) {

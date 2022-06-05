@@ -12,10 +12,18 @@ import java.util.Random;
 import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
 import static com.example.frozentheultimatebattlesimulation.Main.turns;
 
+/**
+ * Klasa Snowman dziedziczy po klasie Attacker
+ * Obiekty tej klasy to żołnierze Armii Elsy
+ */
 public class Snowman extends Attacker {
     public static int counter;
     static Text[]
             idImages;
+
+    /**
+     * Class Constructor
+     */
     public Snowman()
     {
         super();
@@ -27,7 +35,11 @@ public class Snowman extends Attacker {
         ((Turn) turns.get(0)).map[y][x].idOfOccupiedBy=this.id;
     }
 
-
+    /**
+     * Metoda obsługująca ruch w turze obiektu klasy Snowman
+     * Tworzy lsitę enemiesInRange- wrogów (obiektów klas Person i Wolf) znajdujących się w zasięgu ruchu
+     * Losuje jaką metodę Snowman wykona w danej turze: ruszyć się czy atakować
+     */
     @Override
     void act(){
         // tutaj wywołamy reakcję na podłoże
@@ -62,6 +74,9 @@ public class Snowman extends Attacker {
 
     }
 
+    /**
+     * Obsługa śmierci obiektu Snowman, zwolnienie zajmowanego przez obiekt Field.
+     */
     void die(){
         int snowmanIndex = ((Turn)turns.get(turns.size()-1)).snowmen.indexOf(this);
         for (int i = snowmanIndex+ 1; i < ((Turn) Main.turns.get(Main.turns.size() - 1)).snowmen.size(); i++) {
@@ -73,6 +88,9 @@ public class Snowman extends Attacker {
         ((Turn) turns.get(turns.size() - 1)).snowmen.remove(snowmanIndex);
     }
 
+    /**
+     * Wyświetlenie id obiektu na zajmowanym przez niego polu
+     */
     static void generateIdImages(){
         idImages = new Text[Main.elsasArmySize];
         int fontSize = (int) ((Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize) *0.65);
@@ -84,11 +102,14 @@ public class Snowman extends Attacker {
         }
     }
 
+    /**
+     * Ulepszenie Snowman, jest wynikiem działania metody boolean promote(ArrayList<Integer> snowmenToBeUpgraded) klasy IceQueen
+     */
     void upgrade(){
         this.upgraded = true;
         this.hp +=10;
         this.fieldReaction = 1;
         this.strength +=3;
-        this.characterImage = new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/Yeti.png", Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, true, true);;;
+        this.characterImage = new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/Yeti.png", Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, true, true);
     }
 }

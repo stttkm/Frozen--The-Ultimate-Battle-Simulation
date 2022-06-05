@@ -30,7 +30,9 @@ import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
 import static com.example.frozentheultimatebattlesimulation.Main.turns;
 import static javafx.scene.layout.HBox.setMargin;
 
-// klasa służy głównie przechowywaniu elementów wizualnych
+/**
+ * Obsługa graficzna i koncepcyjna symulacji
+ */
 public class Simulation {
     static String endCredits;
     static HBox simulationBody;

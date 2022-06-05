@@ -8,9 +8,16 @@ import java.util.Random;
 import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
 import static com.example.frozentheultimatebattlesimulation.Main.turns;
 
+/**
+ * Klasa Wolf dziedziczy po klasie Attacker
+ * Wolf nie reagują na podłoże, mogą walczyć z innymi obiektami klasy Attacker
+ */
 public class Wolf extends Attacker{
-    public static int Quantity;
     public static int counter;
+
+    /**
+     * Class Constructor
+     */
     public Wolf()
     {
         super(3);
@@ -22,6 +29,9 @@ public class Wolf extends Attacker{
         ((Turn) turns.get(0)).map[y][x].idOfOccupiedBy=this.id;
     }
 
+    /**
+     * Metoda obsługująca ruch obiektu klasy Wolf
+     */
     @Override
     void act(){
         // tutaj wywołamy reakcję na podłoże
@@ -50,11 +60,11 @@ public class Wolf extends Attacker{
                 case 1 -> done = this.attack(enemiesInRange);
             }
         }
-
-
-
-
     }
+
+    /**
+     * Metoda obsługująca śmierć (usunięcie) obiektu klasy Wolf
+     */
     void die(){
         int index = ((Turn)turns.get(turns.size()-1)).wolves.indexOf(this);
         for (int i = index+ 1; i < ((Turn) Main.turns.get(Main.turns.size() - 1)).wolves.size(); i++) {

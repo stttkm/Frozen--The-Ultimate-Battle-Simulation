@@ -11,12 +11,19 @@ import java.util.Random;
 
 import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
 import static com.example.frozentheultimatebattlesimulation.Main.turns;
-
+/**
+ * Klasa Soldier dziedziczy po klasie Person
+ * Obiekty tej klasy to żołnierze Armii Hansa
+ */
 public class Soldier extends Person{
     public static int counter;
     private Weapon weapon;
     static Text[] idImages;
     int xpPoints = 0;
+
+    /**
+     * Class Constructor
+     */
     public Soldier()
     {
         super();
@@ -87,11 +94,6 @@ public class Soldier extends Person{
         ((Turn) turns.get(turns.size() - 1)).map[this.y][this.x].isEmpty = true;
         ((Turn) turns.get(turns.size() - 1)).soldiers.remove(index);
     }
-    @Override
-    protected void levelUp()
-    {
-        hasHorse=true;
-    }
 
 
         static void generateIdImages(){
@@ -109,7 +111,7 @@ public class Soldier extends Person{
         hp +=10;
         fieldReaction = 1;
         strength +=3;
-        characterImage = new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/Seargent.png", Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, true, true);;;
+        characterImage = new Image("file:src/main/resources/com/example/frozentheultimatebattlesimulation/img/Seargent.png", Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize, true, true);
     }
 
 }
