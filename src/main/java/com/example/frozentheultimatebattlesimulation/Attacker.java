@@ -86,7 +86,7 @@ public class Attacker extends Character{
                     }
                 }
                 case "Anna" -> {
-                    this.hp = this.hp - (((Turn) turns.get(turns.size() - 1)).anna.hp);
+                    this.hp = this.hp - (((Turn) turns.get(turns.size() - 1)).anna.strength);
                     ((Turn) turns.get(turns.size() - 1)).anna.hp -= this.strength;
                     Turn.notify(this.getClass().getSimpleName() + " #" + this.id+ " ["+ this.x + ","+this.y+"] attacks Anna!");
                     if ((((Turn) turns.get(turns.size() - 1)).anna.hp < 1)) {
@@ -95,7 +95,7 @@ public class Attacker extends Character{
                     }
                 }
                 case "Kristoff" -> {
-                    this.hp = this.hp - (((Turn) turns.get(turns.size() - 1)).kristoff.hp);
+                    this.hp = this.hp - (((Turn) turns.get(turns.size() - 1)).kristoff.strength);
                     ((Turn) turns.get(turns.size() - 1)).kristoff.hp -= this.strength;
                     Turn.notify(this.getClass().getSimpleName() + " #" + this.id+ " ["+ this.x + ","+this.y+"] attacks Kristoff!");
                     if ((((Turn) turns.get(turns.size() - 1)).kristoff.hp < 1)) {
@@ -104,7 +104,7 @@ public class Attacker extends Character{
                     }
                 }
                 case "Hans" -> {
-                    this.hp = this.hp - (((Turn) turns.get(turns.size() - 1)).hans.hp);
+                    this.hp = this.hp - (((Turn) turns.get(turns.size() - 1)).hans.strength);
                     ((Turn) turns.get(turns.size() - 1)).hans.hp -= this.strength;
                     Turn.notify(this.getClass().getSimpleName() + " #" + this.id+ " ["+ this.x + ","+this.y+"] attacks Hans!");
                     if ((((Turn) turns.get(turns.size() - 1)).hans.hp < 1)) {

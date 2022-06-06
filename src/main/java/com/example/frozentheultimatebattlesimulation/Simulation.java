@@ -36,6 +36,7 @@ import static javafx.scene.layout.HBox.setMargin;
 public class Simulation {
     static HBox simulationBody;
     static boolean showIds = false;
+    static boolean showHps = false;
     static public void pseudoMain(ActionEvent event) {
         Main.turns.add(new Turn()); //dodajemy pierwszą turę
         ((Turn)Main.turns.get(0)).generateCharacters(); //generujemy postacie
@@ -70,6 +71,7 @@ public class Simulation {
             for(int i = 0; i< mapSize;i++)for(int j = 0; j< mapSize;j++){
                 ((Turn) turns.get(turns.size()-1)).map[j][i].fieldImpact();
             }
+            ((Turn)Main.turns.get(Main.turns.size()-1)).deleteDeadWolves();
 
 
 
@@ -111,6 +113,7 @@ public class Simulation {
     Spinner<Integer> durationSpinner = new Spinner<>(100, 10000, 500, 100);
     Button autoplay = new Button("Autoplay ▶");
     Button IdsOnOff = new Button("ON/OFF IDs");
+    Button HpsOnOff = new Button("ON/OFF HPs");
 
     ScrollPane notifications = new ScrollPane();
 
@@ -140,11 +143,23 @@ public class Simulation {
 
         IdsOnOff.setOnAction((e) -> {
             if(showIds) showIds=false;
-            else showIds=true;
+            else {
+                showIds=true;
+                showHps = false;
+            }
 
             loadMap(simulationBody, (Turn) Main.turns.get(turnSpinner.getValue()));
         });
-        turnChanger.getChildren().addAll(setTurnText,turnSpinner, turnDurationText,durationSpinner, autoplay, IdsOnOff);
+        HpsOnOff.setOnAction((e) -> {
+            if(showHps) showHps=false;
+            else {
+                showHps = true;
+                showIds = false;
+            }
+
+            loadMap(simulationBody, (Turn) Main.turns.get(turnSpinner.getValue()));
+        });
+        turnChanger.getChildren().addAll(setTurnText,turnSpinner, turnDurationText,durationSpinner, autoplay, IdsOnOff, HpsOnOff);
 
         GridPane stats = new GridPane();
         stats.setVgap(5.0);
@@ -212,6 +227,14 @@ public class Simulation {
                                  .getChildren().get(((IceBreaker)turn.iceBreakers.get(i)).y*Main.mapSize+((IceBreaker)turn.iceBreakers.get(i)).x))
                                  .getChildren().add(id);
                      }
+            if(showHps){
+                Text hp = new Text(Integer.toString(((IceBreaker) turn.iceBreakers.get(i)).hp));
+                int fontSize = (int) ((Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize) *0.65);
+                hp.setStyle("-fx-font: "+fontSize+" impact; -fx-stroke: white; -fx-stroke-width: 1; -fx-fill: #9900ff;");
+                ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
+                        .getChildren().get(((IceBreaker)turn.iceBreakers.get(i)).y*Main.mapSize+((IceBreaker)turn.iceBreakers.get(i)).x))
+                        .getChildren().add(hp);
+            }
         }
 
 
@@ -228,6 +251,14 @@ public class Simulation {
                         .getChildren().get(((Wolf)turn.wolves.get(i)).y*Main.mapSize+((Wolf)turn.wolves.get(i)).x))
                         .getChildren().add(id);
             }
+            if(showHps){
+                Text hp = new Text(Integer.toString(((Wolf) turn.wolves.get(i)).hp));
+                int fontSize = (int) ((Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize) *0.65);
+                hp.setStyle("-fx-font: "+fontSize+" impact; -fx-stroke: white; -fx-stroke-width: 1; -fx-fill: #0066ff;");
+                ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
+                        .getChildren().get(((Wolf)turn.wolves.get(i)).y*Main.mapSize+((Wolf)turn.wolves.get(i)).x))
+                        .getChildren().add(hp);
+            }
         }
 
         for(int i = 0; i < turn.snowmen.size(); i++){ // ładujemy armię Elsy
@@ -239,6 +270,14 @@ public class Simulation {
                 ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
                         .getChildren().get(((Snowman)turn.snowmen.get(i)).y*Main.mapSize+((Snowman)turn.snowmen.get(i)).x))
                         .getChildren().add(Snowman.idImages[((Snowman)turn.snowmen.get(i)).id]);
+            }
+            if(showHps){
+                Text hp = new Text(Integer.toString(((Snowman) turn.snowmen.get(i)).hp));
+                int fontSize = (int) ((Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize) *0.65);
+                hp.setStyle("-fx-font: "+fontSize+" impact; -fx-stroke: #000000; -fx-stroke-width: 1; -fx-fill: #ffffff;");
+                ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
+                        .getChildren().get(((Snowman)turn.snowmen.get(i)).y*Main.mapSize+((Snowman)turn.snowmen.get(i)).x))
+                        .getChildren().add(hp);
             }
 
         }
@@ -254,6 +293,15 @@ public class Simulation {
                         .getChildren().get(((Soldier)turn.soldiers.get(i)).y*Main.mapSize+((Soldier)turn.soldiers.get(i)).x))
                         .getChildren().add(Soldier.idImages[((Soldier)turn.soldiers.get(i)).id]);
             }
+
+            if(showHps){
+                Text hp = new Text(Integer.toString(((Soldier) turn.soldiers.get(i)).hp));
+                int fontSize = (int) ((Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize) *0.65);
+                hp.setStyle("-fx-font: "+fontSize+" impact; -fx-stroke: white; -fx-stroke-width: 1; -fx-fill: #000000;");
+                ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
+                        .getChildren().get(((Soldier)turn.soldiers.get(i)).y*Main.mapSize+((Soldier)turn.soldiers.get(i)).x))
+                        .getChildren().add(hp);
+            }
         }
 
         ((StackPane)((GridPane)simulationRoot.getChildren().get(0))
@@ -264,18 +312,42 @@ public class Simulation {
             ((StackPane) ((GridPane) simulationRoot.getChildren().get(0))
                     .getChildren().get(turn.anna.y * Main.mapSize + turn.anna.x))
                     .getChildren().add(new ImageView(turn.anna.characterImage));
+            if(showHps){
+                Text hp = new Text(Integer.toString(turn.anna.hp));
+                int fontSize = (int) ((Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize) *0.65);
+                hp.setStyle("-fx-font: "+fontSize+" impact; -fx-stroke: white; -fx-stroke-width: 1; -fx-fill: #c766ef;");
+                ((StackPane) ((GridPane) simulationRoot.getChildren().get(0))
+                        .getChildren().get(turn.anna.y * Main.mapSize + turn.anna.x))
+                        .getChildren().add(hp);
+            }
         }
 
         if(turn.kristoff!=null) {
             ((StackPane) ((GridPane) simulationRoot.getChildren().get(0))
                     .getChildren().get(turn.kristoff.y * Main.mapSize + turn.kristoff.x))
                     .getChildren().add(new ImageView(turn.kristoff.characterImage));
+            if(showHps){
+                Text hp = new Text(Integer.toString(turn.kristoff.hp));
+                int fontSize = (int) ((Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize) *0.65);
+                hp.setStyle("-fx-font: "+fontSize+" impact; -fx-stroke: white; -fx-stroke-width: 1; -fx-fill: #0052af;");
+                ((StackPane) ((GridPane) simulationRoot.getChildren().get(0))
+                        .getChildren().get(turn.kristoff.y * Main.mapSize + turn.kristoff.x))
+                        .getChildren().add(hp);
+            }
         }
 
         if(turn.hans!=null) {
             ((StackPane) ((GridPane) simulationRoot.getChildren().get(0))
                     .getChildren().get(turn.hans.y * Main.mapSize + turn.hans.x))
                     .getChildren().add(new ImageView(turn.hans.characterImage));
+            if(showHps){
+                Text hp = new Text(Integer.toString(turn.hans.hp));
+                int fontSize = (int) ((Screen.getPrimary().getVisualBounds().getHeight()/Main.mapSize) *0.65);
+                hp.setStyle("-fx-font: "+fontSize+" impact; -fx-stroke: white; -fx-stroke-width: 1; -fx-fill: #b70000;");
+                ((StackPane) ((GridPane) simulationRoot.getChildren().get(0))
+                        .getChildren().get(turn.hans.y * Main.mapSize + turn.hans.x))
+                        .getChildren().add(hp);
+            }
         }
 
         int upgradedAndAliveSnowmen = turn.snowmen.stream()

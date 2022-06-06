@@ -17,7 +17,6 @@ import static com.example.frozentheultimatebattlesimulation.Main.turns;
  */
 public class Soldier extends Person{
     public static int counter;
-    private Weapon weapon;
     static Text[] idImages;
     int xpPoints = 0;
 
@@ -27,10 +26,9 @@ public class Soldier extends Person{
     public Soldier()
     {
         super();
-        weapon=new Weapon();
         counter++;
         fieldReaction = 2;
-        strength+=weapon.power;
+        strength = 10;
         attackertype=AttackerType[0];
 
         ((Turn) turns.get(0)).map[y][x].occupiedBy=this.getClass().getSimpleName();
@@ -40,7 +38,6 @@ public class Soldier extends Person{
     }
     @Override
     void act(){
-        if(!weapon.canWeaponBeUsed()) this.strength-=this.weapon.power; // broń się skończyła
 
         // szukamy gdzie się ruszyć i lodu
         ArrayList<Point> availableTilesForMovement = new ArrayList<>();
@@ -64,10 +61,6 @@ public class Soldier extends Person{
             switch (random.nextInt(2)) {
                 case 0 -> done = this.move(availableTilesForMovement);
                 case 1 -> {
-                    if(this.weapon.canWeaponBeUsed()) {
-                        done = this.attack(enemiesInRange);
-                        if(done){
-                            this.weapon.exhaustion--;
                             this.xpPoints++;
                             if (this.xpPoints == 3){
                                 this.upgrade();
@@ -77,12 +70,12 @@ public class Soldier extends Person{
                     }
                 }
             }
-        }
 
 
 
 
-    }
+
+
 
     void die(){
     int index = ((Turn)turns.get(turns.size()-1)).soldiers.indexOf(this);

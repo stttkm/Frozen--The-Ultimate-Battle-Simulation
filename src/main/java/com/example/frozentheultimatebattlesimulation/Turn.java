@@ -5,7 +5,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
+import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
 import static com.example.frozentheultimatebattlesimulation.Main.turns;
 
 /**
@@ -149,4 +151,14 @@ public class Turn {
         ((Turn)turns.get(turns.size()-1)).notificationsGrid.add(new Label(message), 0, ((Turn)turns.get(turns.size()-1)).notificationsGrid.getChildren().size());
     }
 
+
+    public void deleteDeadWolves(){
+        for(int i = 0; i<mapSize;i++)for(int j = 0; j<mapSize;j++){
+            if(Objects.equals(map[j][i].occupiedBy, "Wolf")){
+                if(((Wolf)wolves.get(map[j][i].indexOfOccupiedBy)).hp<1){
+                    ((Wolf)wolves.get(map[j][i].indexOfOccupiedBy)).die();
+                }
+            }
+        }
+    }
     }

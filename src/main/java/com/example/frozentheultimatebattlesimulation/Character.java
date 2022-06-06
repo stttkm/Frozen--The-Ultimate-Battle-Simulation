@@ -4,13 +4,13 @@ package com.example.frozentheultimatebattlesimulation;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
 
-import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
-import static com.example.frozentheultimatebattlesimulation.Main.*;
-import java.awt.Point;
-
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
+
+import static com.example.frozentheultimatebattlesimulation.Main.mapSize;
+import static com.example.frozentheultimatebattlesimulation.Main.turns;
 
 /**
  * Klasa Character dziedziczy po klasie Element, implementuje interfejs Cloneable
@@ -130,7 +130,7 @@ public class Character extends Element implements Cloneable {
         // szukamy gdzie się ruszyć
         ArrayList<Point> availableTilesForMovement = new ArrayList<Point>();
         for(int i = -1*MoveRange; i<=MoveRange;i++) for(int j=-1*MoveRange;j<=MoveRange; j++){
-            if(((Turn)turns.get(turns.size()-1)).map[(this.y+i+mapSize)%mapSize][(this.x+j+mapSize)%mapSize].isEmpty &&((Turn)turns.get(turns.size()-1)).map[(this.y+i+mapSize)%mapSize][(this.x+j+mapSize)%mapSize].type.equals("Water")){
+            if(((Turn)turns.get(turns.size()-1)).map[(this.y+i+mapSize)%mapSize][(this.x+j+mapSize)%mapSize].isEmpty &&!((Turn)turns.get(turns.size()-1)).map[(this.y+i+mapSize)%mapSize][(this.x+j+mapSize)%mapSize].type.equals("Water")){
                 availableTilesForMovement.add(new Point((this.x+j+mapSize)%mapSize,(this.y+i+mapSize)%mapSize));
             }}
 
