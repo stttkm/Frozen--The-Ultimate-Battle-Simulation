@@ -51,12 +51,10 @@ public class IceQueen extends Character{
             if(Objects.equals(((Turn) turns.get(turns.size() - 1)).map[(this.y + i + mapSize) % mapSize][(this.x + j + mapSize) % mapSize].occupiedBy, "Anna")){
                 ((Turn) turns.get(turns.size() - 1)).isGameOver = true;
                 Turn.notify("Anna brought Elsa to her senses - from now on Elsa won't go nuclear");
-                Simulation.endCredits= "Taylor";
             }
             if(Objects.equals(((Turn) turns.get(turns.size() - 1)).map[(this.y + i + mapSize) % mapSize][(this.x + j + mapSize) % mapSize].occupiedBy, "Hans")){
                 ((Turn) turns.get(turns.size() - 1)).isGameOver = true;
                 Turn.notify("Hans did Elsa in  - henceforth he will hold sway over the Kingdom of Arendelle");
-                Simulation.endCredits= "Poot";
             }
         }
 
