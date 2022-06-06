@@ -5,7 +5,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static com.example.frozentheultimatebattlesimulation.Main.turns;
 
@@ -52,6 +51,7 @@ public class Turn {
             } else {this.kristoff=null;}
 
         } catch (CloneNotSupportedException e) {
+            System.out.println(e);
             throw new RuntimeException(e);
         }
 
@@ -68,6 +68,7 @@ public class Turn {
             try {
                 this.snowmen.add(((Snowman)og).clone());
             } catch (CloneNotSupportedException e) {
+                System.out.println(e);
                 throw new RuntimeException(e);
             }
         });
@@ -77,6 +78,7 @@ public class Turn {
             try {
                 this.soldiers.add(((Soldier)og).clone());
             } catch (CloneNotSupportedException e) {
+                System.out.println(e);
                 throw new RuntimeException(e);
             }
         });
@@ -86,6 +88,7 @@ public class Turn {
             try {
                 this.wolves.add(((Wolf)og).clone());
             } catch (CloneNotSupportedException e) {
+                System.out.println(e);
                 throw new RuntimeException(e);
             }
         });
@@ -125,7 +128,6 @@ public class Turn {
             this.anna =null;
             if(this.hans == null) {
                 this.isGameOver =true;
-                Simulation.endCredits = "Idina";
                 Turn.notify("We're on the track for heat death of the universe, since no one can stop Elsa now. Anna and Hans shuffled off this mortal coil");
             }// :(
         }
@@ -134,7 +136,6 @@ public class Turn {
             this.hans =null;
             if(this.anna == null) {
                 this.isGameOver =true; // :(
-                Simulation.endCredits = "Idina";
                 Turn.notify("We're on the track for heat death of the universe, since no one can stop Elsa now. Anna and Hans shuffled off this mortal coil");
                  }
         }

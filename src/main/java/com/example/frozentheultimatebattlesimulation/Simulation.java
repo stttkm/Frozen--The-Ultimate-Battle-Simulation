@@ -32,7 +32,6 @@ import static javafx.scene.layout.HBox.setMargin;
 
 // klasa służy głównie przechowywaniu elementów wizualnych
 public class Simulation {
-    static String endCredits;
     static HBox simulationBody;
     static boolean showIds = false;
     static public void pseudoMain(ActionEvent event) {
@@ -44,6 +43,7 @@ public class Simulation {
                 Main.turns.add(new Turn((Turn)Main.turns.get(lastTurnIndex))); // tworzymy nową turę
                 lastTurnIndex++;
             } catch (CloneNotSupportedException e) {
+                System.out.println(e);
                 throw new RuntimeException(e);
             }
 
