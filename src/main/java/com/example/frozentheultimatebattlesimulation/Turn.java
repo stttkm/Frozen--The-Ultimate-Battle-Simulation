@@ -129,20 +129,17 @@ public class Turn {
 
         if(person.name.equals("Kristoff")) this.kristoff = null;
 
-        if(person.name.equals("Anna")) {
+        else if(person.name.equals("Anna")) {
             this.anna =null;
-            if(this.hans == null) {
-                this.isGameOver =true;
-                Turn.notify("We're on the track for heat death of the universe, since no one can stop Elsa now. Anna and Hans shuffled off this mortal coil");
-            }// :(
         }
 
-        if(person.name.equals("Hans")) {
+        else if(person.name.equals("Hans")) {
             this.hans =null;
-            if(this.anna == null) {
-                this.isGameOver =true; // :(
-                Turn.notify("We're on the track for heat death of the universe, since no one can stop Elsa now. Anna and Hans shuffled off this mortal coil");
-                 }
+        }
+        if(this.anna==null && this.hans==null)
+        {
+            this.isGameOver =true;
+            Turn.notify("We're on the track for heat death of the universe, since no one can stop Elsa now. Anna and Hans shuffled off this mortal coil");
         }
 
     }
