@@ -15,9 +15,7 @@ public class IceQueen extends Character{
      * Class Constructor
      */
     public IceQueen() {
-        super();
-        MoveRange = 0;
-        fieldReaction =0;
+        super(2*mapSize,0,0);
     }
 
     /**
